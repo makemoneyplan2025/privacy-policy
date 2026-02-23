@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>yoce — 你的決策夥伴</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200&display=swap" rel="stylesheet">
 <style>
 /* ── Reset & Base ─────────────────────────── */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -58,7 +59,7 @@ nav {
   background: var(--c); width: var(--w);
   opacity: 0.9;
 }
-.nav-logo-name { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; color: #fff; }
+.nav-logo-name { font-family: 'Outfit', -apple-system, sans-serif; font-size: 20px; font-weight: 200; letter-spacing: 5px; color: #fff; }
 nav a.dl-btn {
   background: linear-gradient(135deg, #4f8eff, #9b6bff);
   color: #fff; text-decoration: none;
@@ -389,11 +390,11 @@ footer a:hover { color: #fff; }
 <!-- ── Script ─────────────────────────────────── -->
 <script>
 var BARS = [
-  { c: '#E83C3C', w: 0.82 },
-  { c: '#C8A020', w: 0.68 },
-  { c: '#00D080', w: 0.78 },
-  { c: '#00C8D8', w: 0.62 },
-  { c: '#7855C8', w: 0.72 },
+  { c: '#E83C3C', w: 0.72 },
+  { c: '#C8A020', w: 0.56 },
+  { c: '#00D080', w: 0.66 },
+  { c: '#00C8D8', w: 0.50 },
+  { c: '#7855C8', w: 0.62 },
 ];
 
 function buildLogo(el, maxW, barH, gap, animate, looping) {
