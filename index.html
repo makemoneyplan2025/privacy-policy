@@ -19,6 +19,11 @@ body {
   overflow-x: hidden;
 }
 
+/* ── Bilingual toggle ────────────────────── */
+.en { display: none; }
+body.lang-en .zh { display: none !important; }
+body.lang-en .en { display: inline; }
+
 /* ── Typography ──────────────────────────── */
 h1 { font-size: clamp(36px, 6vw, 72px); font-weight: 800; letter-spacing: -2px; line-height: 1.05; }
 h2 { font-size: clamp(22px, 3.5vw, 38px); font-weight: 700; letter-spacing: -1px; }
@@ -60,6 +65,18 @@ nav {
   opacity: 0.9;
 }
 .nav-logo-name { font-family: 'Outfit', -apple-system, sans-serif; font-size: 20px; font-weight: 200; letter-spacing: 5px; color: #fff; }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.lang-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.55);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 12px; font-weight: 700; letter-spacing: 1px;
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+.lang-btn:hover { border-color: rgba(255,255,255,0.4); color: #fff; }
 nav a.dl-btn {
   background: linear-gradient(135deg, #4f8eff, #9b6bff);
   color: #fff; text-decoration: none;
@@ -265,7 +282,10 @@ footer a:hover { color: #fff; }
     <div class="nav-logo-bars" id="navLogo"></div>
     <span class="nav-logo-name">yoce</span>
   </a>
-  <a href="#" class="dl-btn">App Store</a>
+  <div class="nav-right">
+    <button class="lang-btn" id="langBtn">EN</button>
+    <a href="#" class="dl-btn">App Store</a>
+  </div>
 </nav>
 
 <!-- ── Hero ────────────────────────────────── -->
@@ -275,11 +295,23 @@ footer a:hover { color: #fff; }
   <!-- Animated bar logo (large) -->
   <div class="yoce-logo" id="heroLogo" style="--bh:26px; gap:14px; margin-bottom:8px;"></div>
 
-  <h1 class="hero-title">做決定，<span class="grad">讓數據說話</span></h1>
-  <p class="hero-sub">yoce 同時運行 46 種世界頂尖的 MCDA 算法，幫你找出最有共識的選擇 — 完全在裝置上運算，零隱私顧慮。</p>
+  <h1 class="hero-title">
+    <span class="zh">做決定，<span class="grad">讓數據說話</span></span>
+    <span class="en">Make Better Decisions,<br><span class="grad">Driven by Data</span></span>
+  </h1>
+  <p class="hero-sub">
+    <span class="zh">yoce 同時運行 46 種世界頂尖的 MCDA 算法，幫你找出最有共識的選擇 — 完全在裝置上運算，零隱私顧慮。</span>
+    <span class="en">yoce runs 46 world-class MCDA algorithms simultaneously, finding the most consensus-backed choice — all computed on-device, with zero privacy concerns.</span>
+  </p>
   <div class="hero-ctas">
-    <a href="#" class="btn-primary">⬇ 下載 App</a>
-    <a href="#features" class="btn-ghost">了解更多</a>
+    <a href="#" class="btn-primary">
+      <span class="zh">⬇ 下載 App</span>
+      <span class="en">⬇ Download</span>
+    </a>
+    <a href="#features" class="btn-ghost">
+      <span class="zh">了解更多</span>
+      <span class="en">Learn More</span>
+    </a>
   </div>
 </section>
 
@@ -287,19 +319,31 @@ footer a:hover { color: #fff; }
 <div class="stats">
   <div class="stat">
     <div class="stat-num grad">46</div>
-    <div class="stat-label">MCDA 算法</div>
+    <div class="stat-label">
+      <span class="zh">MCDA 算法</span>
+      <span class="en">MCDA Algorithms</span>
+    </div>
   </div>
   <div class="stat">
     <div class="stat-num" style="color:#00D080">100%</div>
-    <div class="stat-label">本機運算</div>
+    <div class="stat-label">
+      <span class="zh">本機運算</span>
+      <span class="en">On-Device</span>
+    </div>
   </div>
   <div class="stat">
     <div class="stat-num" style="color:#00C8D8">0</div>
-    <div class="stat-label">廣告 / 追蹤</div>
+    <div class="stat-label">
+      <span class="zh">廣告 / 追蹤</span>
+      <span class="en">Ads / Trackers</span>
+    </div>
   </div>
   <div class="stat">
     <div class="stat-num" style="color:#7855C8">∞</div>
-    <div class="stat-label">決策次數</div>
+    <div class="stat-label">
+      <span class="zh">決策次數</span>
+      <span class="en">Decisions</span>
+    </div>
   </div>
 </div>
 
@@ -307,40 +351,82 @@ footer a:hover { color: #fff; }
 <div class="features" id="features">
   <div class="feat-card">
     <div class="feat-icon" style="background:rgba(232,60,60,0.12);">🧮</div>
-    <h3>46 種算法並行</h3>
-    <p>AHP、TOPSIS、VIKOR、PROMETHEE⋯⋯一次跑完，給你最全面的視角。</p>
+    <h3>
+      <span class="zh">46 種算法並行</span>
+      <span class="en">46 Algorithms in Parallel</span>
+    </h3>
+    <p>
+      <span class="zh">AHP、TOPSIS、VIKOR、PROMETHEE⋯⋯一次跑完，給你最全面的視角。</span>
+      <span class="en">AHP, TOPSIS, VIKOR, PROMETHEE and more — run simultaneously for the most comprehensive perspective.</span>
+    </p>
   </div>
   <div class="feat-card">
     <div class="feat-icon" style="background:rgba(0,208,128,0.12);">🔒</div>
-    <h3>完全離線 · 零資料上傳</h3>
-    <p>所有計算在你的 iPhone 上完成，沒有雲端伺服器，沒有帳號，隱私完全在你手中。</p>
+    <h3>
+      <span class="zh">完全離線 · 零資料上傳</span>
+      <span class="en">Fully Offline · Zero Data Upload</span>
+    </h3>
+    <p>
+      <span class="zh">所有計算在你的 iPhone 上完成，沒有雲端伺服器，沒有帳號，隱私完全在你手中。</span>
+      <span class="en">All computations run on your iPhone. No cloud servers, no accounts — your data never leaves your device.</span>
+    </p>
   </div>
   <div class="feat-card">
     <div class="feat-icon" style="background:rgba(0,200,216,0.12);">⚡</div>
-    <h3>即時更新結果</h3>
-    <p>調整任何權重或分數，46 種算法同步重新計算，結果立即呈現。</p>
+    <h3>
+      <span class="zh">即時更新結果</span>
+      <span class="en">Real-Time Results</span>
+    </h3>
+    <p>
+      <span class="zh">調整任何權重或分數，46 種算法同步重新計算，結果立即呈現。</span>
+      <span class="en">Adjust any weight or score and all 46 algorithms recalculate instantly — results appear in real time.</span>
+    </p>
   </div>
   <div class="feat-card">
     <div class="feat-icon" style="background:rgba(200,160,32,0.12);">📐</div>
-    <h3>LaTeX 數學公式</h3>
-    <p>每個算法都附上完整的數學原理說明，讓你真正理解計算過程。</p>
+    <h3>
+      <span class="zh">LaTeX 數學公式</span>
+      <span class="en">LaTeX Formula Explanations</span>
+    </h3>
+    <p>
+      <span class="zh">每個算法都附上完整的數學原理說明，讓你真正理解計算過程。</span>
+      <span class="en">Every algorithm comes with full mathematical explanations rendered in LaTeX, so you truly understand the process.</span>
+    </p>
   </div>
   <div class="feat-card">
     <div class="feat-icon" style="background:rgba(120,85,200,0.12);">🎯</div>
-    <h3>共識結果</h3>
-    <p>46 種算法投票，自動找出最多方法支持的最優方案，消除主觀偏差。</p>
+    <h3>
+      <span class="zh">共識結果</span>
+      <span class="en">Consensus Ranking</span>
+    </h3>
+    <p>
+      <span class="zh">46 種算法投票，自動找出最多方法支持的最優方案，消除主觀偏差。</span>
+      <span class="en">46 algorithms vote together to surface the most broadly supported option, eliminating subjective bias.</span>
+    </p>
   </div>
   <div class="feat-card">
     <div class="feat-icon" style="background:rgba(79,142,255,0.12);">🌙</div>
-    <h3>深色模式 · iOS 15+</h3>
-    <p>精心設計的暗色介面，支援 iPhone 與 iPad，隨時隨地做出更好的決策。</p>
+    <h3>
+      <span class="zh">深色模式 · iOS 15+</span>
+      <span class="en">Dark Mode · iOS 15+</span>
+    </h3>
+    <p>
+      <span class="zh">精心設計的暗色介面，支援 iPhone 與 iPad，隨時隨地做出更好的決策。</span>
+      <span class="en">A beautifully crafted dark interface supporting iPhone and iPad — make better decisions anywhere.</span>
+    </p>
   </div>
 </div>
 
 <!-- ── Method pills ──────────────────────────── -->
 <div class="methods-section">
-  <h2>業界標準算法，一次全覆蓋</h2>
-  <p>從基礎到頂尖，從統計到博弈論</p>
+  <h2>
+    <span class="zh">業界標準算法，一次全覆蓋</span>
+    <span class="en">Industry-Standard Algorithms, All in One</span>
+  </h2>
+  <p>
+    <span class="zh">從基礎到頂尖，從統計到博弈論</span>
+    <span class="en">From fundamentals to cutting-edge, statistics to game theory</span>
+  </p>
   <div class="pills">
     <span class="pill">AHP</span><span class="pill">TOPSIS</span><span class="pill">VIKOR</span>
     <span class="pill">PROMETHEE</span><span class="pill">ELECTRE</span><span class="pill">MAUT</span>
@@ -364,16 +450,28 @@ footer a:hover { color: #fff; }
 <!-- ── Mockup ─────────────────────────────────── -->
 <div class="mockup-section">
   <div class="mockup-text">
-    <h2>分析中，動畫告訴你<br><span class="grad">正在思考</span></h2>
-    <p>每次調整評分，yoce 立即在背景重新計算所有算法，優雅的載入動畫讓等待也成為體驗的一部分。</p>
-    <a href="#" class="btn-primary" style="display:inline-block">立即免費下載</a>
+    <h2>
+      <span class="zh">分析中，動畫告訴你<br><span class="grad">正在思考</span></span>
+      <span class="en">Live Analysis,<br><span class="grad">Animated with Purpose</span></span>
+    </h2>
+    <p>
+      <span class="zh">每次調整評分，yoce 立即在背景重新計算所有算法，優雅的載入動畫讓等待也成為體驗的一部分。</span>
+      <span class="en">Every time you adjust a score, yoce instantly recalculates all algorithms in the background. The elegant loading animation turns waiting into part of the experience.</span>
+    </p>
+    <a href="#" class="btn-primary" style="display:inline-block">
+      <span class="zh">立即免費下載</span>
+      <span class="en">Download Free</span>
+    </a>
   </div>
   <div class="mockup-visual" id="mockupLogo">
     <div class="mockup-tag">ANALYSING</div>
     <div class="yoce-logo" id="mockupBars" style="--bh:16px; gap:10px;"></div>
     <div style="margin-top:8px;">
       <div style="height:1px;background:rgba(255,255,255,0.06);margin:8px 0;"></div>
-      <div style="font-size:12px;color:rgba(255,255,255,0.28);">正在計算 46 種算法…</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.28);">
+        <span class="zh">正在計算 46 種算法…</span>
+        <span class="en">Calculating 46 algorithms…</span>
+      </div>
     </div>
   </div>
 </div>
@@ -382,8 +480,14 @@ footer a:hover { color: #fff; }
 <footer>
   <p>© 2026 yoce. All rights reserved.</p>
   <div style="display:flex;gap:24px;">
-    <a href="privacy.html">隱私權政策</a>
-    <a href="mailto:hello@yoce.ai">聯絡我們</a>
+    <a href="privacy.html">
+      <span class="zh">隱私權政策</span>
+      <span class="en">Privacy Policy</span>
+    </a>
+    <a href="mailto:hello@yoce.ai">
+      <span class="zh">聯絡我們</span>
+      <span class="en">Contact Us</span>
+    </a>
   </div>
 </footer>
 
@@ -434,12 +538,18 @@ buildLogo(document.getElementById('heroLogo'), 480, 26, 14, true, true);
 var mockupEl = document.getElementById('mockupBars');
 function animateMockup() {
   buildLogo(mockupEl, 220, 16, 10, true, false);
-  // re-trigger every 3.5s to simulate repeated loading
-  setTimeout(function() {
-    animateMockup();
-  }, 3500);
+  setTimeout(function() { animateMockup(); }, 3500);
 }
 animateMockup();
+
+// Language toggle
+var langBtn = document.getElementById('langBtn');
+langBtn.addEventListener('click', function() {
+  var isEn = document.body.classList.toggle('lang-en');
+  this.textContent = isEn ? '中' : 'EN';
+  document.documentElement.lang = isEn ? 'en' : 'zh-Hant';
+  document.title = isEn ? 'yoce — Your Decision Partner' : 'yoce — 你的決策夥伴';
+});
 </script>
 </body>
 </html>
