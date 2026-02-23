@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#0a0a14"/>
+  <defs>
+    <linearGradient id="r" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#E83C3C" stop-opacity="1"/>
+      <stop offset="70%"  stop-color="#E83C3C" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#E83C3C" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#C8A020" stop-opacity="1"/>
+      <stop offset="70%"  stop-color="#C8A020" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#C8A020" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="gr" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#00D080" stop-opacity="1"/>
+      <stop offset="70%"  stop-color="#00D080" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#00D080" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="cy" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#00C8D8" stop-opacity="1"/>
+      <stop offset="70%"  stop-color="#00C8D8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#00C8D8" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="pu" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#7855C8" stop-opacity="1"/>
+      <stop offset="70%"  stop-color="#7855C8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#7855C8" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- bar 1: red,    y=15, len=43 -->
+  <rect x="7" y="12.5" width="43" height="5" rx="2.5" fill="url(#r)"/>
+  <!-- bar 2: gold,   y=24, len=34 -->
+  <rect x="7" y="21.5" width="34" height="5" rx="2.5" fill="url(#g2)"/>
+  <!-- bar 3: green,  y=33, len=41 -->
+  <rect x="7" y="30.5" width="41" height="5" rx="2.5" fill="url(#gr)"/>
+  <!-- bar 4: cyan,   y=42, len=32 -->
+  <rect x="7" y="39.5" width="32" height="5" rx="2.5" fill="url(#cy)"/>
+  <!-- bar 5: purple, y=51, len=37 -->
+  <rect x="7" y="48.5" width="37" height="5" rx="2.5" fill="url(#pu)"/>
+</svg>

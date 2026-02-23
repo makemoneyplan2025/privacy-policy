@@ -2,454 +2,442 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>yoce - 你的決策夥伴</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>yoce — 你的決策夥伴</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+/* ── Reset & Base ─────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: #07070f;
+  color: #fff;
+  font-family: -apple-system, 'SF Pro Display', 'Inter', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
 
-  :root {
-    --blue: #4f8eff;
-    --purple: #9b6bff;
-    --cyan: #00d4ff;
-    --bg: #06060f;
-    --card: rgba(255,255,255,0.035);
-    --border: rgba(255,255,255,0.08);
-  }
+/* ── Typography ──────────────────────────── */
+h1 { font-size: clamp(36px, 6vw, 72px); font-weight: 800; letter-spacing: -2px; line-height: 1.05; }
+h2 { font-size: clamp(22px, 3.5vw, 38px); font-weight: 700; letter-spacing: -1px; }
+h3 { font-size: 18px; font-weight: 600; }
+p  { font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.55); }
 
-  html { scroll-behavior: smooth; }
+/* ── Gradient text ───────────────────────── */
+.grad {
+  background: linear-gradient(135deg, #E83C3C 0%, #C8A020 25%, #00D080 50%, #00C8D8 75%, #7855C8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
-    background: var(--bg);
-    color: #fff;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+/* ── Noise overlay ───────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.4;
+}
 
-  /* ── BACKGROUND ── */
-  .bg-grid {
-    position: fixed; inset: 0; z-index: 0;
-    background-image:
-      linear-gradient(rgba(79,142,255,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(79,142,255,0.04) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
-  }
-  .orb {
-    position: fixed; border-radius: 50%;
-    filter: blur(120px); pointer-events: none; z-index: 0;
-  }
-  .orb-1 {
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(79,142,255,0.15), transparent 70%);
-    top: -200px; left: -100px;
-    animation: drift 12s ease-in-out infinite alternate;
-  }
-  .orb-2 {
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(155,107,255,0.12), transparent 70%);
-    bottom: -100px; right: -100px;
-    animation: drift 16s ease-in-out infinite alternate-reverse;
-  }
-  .orb-3 {
-    width: 300px; height: 300px;
-    background: radial-gradient(circle, rgba(0,212,255,0.08), transparent 70%);
-    top: 50%; left: 50%;
-    animation: drift 20s ease-in-out infinite alternate;
-  }
-  @keyframes drift {
-    from { transform: translate(0, 0) scale(1); }
-    to   { transform: translate(40px, 30px) scale(1.1); }
-  }
+/* ── Nav ─────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 0 40px;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(7,7,15,0.8);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.nav-logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+.nav-logo-bars { display: flex; flex-direction: column; gap: 4px; }
+.nav-logo-bars span {
+  display: block; height: 4px; border-radius: 2px;
+  background: var(--c); width: var(--w);
+  opacity: 0.9;
+}
+.nav-logo-name { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; color: #fff; }
+nav a.dl-btn {
+  background: linear-gradient(135deg, #4f8eff, #9b6bff);
+  color: #fff; text-decoration: none;
+  padding: 9px 22px; border-radius: 10px;
+  font-size: 14px; font-weight: 700;
+  transition: opacity .15s, transform .15s;
+}
+nav a.dl-btn:hover { opacity: .88; transform: scale(1.03); }
 
-  /* ── NAV ── */
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 20px 48px;
-    background: rgba(6,6,15,0.7);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-  }
-  .logo {
-    font-size: 20px; font-weight: 800; letter-spacing: -0.5px;
-    background: linear-gradient(135deg, #fff, rgba(255,255,255,0.7));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .logo-dot { color: var(--blue); -webkit-text-fill-color: var(--blue); }
-  .nav-links { display: flex; gap: 32px; align-items: center; }
-  .nav-links a {
-    color: rgba(255,255,255,0.5); text-decoration: none;
-    font-size: 14px; font-weight: 500;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: #fff; }
-  .nav-badge {
-    background: rgba(79,142,255,0.15);
-    border: 1px solid rgba(79,142,255,0.3);
-    color: var(--blue);
-    font-size: 11px; font-weight: 700;
-    letter-spacing: 1px; text-transform: uppercase;
-    padding: 5px 12px; border-radius: 100px;
-  }
+/* ── Hero ────────────────────────────────── */
+.hero {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 120px 24px 80px;
+  gap: 40px;
+  overflow: hidden;
+}
 
-  /* ── HERO ── */
-  .hero {
-    position: relative; z-index: 1;
-    text-align: center;
-    padding: 120px 24px 100px;
-    max-width: 900px; margin: 0 auto;
-  }
-  .hero-tag {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(79,142,255,0.08);
-    border: 1px solid rgba(79,142,255,0.2);
-    color: rgba(255,255,255,0.6);
-    font-size: 12px; font-weight: 600;
-    letter-spacing: 1.5px; text-transform: uppercase;
-    padding: 8px 18px; border-radius: 100px;
-    margin-bottom: 36px;
-  }
-  .hero-tag::before {
-    content: ''; width: 6px; height: 6px;
-    background: var(--cyan); border-radius: 50%;
-    box-shadow: 0 0 8px var(--cyan);
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.8); }
-  }
-  h1 {
-    font-size: clamp(48px, 8vw, 88px);
-    font-weight: 900;
-    line-height: 1.0;
-    letter-spacing: -3px;
-    margin-bottom: 28px;
-  }
-  .h1-line1 {
-    background: linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.5));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    display: block;
-  }
-  .h1-line2 {
-    background: linear-gradient(135deg, var(--blue), var(--purple), var(--cyan));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    display: block;
-  }
-  .hero-sub {
-    font-size: 18px; line-height: 1.8;
-    color: rgba(255,255,255,0.45);
-    max-width: 520px; margin: 0 auto 52px;
-  }
-  .cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-  .btn-glow {
-    position: relative;
-    background: linear-gradient(135deg, var(--blue), var(--purple));
-    color: #fff; font-weight: 700; font-size: 15px;
-    padding: 15px 32px; border-radius: 14px;
-    text-decoration: none; letter-spacing: -0.3px;
-    transition: opacity 0.2s, transform 0.2s;
-    box-shadow: 0 0 30px rgba(79,142,255,0.3);
-  }
-  .btn-glow:hover { opacity: 0.9; transform: translateY(-2px); }
-  .btn-ghost {
-    background: var(--card);
-    border: 1px solid var(--border);
-    color: rgba(255,255,255,0.7);
-    font-weight: 600; font-size: 15px;
-    padding: 15px 32px; border-radius: 14px;
-    text-decoration: none;
-    transition: background 0.2s, transform 0.2s, border-color 0.2s;
-  }
-  .btn-ghost:hover {
-    background: rgba(255,255,255,0.07);
-    border-color: rgba(255,255,255,0.15);
-    transform: translateY(-2px);
-  }
+/* ambient glows */
+.hero::after {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 30%, rgba(79,142,255,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 35% at 80% 70%, rgba(155,90,255,0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(0,200,200,0.07) 0%, transparent 70%);
+}
 
-  /* ── DIVIDER ── */
-  .divider {
-    position: relative; z-index: 1;
-    display: flex; justify-content: center; gap: 48px;
-    padding: 48px 24px;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    flex-wrap: wrap;
-  }
-  .stat { text-align: center; }
-  .stat-num {
-    font-size: 52px; font-weight: 900;
-    letter-spacing: -3px; line-height: 1;
-    background: linear-gradient(135deg, var(--blue), var(--cyan));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .stat-label {
-    font-size: 13px; color: rgba(255,255,255,0.35);
-    margin-top: 6px; letter-spacing: 0.5px;
-  }
+.hero-logo-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 
-  /* ── FEATURES ── */
-  .section {
-    position: relative; z-index: 1;
-    max-width: 1040px; margin: 0 auto;
-    padding: 80px 24px;
-  }
-  .section-label {
-    font-size: 11px; font-weight: 700;
-    letter-spacing: 2px; text-transform: uppercase;
-    color: var(--blue); margin-bottom: 16px;
-  }
-  .section-title {
-    font-size: clamp(28px, 4vw, 42px);
-    font-weight: 800; letter-spacing: -1.5px;
-    color: #fff; margin-bottom: 56px; max-width: 480px;
-    line-height: 1.15;
-  }
-  .grid-3 {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 16px;
-  }
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 32px;
-    transition: border-color 0.3s, transform 0.3s, background 0.3s;
-    cursor: default;
-  }
-  .card:hover {
-    border-color: rgba(79,142,255,0.25);
-    background: rgba(79,142,255,0.06);
-    transform: translateY(-4px);
-  }
-  .card-icon {
-    width: 48px; height: 48px;
-    background: rgba(79,142,255,0.12);
-    border: 1px solid rgba(79,142,255,0.2);
-    border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px; margin-bottom: 20px;
-  }
-  .card h3 {
-    font-size: 16px; font-weight: 700;
-    margin-bottom: 10px; letter-spacing: -0.3px;
-  }
-  .card p {
-    font-size: 14px; color: rgba(255,255,255,0.45);
-    line-height: 1.75;
-  }
+.hero-eyebrow {
+  font-size: 12px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: rgba(255,255,255,0.3);
+  margin-bottom: 24px; text-align: center; width: 100%;
+}
+.hero-title { max-width: 820px; }
+.hero-sub {
+  max-width: 540px; margin: 0 auto;
+  font-size: 18px; line-height: 1.65; color: rgba(255,255,255,0.48);
+}
+.hero-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.btn-primary {
+  background: linear-gradient(135deg, #4f8eff, #9b6bff);
+  color: #fff; text-decoration: none;
+  padding: 16px 36px; border-radius: 14px;
+  font-size: 16px; font-weight: 700;
+  transition: opacity .15s, transform .15s, box-shadow .15s;
+  box-shadow: 0 8px 32px rgba(79,142,255,0.3);
+}
+.btn-primary:hover { opacity:.9; transform:translateY(-2px); box-shadow:0 12px 40px rgba(79,142,255,0.4); }
+.btn-ghost {
+  color: rgba(255,255,255,0.65); text-decoration: none;
+  padding: 16px 36px; border-radius: 14px;
+  font-size: 16px; font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: border-color .15s, color .15s;
+}
+.btn-ghost:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
 
-  /* ── HIGHLIGHT CARD ── */
-  .highlight {
-    position: relative; z-index: 1;
-    max-width: 1040px; margin: 0 auto 80px;
-    padding: 0 24px;
-  }
-  .highlight-card {
-    background: linear-gradient(135deg,
-      rgba(79,142,255,0.08) 0%,
-      rgba(155,107,255,0.08) 50%,
-      rgba(0,212,255,0.05) 100%);
-    border: 1px solid rgba(79,142,255,0.2);
-    border-radius: 28px;
-    padding: 60px;
-    display: flex; align-items: center;
-    justify-content: space-between; gap: 40px;
-    flex-wrap: wrap;
-  }
-  .highlight-text h2 {
-    font-size: clamp(24px, 3vw, 36px);
-    font-weight: 800; letter-spacing: -1px;
-    margin-bottom: 12px;
-  }
-  .highlight-text p {
-    font-size: 15px; color: rgba(255,255,255,0.5);
-    line-height: 1.7; max-width: 400px;
-  }
-  .algo-pills {
-    display: flex; flex-wrap: wrap; gap: 8px;
-    max-width: 380px;
-  }
-  .pill {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.1);
-    color: rgba(255,255,255,0.6);
-    font-size: 11px; font-weight: 600;
-    padding: 5px 12px; border-radius: 100px;
-    letter-spacing: 0.3px;
-  }
-  .pill.blue {
-    background: rgba(79,142,255,0.12);
-    border-color: rgba(79,142,255,0.25);
-    color: #7eb0ff;
-  }
-  .pill.purple {
-    background: rgba(155,107,255,0.12);
-    border-color: rgba(155,107,255,0.25);
-    color: #b89aff;
-  }
-  .pill.cyan {
-    background: rgba(0,212,255,0.1);
-    border-color: rgba(0,212,255,0.2);
-    color: #5ee0ff;
-  }
+/* ── Bar logo (animated) ─────────────────── */
+.yoce-logo {
+  display: flex; flex-direction: column;
+  align-items: flex-start;
+}
+.bar-wrap {
+  position: relative; height: var(--bh, 20px); border-radius: 99px; overflow: hidden;
+  width: var(--bw, 200px);
+}
+.bar-wrap::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(to right, var(--c), transparent 80%); opacity: 0.12;
+}
+.bar-fill {
+  position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(to right, var(--c) 0%, color-mix(in srgb,var(--c) 50%,transparent) 62%, transparent 100%);
+  transform: scaleX(0); transform-origin: left center;
+  will-change: transform;
+}
+.bar-fill.shimmer {
+  animation: shimmer 2.2s linear infinite;
+}
+.bar-fill.shimmer::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.5) 50%, transparent);
+  background-size: 40% 100%; background-repeat: no-repeat;
+  background-position: -60% center;
+  animation: sweep 2.2s linear infinite;
+}
+@keyframes sweep {
+  from { background-position: -60% center; }
+  to   { background-position: 160% center; }
+}
 
-  /* ── FOOTER ── */
-  footer {
-    position: relative; z-index: 1;
-    border-top: 1px solid var(--border);
-    padding: 32px 48px;
-    display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: 16px;
-  }
-  .footer-logo {
-    font-size: 16px; font-weight: 800;
-    background: linear-gradient(135deg, #fff, rgba(255,255,255,0.5));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  footer p { font-size: 13px; color: rgba(255,255,255,0.25); }
-  footer a { color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.2s; }
-  footer a:hover { color: var(--blue); }
+/* ── Stats bar ───────────────────────────── */
+.stats {
+  position: relative; z-index: 1;
+  display: flex; justify-content: center; gap: 0;
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+}
+.stat {
+  flex: 1 1 180px; padding: 40px 24px; text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.06);
+}
+.stat:last-child { border-right: none; }
+.stat-num { font-size: 42px; font-weight: 800; letter-spacing: -2px; }
+.stat-label { font-size: 13px; color: rgba(255,255,255,0.38); margin-top: 4px; font-weight: 500; }
 
-  @media (max-width: 640px) {
-    nav { padding: 16px 20px; }
-    .highlight-card { padding: 36px 28px; }
-    footer { padding: 28px 20px; justify-content: center; text-align: center; }
-  }
+/* ── Features ────────────────────────────── */
+.features {
+  position: relative; z-index: 1;
+  max-width: 1080px; margin: 0 auto;
+  padding: 100px 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.feat-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px; padding: 36px;
+  transition: border-color .2s, background .2s;
+}
+.feat-card:hover { background: rgba(255,255,255,0.055); border-color: rgba(255,255,255,0.14); }
+.feat-icon {
+  width: 48px; height: 48px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; margin-bottom: 20px;
+}
+.feat-card h3 { margin-bottom: 10px; font-size: 17px; }
+.feat-card p  { font-size: 14px; }
+
+/* ── Methods grid ────────────────────────── */
+.methods-section {
+  position: relative; z-index: 1;
+  max-width: 1080px; margin: 0 auto;
+  padding: 0 40px 100px;
+  text-align: center;
+}
+.methods-section h2 { margin-bottom: 14px; }
+.methods-section > p { margin-bottom: 40px; max-width: 500px; margin-left: auto; margin-right: auto; }
+.pills { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.pill {
+  padding: 7px 16px; border-radius: 99px;
+  border: 1px solid rgba(255,255,255,0.1);
+  font-size: 12px; font-weight: 600; letter-spacing: 0.3px;
+  color: rgba(255,255,255,0.65);
+  background: rgba(255,255,255,0.04);
+  transition: border-color .15s, color .15s;
+}
+.pill:hover { border-color: rgba(79,142,255,0.5); color: #fff; }
+
+/* ── iPhone mockup ───────────────────────── */
+.mockup-section {
+  position: relative; z-index: 1;
+  max-width: 1080px; margin: 0 auto;
+  padding: 0 40px 100px;
+  display: flex; align-items: center; gap: 80px; flex-wrap: wrap;
+}
+.mockup-text { flex: 1 1 320px; }
+.mockup-text h2 { margin-bottom: 18px; }
+.mockup-text p  { margin-bottom: 28px; }
+.mockup-visual {
+  flex: 0 0 280px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 40px; padding: 40px 32px;
+  display: flex; flex-direction: column; gap: 18px;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+}
+.mockup-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: rgba(255,255,255,0.25);
+  margin-bottom: 4px;
+}
+
+/* ── Footer ──────────────────────────────── */
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 40px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+}
+footer p { font-size: 13px; color: rgba(255,255,255,0.28); }
+footer a { color: rgba(255,255,255,0.38); text-decoration: none; font-size: 13px; }
+footer a:hover { color: #fff; }
 </style>
 </head>
 <body>
 
-<div class="bg-grid"></div>
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
-<div class="orb orb-3"></div>
-
-<!-- NAV -->
+<!-- ── Nav ─────────────────────────────────── -->
 <nav>
-  <div class="logo">yoce<span class="logo-dot">.</span>ai</div>
-  <div class="nav-links">
-    <a href="#features">功能</a>
-    <a href="#algorithms">算法</a>
-    <a href="privacy.html">隱私政策</a>
-    <span class="nav-badge">iOS App</span>
-  </div>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-bars" id="navLogo"></div>
+    <span class="nav-logo-name">yoce</span>
+  </a>
+  <a href="#" class="dl-btn">App Store</a>
 </nav>
 
-<!-- HERO -->
+<!-- ── Hero ────────────────────────────────── -->
 <section class="hero">
-  <div class="hero-tag">現已上架 App Store</div>
-  <h1>
-    <span class="h1-line1">你的決策夥伴</span>
-    <span class="h1-line2">由 AI 驅動</span>
-  </h1>
-  <p class="hero-sub">
-    運用 46 種頂尖多準則決策分析算法，<br>
-    將複雜選擇化為清晰、有據可查的答案。
-  </p>
-  <div class="cta-row">
-    <a href="#" class="btn-glow">⬇ App Store 下載</a>
+  <p class="hero-eyebrow">Multi-Criteria Decision Analysis</p>
+
+  <!-- Animated bar logo (large) -->
+  <div class="yoce-logo" id="heroLogo" style="--bh:26px; gap:14px; margin-bottom:8px;"></div>
+
+  <h1 class="hero-title">做決定，<span class="grad">讓數據說話</span></h1>
+  <p class="hero-sub">yoce 同時運行 46 種世界頂尖的 MCDA 算法，幫你找出最有共識的選擇 — 完全在裝置上運算，零隱私顧慮。</p>
+  <div class="hero-ctas">
+    <a href="#" class="btn-primary">⬇ 下載 App</a>
     <a href="#features" class="btn-ghost">了解更多</a>
   </div>
 </section>
 
-<!-- STATS -->
-<div class="divider">
+<!-- ── Stats ────────────────────────────────── -->
+<div class="stats">
   <div class="stat">
-    <div class="stat-num">46</div>
-    <div class="stat-label">種決策算法</div>
+    <div class="stat-num grad">46</div>
+    <div class="stat-label">MCDA 算法</div>
   </div>
   <div class="stat">
-    <div class="stat-num">100%</div>
+    <div class="stat-num" style="color:#00D080">100%</div>
     <div class="stat-label">本機運算</div>
   </div>
   <div class="stat">
-    <div class="stat-num">0</div>
-    <div class="stat-label">廣告與追蹤</div>
+    <div class="stat-num" style="color:#00C8D8">0</div>
+    <div class="stat-label">廣告 / 追蹤</div>
   </div>
   <div class="stat">
-    <div class="stat-num">∞</div>
+    <div class="stat-num" style="color:#7855C8">∞</div>
     <div class="stat-label">決策次數</div>
   </div>
 </div>
 
-<!-- FEATURES -->
-<section id="features" class="section">
-  <p class="section-label">核心功能</p>
-  <h2 class="section-title">讓每個決策都有科學依據</h2>
-  <div class="grid-3">
-    <div class="card">
-      <div class="card-icon">🧠</div>
-      <h3>46 種 MCDA 算法</h3>
-      <p>AHP、TOPSIS、VIKOR、PROMETHEE 等頂尖學術方法，從各角度分析你的選擇，給出全面評估。</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">🔒</div>
-      <h3>完全本機，零上傳</h3>
-      <p>所有決策資料僅儲存於你的裝置，不收集個人資料，不連接雲端伺服器，完全離線可用。</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">📐</div>
-      <h3>數學公式視覺化</h3>
-      <p>每種算法附帶完整數學推導過程與 LaTeX 公式，讓你理解每個分數背後的計算邏輯。</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">⚡</div>
-      <h3>即時同步計算</h3>
-      <p>調整任何準則權重或方案評分，46 種算法結果即時同步更新，無需等待。</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">🎯</div>
-      <h3>共識分析</h3>
-      <p>自動統計所有算法的推薦結果，找出各方法的共識最優解，幫你做出最有把握的決定。</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">🌙</div>
-      <h3>精緻暗色介面</h3>
-      <p>專為長時間使用設計的暗色主題，清晰的資訊層級，讓複雜數據一目了然。</p>
-    </div>
+<!-- ── Features ─────────────────────────────── -->
+<div class="features" id="features">
+  <div class="feat-card">
+    <div class="feat-icon" style="background:rgba(232,60,60,0.12);">🧮</div>
+    <h3>46 種算法並行</h3>
+    <p>AHP、TOPSIS、VIKOR、PROMETHEE⋯⋯一次跑完，給你最全面的視角。</p>
   </div>
-</section>
+  <div class="feat-card">
+    <div class="feat-icon" style="background:rgba(0,208,128,0.12);">🔒</div>
+    <h3>完全離線 · 零資料上傳</h3>
+    <p>所有計算在你的 iPhone 上完成，沒有雲端伺服器，沒有帳號，隱私完全在你手中。</p>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon" style="background:rgba(0,200,216,0.12);">⚡</div>
+    <h3>即時更新結果</h3>
+    <p>調整任何權重或分數，46 種算法同步重新計算，結果立即呈現。</p>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon" style="background:rgba(200,160,32,0.12);">📐</div>
+    <h3>LaTeX 數學公式</h3>
+    <p>每個算法都附上完整的數學原理說明，讓你真正理解計算過程。</p>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon" style="background:rgba(120,85,200,0.12);">🎯</div>
+    <h3>共識結果</h3>
+    <p>46 種算法投票，自動找出最多方法支持的最優方案，消除主觀偏差。</p>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon" style="background:rgba(79,142,255,0.12);">🌙</div>
+    <h3>深色模式 · iOS 15+</h3>
+    <p>精心設計的暗色介面，支援 iPhone 與 iPad，隨時隨地做出更好的決策。</p>
+  </div>
+</div>
 
-<!-- ALGORITHMS -->
-<div id="algorithms" class="highlight">
-  <div class="highlight-card">
-    <div class="highlight-text">
-      <h2>業界最完整的<br>MCDA 算法庫</h2>
-      <p>從經典的加權總和法到先進的隨機多準則可接受性分析，yoce 涵蓋學術界與產業界最常用的 46 種決策方法。</p>
-    </div>
-    <div class="algo-pills">
-      <span class="pill blue">AHP</span>
-      <span class="pill blue">TOPSIS</span>
-      <span class="pill purple">VIKOR</span>
-      <span class="pill purple">PROMETHEE</span>
-      <span class="pill cyan">ELECTRE</span>
-      <span class="pill cyan">MOORA</span>
-      <span class="pill blue">WASPAS</span>
-      <span class="pill blue">MARCOS</span>
-      <span class="pill purple">CODAS</span>
-      <span class="pill purple">MABAC</span>
-      <span class="pill cyan">EDAS</span>
-      <span class="pill cyan">GRA</span>
-      <span class="pill blue">DEMATEL</span>
-      <span class="pill purple">DANP</span>
-      <span class="pill blue">SMAA-2</span>
-      <span class="pill cyan">CoCoSo</span>
-      <span class="pill purple">TODIM</span>
-      <span class="pill">+ 29 種更多</span>
+<!-- ── Method pills ──────────────────────────── -->
+<div class="methods-section">
+  <h2>業界標準算法，一次全覆蓋</h2>
+  <p>從基礎到頂尖，從統計到博弈論</p>
+  <div class="pills">
+    <span class="pill">AHP</span><span class="pill">TOPSIS</span><span class="pill">VIKOR</span>
+    <span class="pill">PROMETHEE</span><span class="pill">ELECTRE</span><span class="pill">MAUT</span>
+    <span class="pill">GRA</span><span class="pill">MOORA</span><span class="pill">WASPAS</span>
+    <span class="pill">MARCOS</span><span class="pill">EDAS</span><span class="pill">MABAC</span>
+    <span class="pill">CODAS</span><span class="pill">COPRAS</span><span class="pill">ARAS</span>
+    <span class="pill">CoCoSo</span><span class="pill">MAIRCA</span><span class="pill">PSI</span>
+    <span class="pill">SMAA-2</span><span class="pill">MACBETH</span><span class="pill">UTA</span>
+    <span class="pill">DEMATEL</span><span class="pill">ANP</span><span class="pill">DANP</span>
+    <span class="pill">Choquet</span><span class="pill">Sugeno</span><span class="pill">TODIM</span>
+    <span class="pill">Entropy-TOPSIS</span><span class="pill">CRITIC-TOPSIS</span>
+    <span class="pill">Entropy-VIKOR</span><span class="pill">OWA</span><span class="pill">WPM</span>
+    <span class="pill">RSR</span><span class="pill">CP(L∞)</span><span class="pill">ROR</span>
+    <span class="pill">Pessimistic</span><span class="pill">Optimistic</span>
+    <span class="pill">Hurwicz</span><span class="pill">Laplace</span><span class="pill">Regret</span>
+    <span class="pill">Borda</span><span class="pill">Pareto</span><span class="pill">SMART</span>
+    <span class="pill">Geometric</span>
+  </div>
+</div>
+
+<!-- ── Mockup ─────────────────────────────────── -->
+<div class="mockup-section">
+  <div class="mockup-text">
+    <h2>分析中，動畫告訴你<br><span class="grad">正在思考</span></h2>
+    <p>每次調整評分，yoce 立即在背景重新計算所有算法，優雅的載入動畫讓等待也成為體驗的一部分。</p>
+    <a href="#" class="btn-primary" style="display:inline-block">立即免費下載</a>
+  </div>
+  <div class="mockup-visual" id="mockupLogo">
+    <div class="mockup-tag">ANALYSING</div>
+    <div class="yoce-logo" id="mockupBars" style="--bh:16px; gap:10px;"></div>
+    <div style="margin-top:8px;">
+      <div style="height:1px;background:rgba(255,255,255,0.06);margin:8px 0;"></div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.28);">正在計算 46 種算法…</div>
     </div>
   </div>
 </div>
 
-<!-- FOOTER -->
+<!-- ── Footer ─────────────────────────────────── -->
 <footer>
-  <div class="footer-logo">yoce.ai</div>
-  <p>© 2026 yoce &nbsp;·&nbsp; <a href="privacy.html">隱私權政策</a></p>
+  <p>© 2026 yoce. All rights reserved.</p>
+  <div style="display:flex;gap:24px;">
+    <a href="privacy.html">隱私權政策</a>
+    <a href="mailto:hello@yoce.ai">聯絡我們</a>
+  </div>
 </footer>
 
+<!-- ── Script ─────────────────────────────────── -->
+<script>
+var BARS = [
+  { c: '#E83C3C', w: 0.82 },
+  { c: '#C8A020', w: 0.68 },
+  { c: '#00D080', w: 0.78 },
+  { c: '#00C8D8', w: 0.62 },
+  { c: '#7855C8', w: 0.72 },
+];
+
+function buildLogo(el, maxW, barH, gap, animate, looping) {
+  el.innerHTML = '';
+  el.style.gap = gap + 'px';
+  BARS.forEach(function(b, i) {
+    var wrap = document.createElement('div');
+    wrap.className = 'bar-wrap';
+    wrap.style.setProperty('--c', b.c);
+    wrap.style.setProperty('--bh', barH + 'px');
+    wrap.style.setProperty('--bw', Math.round(maxW * b.w) + 'px');
+    var fill = document.createElement('div');
+    fill.className = 'bar-fill';
+    wrap.appendChild(fill);
+    el.appendChild(wrap);
+    if (animate) {
+      var delay = i * 150;
+      setTimeout(function(f) {
+        f.style.transition = 'transform 650ms cubic-bezier(0.34,1.56,0.64,1)';
+        f.style.transform = 'scaleX(1)';
+        setTimeout(function() { f.classList.add('shimmer'); }, 600);
+      }, delay, fill);
+    } else {
+      fill.style.transform = 'scaleX(1)';
+      if (looping) fill.classList.add('shimmer');
+    }
+  });
+}
+
+// Nav logo (tiny, static)
+buildLogo(document.getElementById('navLogo'), 80, 4, 3, false, false);
+
+// Hero logo (large, animated on load)
+buildLogo(document.getElementById('heroLogo'), 480, 26, 14, true, true);
+
+// Mockup bars (looping animation)
+var mockupEl = document.getElementById('mockupBars');
+function animateMockup() {
+  buildLogo(mockupEl, 220, 16, 10, true, false);
+  // re-trigger every 3.5s to simulate repeated loading
+  setTimeout(function() {
+    animateMockup();
+  }, 3500);
+}
+animateMockup();
+</script>
 </body>
 </html>
-
-
