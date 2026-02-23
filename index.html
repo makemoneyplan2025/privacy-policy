@@ -3,30 +3,218 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ChoiceArch 隱私權政策</title>
+<title>yoce - 你的決策夥伴</title>
 <style>
-  body { font-family: -apple-system, sans-serif; max-width: 700px; margin: 40px auto; padding: 0 20px; line-height: 1.8; color: #333; }
-  h1 { font-size: 24px; } h2 { font-size: 18px; margin-top: 30px; }
-  p { margin: 10px 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    background: #0a0a0f;
+    color: #fff;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 48px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .logo { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+  .logo span { color: #6c9aff; }
+  nav a {
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: #fff; }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 100px 24px 80px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(108,154,255,0.12);
+    border: 1px solid rgba(108,154,255,0.3);
+    color: #6c9aff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+  }
+  h1 {
+    font-size: clamp(40px, 7vw, 72px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .subtitle {
+    font-size: 18px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.7;
+    margin-bottom: 48px;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cta-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: #6c9aff;
+    color: #000;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 14px 28px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-secondary {
+    background: rgba(255,255,255,0.07);
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 14px 28px;
+    border-radius: 12px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: background 0.2s;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.12); }
+
+  /* FEATURES */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 80px auto;
+    padding: 0 24px;
+  }
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 32px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: rgba(108,154,255,0.3); }
+  .card-icon { font-size: 32px; margin-bottom: 16px; }
+  .card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+  .card p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+
+  /* STATS */
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 64px;
+    padding: 60px 24px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    flex-wrap: wrap;
+  }
+  .stat-num {
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    color: #6c9aff;
+  }
+  .stat-label {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 4px;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    color: rgba(255,255,255,0.3);
+    font-size: 13px;
+  }
+  footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
+  footer a:hover { color: #fff; }
+
+  @media (max-width: 600px) {
+    nav { padding: 20px 24px; }
+  }
 </style>
 </head>
 <body>
-<h1>ChoiceArch 隱私權政策</h1>
-<p>最後更新：2026 年 2 月</p>
 
-<h2>資料收集</h2>
-<p>本應用程式不收集任何個人資料。您輸入的決策準則與方案資料僅儲存於您的裝置本機（UserDefaults），不會上傳至任何伺服器。</p>
+<nav>
+  <div class="logo">yo<span>ce</span></div>
+  <a href="privacy.html">隱私權政策</a>
+</nav>
 
-<h2>第三方服務</h2>
-<p>本應用程式的「結果」頁面在展開數學公式時，會從 jsDelivr（cdn.jsdelivr.net）載入 MathJax 數學渲染函式庫。此過程中，您的裝置 IP 位址可能被記錄於 jsDelivr 的伺服器存取日誌中。除此之外，本應用程式不與任何第三方服務共享資料。</p>
+<section class="hero">
+  <div class="badge">iOS App</div>
+  <h1>你的決策夥伴</h1>
+  <p class="subtitle">
+    運用 46 種頂尖多準則決策分析算法，<br>
+    將複雜選擇化為清晰答案。
+  </p>
+  <div class="cta-group">
+    <a href="#" class="btn-primary">App Store 下載</a>
+    <a href="privacy.html" class="btn-secondary">隱私權政策</a>
+  </div>
+</section>
 
-<h2>廣告與分析</h2>
-<p>本應用程式不含任何廣告，也不使用任何第三方分析、追蹤或崩潰回報服務。</p>
+<div class="stats">
+  <div>
+    <div class="stat-num">46</div>
+    <div class="stat-label">種決策算法</div>
+  </div>
+  <div>
+    <div class="stat-num">100%</div>
+    <div class="stat-label">本機運算</div>
+  </div>
+  <div>
+    <div class="stat-num">0</div>
+    <div class="stat-label">廣告與追蹤</div>
+  </div>
+</div>
 
-<h2>兒童隱私</h2>
-<p>本應用程式不針對 13 歲以下兒童，亦不刻意收集兒童的個人資料。</p>
+<div class="features">
+  <div class="card">
+    <div class="card-icon">🧠</div>
+    <h3>46 種 MCDA 算法</h3>
+    <p>AHP、TOPSIS、VIKOR、PROMETHEE 等頂尖學術方法，一次掌握所有觀點。</p>
+  </div>
+  <div class="card">
+    <div class="card-icon">🔒</div>
+    <h3>完全本機，零上傳</h3>
+    <p>所有決策資料僅儲存於你的裝置，不收集個人資料，不連接雲端伺服器。</p>
+  </div>
+  <div class="card">
+    <div class="card-icon">📊</div>
+    <h3>視覺化決策報告</h3>
+    <p>每種算法獨立分析，附帶數學公式與計算過程，讓決策有理有據。</p>
+  </div>
+  <div class="card">
+    <div class="card-icon">⚡</div>
+    <h3>即時計算</h3>
+    <p>調整準則權重或方案評分，所有 46 種算法結果立即同步更新。</p>
+  </div>
+</div>
 
-<h2>聯絡方式</h2>
-<p>如有隱私相關問題，請透過 App Store 的「聯絡開發者」功能與我們聯繫。</p>
+<footer>
+  <p>© 2026 yoce &nbsp;·&nbsp; <a href="privacy.html">隱私權政策</a></p>
+</footer>
+
 </body>
 </html>
