@@ -5,216 +5,450 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>yoce - 你的決策夥伴</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --blue: #4f8eff;
+    --purple: #9b6bff;
+    --cyan: #00d4ff;
+    --bg: #06060f;
+    --card: rgba(255,255,255,0.035);
+    --border: rgba(255,255,255,0.08);
+  }
+
+  html { scroll-behavior: smooth; }
+
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-    background: #0a0a0f;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+    background: var(--bg);
     color: #fff;
     min-height: 100vh;
+    overflow-x: hidden;
   }
 
-  /* NAV */
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 24px 48px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+  /* ── BACKGROUND ── */
+  .bg-grid {
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(79,142,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79,142,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
   }
-  .logo { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
-  .logo span { color: #6c9aff; }
-  nav a {
-    color: rgba(255,255,255,0.6);
-    text-decoration: none;
-    font-size: 14px;
+  .orb {
+    position: fixed; border-radius: 50%;
+    filter: blur(120px); pointer-events: none; z-index: 0;
+  }
+  .orb-1 {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(79,142,255,0.15), transparent 70%);
+    top: -200px; left: -100px;
+    animation: drift 12s ease-in-out infinite alternate;
+  }
+  .orb-2 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(155,107,255,0.12), transparent 70%);
+    bottom: -100px; right: -100px;
+    animation: drift 16s ease-in-out infinite alternate-reverse;
+  }
+  .orb-3 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(0,212,255,0.08), transparent 70%);
+    top: 50%; left: 50%;
+    animation: drift 20s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(40px, 30px) scale(1.1); }
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 48px;
+    background: rgba(6,6,15,0.7);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-size: 20px; font-weight: 800; letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #fff, rgba(255,255,255,0.7));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .logo-dot { color: var(--blue); -webkit-text-fill-color: var(--blue); }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a {
+    color: rgba(255,255,255,0.5); text-decoration: none;
+    font-size: 14px; font-weight: 500;
     transition: color 0.2s;
   }
-  nav a:hover { color: #fff; }
-
-  /* HERO */
-  .hero {
-    text-align: center;
-    padding: 100px 24px 80px;
-    max-width: 800px;
-    margin: 0 auto;
+  .nav-links a:hover { color: #fff; }
+  .nav-badge {
+    background: rgba(79,142,255,0.15);
+    border: 1px solid rgba(79,142,255,0.3);
+    color: var(--blue);
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 100px;
   }
-  .badge {
-    display: inline-block;
-    background: rgba(108,154,255,0.12);
-    border: 1px solid rgba(108,154,255,0.3);
-    color: #6c9aff;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    padding: 6px 16px;
-    border-radius: 100px;
-    margin-bottom: 28px;
+
+  /* ── HERO ── */
+  .hero {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 120px 24px 100px;
+    max-width: 900px; margin: 0 auto;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(79,142,255,0.08);
+    border: 1px solid rgba(79,142,255,0.2);
+    color: rgba(255,255,255,0.6);
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 8px 18px; border-radius: 100px;
+    margin-bottom: 36px;
+  }
+  .hero-tag::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--cyan); border-radius: 50%;
+    box-shadow: 0 0 8px var(--cyan);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
   }
   h1 {
-    font-size: clamp(40px, 7vw, 72px);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -2px;
-    margin-bottom: 24px;
-    background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: clamp(48px, 8vw, 88px);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -3px;
+    margin-bottom: 28px;
   }
-  .subtitle {
-    font-size: 18px;
-    color: rgba(255,255,255,0.5);
-    line-height: 1.7;
-    margin-bottom: 48px;
-    max-width: 520px;
-    margin-left: auto;
-    margin-right: auto;
+  .h1-line1 {
+    background: linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.5));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    display: block;
   }
-  .cta-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary {
-    background: #6c9aff;
-    color: #000;
-    font-weight: 700;
-    font-size: 15px;
-    padding: 14px 28px;
-    border-radius: 12px;
+  .h1-line2 {
+    background: linear-gradient(135deg, var(--blue), var(--purple), var(--cyan));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    display: block;
+  }
+  .hero-sub {
+    font-size: 18px; line-height: 1.8;
+    color: rgba(255,255,255,0.45);
+    max-width: 520px; margin: 0 auto 52px;
+  }
+  .cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn-glow {
+    position: relative;
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    color: #fff; font-weight: 700; font-size: 15px;
+    padding: 15px 32px; border-radius: 14px;
+    text-decoration: none; letter-spacing: -0.3px;
+    transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 0 30px rgba(79,142,255,0.3);
+  }
+  .btn-glow:hover { opacity: 0.9; transform: translateY(-2px); }
+  .btn-ghost {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: rgba(255,255,255,0.7);
+    font-weight: 600; font-size: 15px;
+    padding: 15px 32px; border-radius: 14px;
     text-decoration: none;
-    transition: opacity 0.2s;
+    transition: background 0.2s, transform 0.2s, border-color 0.2s;
   }
-  .btn-primary:hover { opacity: 0.85; }
-  .btn-secondary {
+  .btn-ghost:hover {
     background: rgba(255,255,255,0.07);
-    color: #fff;
-    font-weight: 600;
-    font-size: 15px;
-    padding: 14px 28px;
-    border-radius: 12px;
-    text-decoration: none;
-    border: 1px solid rgba(255,255,255,0.1);
-    transition: background 0.2s;
+    border-color: rgba(255,255,255,0.15);
+    transform: translateY(-2px);
   }
-  .btn-secondary:hover { background: rgba(255,255,255,0.12); }
 
-  /* FEATURES */
-  .features {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
-    max-width: 1000px;
-    margin: 80px auto;
-    padding: 0 24px;
-  }
-  .card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 20px;
-    padding: 32px;
-    transition: border-color 0.2s;
-  }
-  .card:hover { border-color: rgba(108,154,255,0.3); }
-  .card-icon { font-size: 32px; margin-bottom: 16px; }
-  .card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
-  .card p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; }
-
-  /* STATS */
-  .stats {
-    display: flex;
-    justify-content: center;
-    gap: 64px;
-    padding: 60px 24px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+  /* ── DIVIDER ── */
+  .divider {
+    position: relative; z-index: 1;
+    display: flex; justify-content: center; gap: 48px;
+    padding: 48px 24px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
     flex-wrap: wrap;
   }
+  .stat { text-align: center; }
   .stat-num {
-    font-size: 48px;
-    font-weight: 800;
-    letter-spacing: -2px;
-    color: #6c9aff;
+    font-size: 52px; font-weight: 900;
+    letter-spacing: -3px; line-height: 1;
+    background: linear-gradient(135deg, var(--blue), var(--cyan));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   }
   .stat-label {
-    font-size: 13px;
-    color: rgba(255,255,255,0.4);
-    margin-top: 4px;
+    font-size: 13px; color: rgba(255,255,255,0.35);
+    margin-top: 6px; letter-spacing: 0.5px;
   }
 
-  /* FOOTER */
+  /* ── FEATURES ── */
+  .section {
+    position: relative; z-index: 1;
+    max-width: 1040px; margin: 0 auto;
+    padding: 80px 24px;
+  }
+  .section-label {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 16px;
+  }
+  .section-title {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800; letter-spacing: -1.5px;
+    color: #fff; margin-bottom: 56px; max-width: 480px;
+    line-height: 1.15;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    transition: border-color 0.3s, transform 0.3s, background 0.3s;
+    cursor: default;
+  }
+  .card:hover {
+    border-color: rgba(79,142,255,0.25);
+    background: rgba(79,142,255,0.06);
+    transform: translateY(-4px);
+  }
+  .card-icon {
+    width: 48px; height: 48px;
+    background: rgba(79,142,255,0.12);
+    border: 1px solid rgba(79,142,255,0.2);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 20px;
+  }
+  .card h3 {
+    font-size: 16px; font-weight: 700;
+    margin-bottom: 10px; letter-spacing: -0.3px;
+  }
+  .card p {
+    font-size: 14px; color: rgba(255,255,255,0.45);
+    line-height: 1.75;
+  }
+
+  /* ── HIGHLIGHT CARD ── */
+  .highlight {
+    position: relative; z-index: 1;
+    max-width: 1040px; margin: 0 auto 80px;
+    padding: 0 24px;
+  }
+  .highlight-card {
+    background: linear-gradient(135deg,
+      rgba(79,142,255,0.08) 0%,
+      rgba(155,107,255,0.08) 50%,
+      rgba(0,212,255,0.05) 100%);
+    border: 1px solid rgba(79,142,255,0.2);
+    border-radius: 28px;
+    padding: 60px;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 40px;
+    flex-wrap: wrap;
+  }
+  .highlight-text h2 {
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 800; letter-spacing: -1px;
+    margin-bottom: 12px;
+  }
+  .highlight-text p {
+    font-size: 15px; color: rgba(255,255,255,0.5);
+    line-height: 1.7; max-width: 400px;
+  }
+  .algo-pills {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    max-width: 380px;
+  }
+  .pill {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.6);
+    font-size: 11px; font-weight: 600;
+    padding: 5px 12px; border-radius: 100px;
+    letter-spacing: 0.3px;
+  }
+  .pill.blue {
+    background: rgba(79,142,255,0.12);
+    border-color: rgba(79,142,255,0.25);
+    color: #7eb0ff;
+  }
+  .pill.purple {
+    background: rgba(155,107,255,0.12);
+    border-color: rgba(155,107,255,0.25);
+    color: #b89aff;
+  }
+  .pill.cyan {
+    background: rgba(0,212,255,0.1);
+    border-color: rgba(0,212,255,0.2);
+    color: #5ee0ff;
+  }
+
+  /* ── FOOTER ── */
   footer {
-    text-align: center;
-    padding: 40px 24px;
-    color: rgba(255,255,255,0.3);
-    font-size: 13px;
+    position: relative; z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 32px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
   }
-  footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
-  footer a:hover { color: #fff; }
+  .footer-logo {
+    font-size: 16px; font-weight: 800;
+    background: linear-gradient(135deg, #fff, rgba(255,255,255,0.5));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  footer p { font-size: 13px; color: rgba(255,255,255,0.25); }
+  footer a { color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.2s; }
+  footer a:hover { color: var(--blue); }
 
-  @media (max-width: 600px) {
-    nav { padding: 20px 24px; }
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .highlight-card { padding: 36px 28px; }
+    footer { padding: 28px 20px; justify-content: center; text-align: center; }
   }
 </style>
 </head>
 <body>
 
+<div class="bg-grid"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- NAV -->
 <nav>
-  <div class="logo">yo<span>ce</span></div>
-  <a href="privacy.html">隱私權政策</a>
+  <div class="logo">yoce<span class="logo-dot">.</span>ai</div>
+  <div class="nav-links">
+    <a href="#features">功能</a>
+    <a href="#algorithms">算法</a>
+    <a href="privacy.html">隱私政策</a>
+    <span class="nav-badge">iOS App</span>
+  </div>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
-  <div class="badge">iOS App</div>
-  <h1>你的決策夥伴</h1>
-  <p class="subtitle">
+  <div class="hero-tag">現已上架 App Store</div>
+  <h1>
+    <span class="h1-line1">你的決策夥伴</span>
+    <span class="h1-line2">由 AI 驅動</span>
+  </h1>
+  <p class="hero-sub">
     運用 46 種頂尖多準則決策分析算法，<br>
-    將複雜選擇化為清晰答案。
+    將複雜選擇化為清晰、有據可查的答案。
   </p>
-  <div class="cta-group">
-    <a href="#" class="btn-primary">App Store 下載</a>
-    <a href="privacy.html" class="btn-secondary">隱私權政策</a>
+  <div class="cta-row">
+    <a href="#" class="btn-glow">⬇ App Store 下載</a>
+    <a href="#features" class="btn-ghost">了解更多</a>
   </div>
 </section>
 
-<div class="stats">
-  <div>
+<!-- STATS -->
+<div class="divider">
+  <div class="stat">
     <div class="stat-num">46</div>
     <div class="stat-label">種決策算法</div>
   </div>
-  <div>
+  <div class="stat">
     <div class="stat-num">100%</div>
     <div class="stat-label">本機運算</div>
   </div>
-  <div>
+  <div class="stat">
     <div class="stat-num">0</div>
     <div class="stat-label">廣告與追蹤</div>
   </div>
-</div>
-
-<div class="features">
-  <div class="card">
-    <div class="card-icon">🧠</div>
-    <h3>46 種 MCDA 算法</h3>
-    <p>AHP、TOPSIS、VIKOR、PROMETHEE 等頂尖學術方法，一次掌握所有觀點。</p>
-  </div>
-  <div class="card">
-    <div class="card-icon">🔒</div>
-    <h3>完全本機，零上傳</h3>
-    <p>所有決策資料僅儲存於你的裝置，不收集個人資料，不連接雲端伺服器。</p>
-  </div>
-  <div class="card">
-    <div class="card-icon">📊</div>
-    <h3>視覺化決策報告</h3>
-    <p>每種算法獨立分析，附帶數學公式與計算過程，讓決策有理有據。</p>
-  </div>
-  <div class="card">
-    <div class="card-icon">⚡</div>
-    <h3>即時計算</h3>
-    <p>調整準則權重或方案評分，所有 46 種算法結果立即同步更新。</p>
+  <div class="stat">
+    <div class="stat-num">∞</div>
+    <div class="stat-label">決策次數</div>
   </div>
 </div>
 
+<!-- FEATURES -->
+<section id="features" class="section">
+  <p class="section-label">核心功能</p>
+  <h2 class="section-title">讓每個決策都有科學依據</h2>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-icon">🧠</div>
+      <h3>46 種 MCDA 算法</h3>
+      <p>AHP、TOPSIS、VIKOR、PROMETHEE 等頂尖學術方法，從各角度分析你的選擇，給出全面評估。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔒</div>
+      <h3>完全本機，零上傳</h3>
+      <p>所有決策資料僅儲存於你的裝置，不收集個人資料，不連接雲端伺服器，完全離線可用。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📐</div>
+      <h3>數學公式視覺化</h3>
+      <p>每種算法附帶完整數學推導過程與 LaTeX 公式，讓你理解每個分數背後的計算邏輯。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <h3>即時同步計算</h3>
+      <p>調整任何準則權重或方案評分，46 種算法結果即時同步更新，無需等待。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎯</div>
+      <h3>共識分析</h3>
+      <p>自動統計所有算法的推薦結果，找出各方法的共識最優解，幫你做出最有把握的決定。</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌙</div>
+      <h3>精緻暗色介面</h3>
+      <p>專為長時間使用設計的暗色主題，清晰的資訊層級，讓複雜數據一目了然。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ALGORITHMS -->
+<div id="algorithms" class="highlight">
+  <div class="highlight-card">
+    <div class="highlight-text">
+      <h2>業界最完整的<br>MCDA 算法庫</h2>
+      <p>從經典的加權總和法到先進的隨機多準則可接受性分析，yoce 涵蓋學術界與產業界最常用的 46 種決策方法。</p>
+    </div>
+    <div class="algo-pills">
+      <span class="pill blue">AHP</span>
+      <span class="pill blue">TOPSIS</span>
+      <span class="pill purple">VIKOR</span>
+      <span class="pill purple">PROMETHEE</span>
+      <span class="pill cyan">ELECTRE</span>
+      <span class="pill cyan">MOORA</span>
+      <span class="pill blue">WASPAS</span>
+      <span class="pill blue">MARCOS</span>
+      <span class="pill purple">CODAS</span>
+      <span class="pill purple">MABAC</span>
+      <span class="pill cyan">EDAS</span>
+      <span class="pill cyan">GRA</span>
+      <span class="pill blue">DEMATEL</span>
+      <span class="pill purple">DANP</span>
+      <span class="pill blue">SMAA-2</span>
+      <span class="pill cyan">CoCoSo</span>
+      <span class="pill purple">TODIM</span>
+      <span class="pill">+ 29 種更多</span>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
 <footer>
+  <div class="footer-logo">yoce.ai</div>
   <p>© 2026 yoce &nbsp;·&nbsp; <a href="privacy.html">隱私權政策</a></p>
 </footer>
 
 </body>
 </html>
+
