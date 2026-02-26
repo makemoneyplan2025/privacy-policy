@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200&display=swap" rel="stylesheet">
 <style>
 /* ── Reset & Base ─────────────────────────── */
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; 
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior: smooth; }
 body {
   background: #07070f;
@@ -18,18 +18,15 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
-
 /* ── Bilingual toggle ────────────────────── */
 .en { display: none; }
 body.lang-en .zh { display: none !important; }
 body.lang-en .en { display: inline; }
-
 /* ── Typography ──────────────────────────── */
 h1 { font-size: clamp(36px, 6vw, 72px); font-weight: 800; letter-spacing: -2px; line-height: 1.05; }
 h2 { font-size: clamp(22px, 3.5vw, 38px); font-weight: 700; letter-spacing: -1px; }
 h3 { font-size: 18px; font-weight: 600; }
 p  { font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.55); }
-
 /* ── Gradient text ───────────────────────── */
 .grad {
   background: linear-gradient(135deg, #E83C3C 0%, #C8A020 25%, #00D080 50%, #00C8D8 75%, #7855C8 100%);
@@ -37,7 +34,6 @@ p  { font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.55); }
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-
 /* ── Noise overlay ───────────────────────── */
 body::before {
   content: '';
@@ -45,7 +41,6 @@ body::before {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
   opacity: 0.4;
 }
-
 /* ── Nav ─────────────────────────────────── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -85,7 +80,6 @@ nav a.dl-btn {
   transition: opacity .15s, transform .15s;
 }
 nav a.dl-btn:hover { opacity: .88; transform: scale(1.03); }
-
 /* ── Hero ────────────────────────────────── */
 .hero {
   position: relative; z-index: 1;
@@ -97,7 +91,6 @@ nav a.dl-btn:hover { opacity: .88; transform: scale(1.03); }
   gap: 40px;
   overflow: hidden;
 }
-
 /* ambient glows */
 .hero::after {
   content: '';
@@ -107,13 +100,11 @@ nav a.dl-btn:hover { opacity: .88; transform: scale(1.03); }
     radial-gradient(ellipse 50% 35% at 80% 70%, rgba(155,90,255,0.10) 0%, transparent 70%),
     radial-gradient(ellipse 40% 30% at 50% 50%, rgba(0,200,200,0.07) 0%, transparent 70%);
 }
-
 .hero-logo-wrap {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
-
 .hero-eyebrow {
   font-size: 12px; font-weight: 700; letter-spacing: 3px;
   text-transform: uppercase; color: rgba(255,255,255,0.3);
@@ -142,7 +133,6 @@ nav a.dl-btn:hover { opacity: .88; transform: scale(1.03); }
   transition: border-color .15s, color .15s;
 }
 .btn-ghost:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
-
 /* ── Bar logo (animated) ─────────────────── */
 .yoce-logo {
   display: flex; flex-direction: column;
@@ -176,7 +166,10 @@ nav a.dl-btn:hover { opacity: .88; transform: scale(1.03); }
   from { background-position: -60% center; }
   to   { background-position: 160% center; }
 }
-
+@keyframes shimmer {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.82; }
+}
 /* ── Stats bar ───────────────────────────── */
 .stats {
   position: relative; z-index: 1;
@@ -193,7 +186,6 @@ nav a.dl-btn:hover { opacity: .88; transform: scale(1.03); }
 .stat:last-child { border-right: none; }
 .stat-num { font-size: 42px; font-weight: 800; letter-spacing: -2px; }
 .stat-label { font-size: 13px; color: rgba(255,255,255,0.38); margin-top: 4px; font-weight: 500; }
-
 /* ── Features ────────────────────────────── */
 .features {
   position: relative; z-index: 1;
@@ -217,7 +209,6 @@ nav a.dl-btn:hover { opacity: .88; transform: scale(1.03); }
 }
 .feat-card h3 { margin-bottom: 10px; font-size: 17px; }
 .feat-card p  { font-size: 14px; }
-
 /* ── Methods grid ────────────────────────── */
 .methods-section {
   position: relative; z-index: 1;
@@ -237,7 +228,6 @@ nav a.dl-btn:hover { opacity: .88; transform: scale(1.03); }
   transition: border-color .15s, color .15s;
 }
 .pill:hover { border-color: rgba(79,142,255,0.5); color: #fff; }
-
 /* ── iPhone mockup ───────────────────────── */
 .mockup-section {
   position: relative; z-index: 1;
@@ -261,7 +251,6 @@ nav a.dl-btn:hover { opacity: .88; transform: scale(1.03); }
   text-transform: uppercase; color: rgba(255,255,255,0.25);
   margin-bottom: 4px;
 }
-
 /* ── Footer ──────────────────────────────── */
 footer {
   position: relative; z-index: 1;
@@ -275,10 +264,9 @@ footer a:hover { color: #fff; }
 </style>
 </head>
 <body>
-
 <!-- ── Nav ─────────────────────────────────── -->
 <nav>
-  <a href="/" class="nav-logo">
+  <a href="index.html" class="nav-logo">
     <div class="nav-logo-bars" id="navLogo"></div>
     <span class="nav-logo-name">yoce</span>
   </a>
@@ -287,14 +275,11 @@ footer a:hover { color: #fff; }
     <a href="#" class="dl-btn">App Store</a>
   </div>
 </nav>
-
 <!-- ── Hero ────────────────────────────────── -->
 <section class="hero">
   <p class="hero-eyebrow">Multi-Criteria Decision Analysis</p>
-
   <!-- Animated bar logo (large) -->
   <div class="yoce-logo" id="heroLogo" style="--bh:26px; gap:14px; margin-bottom:8px;"></div>
-
   <h1 class="hero-title">
     <span class="zh">做決定，<span class="grad">讓數據說話</span></span>
     <span class="en">Make Better Decisions,<br><span class="grad">Driven by Data</span></span>
@@ -314,7 +299,6 @@ footer a:hover { color: #fff; }
     </a>
   </div>
 </section>
-
 <!-- ── Stats ────────────────────────────────── -->
 <div class="stats">
   <div class="stat">
@@ -346,7 +330,6 @@ footer a:hover { color: #fff; }
     </div>
   </div>
 </div>
-
 <!-- ── Features ─────────────────────────────── -->
 <div class="features" id="features">
   <div class="feat-card">
@@ -416,7 +399,6 @@ footer a:hover { color: #fff; }
     </p>
   </div>
 </div>
-
 <!-- ── Method pills ──────────────────────────── -->
 <div class="methods-section">
   <h2>
@@ -446,7 +428,6 @@ footer a:hover { color: #fff; }
     <span class="pill">Geometric</span>
   </div>
 </div>
-
 <!-- ── Mockup ─────────────────────────────────── -->
 <div class="mockup-section">
   <div class="mockup-text">
@@ -475,7 +456,6 @@ footer a:hover { color: #fff; }
     </div>
   </div>
 </div>
-
 <!-- ── Footer ─────────────────────────────────── -->
 <footer>
   <p>© 2026 yoce. All rights reserved.</p>
@@ -490,7 +470,6 @@ footer a:hover { color: #fff; }
     </a>
   </div>
 </footer>
-
 <!-- ── Script ─────────────────────────────────── -->
 <script>
 var BARS = [
@@ -500,7 +479,6 @@ var BARS = [
   { c: '#00C8D8', w: 0.32 },
   { c: '#7855C8', w: 0.40 },
 ];
-
 function buildLogo(el, maxW, barH, gap, animate, looping) {
   el.innerHTML = '';
   el.style.gap = gap + 'px';
@@ -527,13 +505,10 @@ function buildLogo(el, maxW, barH, gap, animate, looping) {
     }
   });
 }
-
 // Nav logo (tiny, static)
 buildLogo(document.getElementById('navLogo'), 80, 4, 3, false, true);
-
 // Hero logo (large, animated on load)
 buildLogo(document.getElementById('heroLogo'), 480, 26, 14, true, true);
-
 // Mockup bars (looping animation)
 var mockupEl = document.getElementById('mockupBars');
 function animateMockup() {
@@ -541,7 +516,6 @@ function animateMockup() {
   setTimeout(function() { animateMockup(); }, 3500);
 }
 animateMockup();
-
 // Language toggle
 var langBtn = document.getElementById('langBtn');
 langBtn.addEventListener('click', function() {
