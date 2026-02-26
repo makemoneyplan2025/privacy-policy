@@ -91,7 +91,6 @@ nav a.dl-btn:hover { opacity: .88; transform: scale(1.03); }
   gap: 40px;
   overflow: hidden;
 }
-/* ambient glows */
 .hero::after {
   content: '';
   position: absolute; inset: 0; pointer-events: none;
@@ -100,11 +99,7 @@ nav a.dl-btn:hover { opacity: .88; transform: scale(1.03); }
     radial-gradient(ellipse 50% 35% at 80% 70%, rgba(155,90,255,0.10) 0%, transparent 70%),
     radial-gradient(ellipse 40% 30% at 50% 50%, rgba(0,200,200,0.07) 0%, transparent 70%);
 }
-.hero-logo-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
+.hero-logo-wrap { display: flex; flex-direction: column; align-items: flex-start; }
 .hero-eyebrow {
   font-size: 12px; font-weight: 700; letter-spacing: 3px;
   text-transform: uppercase; color: rgba(255,255,255,0.3);
@@ -134,10 +129,7 @@ nav a.dl-btn:hover { opacity: .88; transform: scale(1.03); }
 }
 .btn-ghost:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
 /* ── Bar logo (animated) ─────────────────── */
-.yoce-logo {
-  display: flex; flex-direction: column;
-  align-items: flex-start;
-}
+.yoce-logo { display: flex; flex-direction: column; align-items: flex-start; }
 .bar-wrap {
   position: relative; height: var(--bh, 20px); border-radius: 99px; overflow: hidden;
   width: var(--bw, 200px);
@@ -152,9 +144,7 @@ nav a.dl-btn:hover { opacity: .88; transform: scale(1.03); }
   transform: scaleX(0); transform-origin: left center;
   will-change: transform;
 }
-.bar-fill.shimmer {
-  animation: shimmer 2.2s linear infinite;
-}
+.bar-fill.shimmer { animation: shimmer 2.2s linear infinite; }
 .bar-fill.shimmer::after {
   content: ''; position: absolute; inset: 0; border-radius: inherit;
   background: linear-gradient(to right, transparent, rgba(255,255,255,0.5) 50%, transparent);
@@ -179,10 +169,7 @@ nav a.dl-btn:hover { opacity: .88; transform: scale(1.03); }
   border-bottom: 1px solid rgba(255,255,255,0.06);
   background: rgba(255,255,255,0.02);
 }
-.stat {
-  flex: 1 1 180px; padding: 40px 24px; text-align: center;
-  border-right: 1px solid rgba(255,255,255,0.06);
-}
+.stat { flex: 1 1 180px; padding: 40px 24px; text-align: center; border-right: 1px solid rgba(255,255,255,0.06); }
 .stat:last-child { border-right: none; }
 .stat-num { font-size: 42px; font-weight: 800; letter-spacing: -2px; }
 .stat-label { font-size: 13px; color: rgba(255,255,255,0.38); margin-top: 4px; font-weight: 500; }
@@ -202,11 +189,7 @@ nav a.dl-btn:hover { opacity: .88; transform: scale(1.03); }
   transition: border-color .2s, background .2s;
 }
 .feat-card:hover { background: rgba(255,255,255,0.055); border-color: rgba(255,255,255,0.14); }
-.feat-icon {
-  width: 48px; height: 48px; border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px; margin-bottom: 20px;
-}
+.feat-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 20px; }
 .feat-card h3 { margin-bottom: 10px; font-size: 17px; }
 .feat-card p  { font-size: 14px; }
 /* ── Methods grid ────────────────────────── */
@@ -246,11 +229,7 @@ nav a.dl-btn:hover { opacity: .88; transform: scale(1.03); }
   display: flex; flex-direction: column; gap: 18px;
   box-shadow: 0 40px 80px rgba(0,0,0,0.5);
 }
-.mockup-tag {
-  font-size: 10px; font-weight: 700; letter-spacing: 2px;
-  text-transform: uppercase; color: rgba(255,255,255,0.25);
-  margin-bottom: 4px;
-}
+.mockup-tag { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 4px; }
 /* ── Footer ──────────────────────────────── */
 footer {
   position: relative; z-index: 1;
@@ -264,7 +243,6 @@ footer a:hover { color: #fff; }
 </style>
 </head>
 <body>
-<!-- ── Nav ─────────────────────────────────── -->
 <nav>
   <a href="index.html" class="nav-logo">
     <div class="nav-logo-bars" id="navLogo"></div>
@@ -275,10 +253,8 @@ footer a:hover { color: #fff; }
     <a href="#" class="dl-btn">App Store</a>
   </div>
 </nav>
-<!-- ── Hero ────────────────────────────────── -->
 <section class="hero">
   <p class="hero-eyebrow">Multi-Criteria Decision Analysis</p>
-  <!-- Animated bar logo (large) -->
   <div class="yoce-logo" id="heroLogo" style="--bh:26px; gap:14px; margin-bottom:8px;"></div>
   <h1 class="hero-title">
     <span class="zh">做決定，<span class="grad">讓數據說話</span></span>
@@ -299,116 +275,59 @@ footer a:hover { color: #fff; }
     </a>
   </div>
 </section>
-<!-- ── Stats ────────────────────────────────── -->
 <div class="stats">
   <div class="stat">
     <div class="stat-num grad">46</div>
-    <div class="stat-label">
-      <span class="zh">MCDA 算法</span>
-      <span class="en">MCDA Algorithms</span>
-    </div>
+    <div class="stat-label"><span class="zh">MCDA 算法</span><span class="en">MCDA Algorithms</span></div>
   </div>
   <div class="stat">
     <div class="stat-num" style="color:#00D080">100%</div>
-    <div class="stat-label">
-      <span class="zh">本機運算</span>
-      <span class="en">On-Device</span>
-    </div>
+    <div class="stat-label"><span class="zh">本機運算</span><span class="en">On-Device</span></div>
   </div>
   <div class="stat">
     <div class="stat-num" style="color:#00C8D8">0</div>
-    <div class="stat-label">
-      <span class="zh">廣告 / 追蹤</span>
-      <span class="en">Ads / Trackers</span>
-    </div>
+    <div class="stat-label"><span class="zh">廣告 / 追蹤</span><span class="en">Ads / Trackers</span></div>
   </div>
   <div class="stat">
     <div class="stat-num" style="color:#7855C8">∞</div>
-    <div class="stat-label">
-      <span class="zh">決策次數</span>
-      <span class="en">Decisions</span>
-    </div>
+    <div class="stat-label"><span class="zh">決策次數</span><span class="en">Decisions</span></div>
   </div>
 </div>
-<!-- ── Features ─────────────────────────────── -->
 <div class="features" id="features">
   <div class="feat-card">
     <div class="feat-icon" style="background:rgba(232,60,60,0.12);">🧮</div>
-    <h3>
-      <span class="zh">46 種算法並行</span>
-      <span class="en">46 Algorithms in Parallel</span>
-    </h3>
-    <p>
-      <span class="zh">AHP、TOPSIS、VIKOR、PROMETHEE⋯⋯一次跑完，給你最全面的視角。</span>
-      <span class="en">AHP, TOPSIS, VIKOR, PROMETHEE and more — run simultaneously for the most comprehensive perspective.</span>
-    </p>
+    <h3><span class="zh">46 種算法並行</span><span class="en">46 Algorithms in Parallel</span></h3>
+    <p><span class="zh">AHP、TOPSIS、VIKOR、PROMETHEE⋯⋯一次跑完，給你最全面的視角。</span><span class="en">AHP, TOPSIS, VIKOR, PROMETHEE and more — run simultaneously for the most comprehensive perspective.</span></p>
   </div>
   <div class="feat-card">
     <div class="feat-icon" style="background:rgba(0,208,128,0.12);">🔒</div>
-    <h3>
-      <span class="zh">完全離線 · 零資料上傳</span>
-      <span class="en">Fully Offline · Zero Data Upload</span>
-    </h3>
-    <p>
-      <span class="zh">所有計算在你的 iPhone 上完成，沒有雲端伺服器，沒有帳號，隱私完全在你手中。</span>
-      <span class="en">All computations run on your iPhone. No cloud servers, no accounts — your data never leaves your device.</span>
-    </p>
+    <h3><span class="zh">完全離線 · 零資料上傳</span><span class="en">Fully Offline · Zero Data Upload</span></h3>
+    <p><span class="zh">所有計算在你的 iPhone 上完成，沒有雲端伺服器，沒有帳號，隱私完全在你手中。</span><span class="en">All computations run on your iPhone. No cloud servers, no accounts — your data never leaves your device.</span></p>
   </div>
   <div class="feat-card">
     <div class="feat-icon" style="background:rgba(0,200,216,0.12);">⚡</div>
-    <h3>
-      <span class="zh">即時更新結果</span>
-      <span class="en">Real-Time Results</span>
-    </h3>
-    <p>
-      <span class="zh">調整任何權重或分數，46 種算法同步重新計算，結果立即呈現。</span>
-      <span class="en">Adjust any weight or score and all 46 algorithms recalculate instantly — results appear in real time.</span>
-    </p>
+    <h3><span class="zh">即時更新結果</span><span class="en">Real-Time Results</span></h3>
+    <p><span class="zh">調整任何權重或分數，46 種算法同步重新計算，結果立即呈現。</span><span class="en">Adjust any weight or score and all 46 algorithms recalculate instantly — results appear in real time.</span></p>
   </div>
   <div class="feat-card">
     <div class="feat-icon" style="background:rgba(200,160,32,0.12);">📐</div>
-    <h3>
-      <span class="zh">LaTeX 數學公式</span>
-      <span class="en">LaTeX Formula Explanations</span>
-    </h3>
-    <p>
-      <span class="zh">每個算法都附上完整的數學原理說明，讓你真正理解計算過程。</span>
-      <span class="en">Every algorithm comes with full mathematical explanations rendered in LaTeX, so you truly understand the process.</span>
-    </p>
+    <h3><span class="zh">LaTeX 數學公式</span><span class="en">LaTeX Formula Explanations</span></h3>
+    <p><span class="zh">每個算法都附上完整的數學原理說明，讓你真正理解計算過程。</span><span class="en">Every algorithm comes with full mathematical explanations rendered in LaTeX, so you truly understand the process.</span></p>
   </div>
   <div class="feat-card">
     <div class="feat-icon" style="background:rgba(120,85,200,0.12);">🎯</div>
-    <h3>
-      <span class="zh">共識結果</span>
-      <span class="en">Consensus Ranking</span>
-    </h3>
-    <p>
-      <span class="zh">46 種算法投票，自動找出最多方法支持的最優方案，消除主觀偏差。</span>
-      <span class="en">46 algorithms vote together to surface the most broadly supported option, eliminating subjective bias.</span>
-    </p>
+    <h3><span class="zh">共識結果</span><span class="en">Consensus Ranking</span></h3>
+    <p><span class="zh">46 種算法投票，自動找出最多方法支持的最優方案，消除主觀偏差。</span><span class="en">46 algorithms vote together to surface the most broadly supported option, eliminating subjective bias.</span></p>
   </div>
   <div class="feat-card">
     <div class="feat-icon" style="background:rgba(79,142,255,0.12);">🌙</div>
-    <h3>
-      <span class="zh">深色模式 · iOS 15+</span>
-      <span class="en">Dark Mode · iOS 15+</span>
-    </h3>
-    <p>
-      <span class="zh">精心設計的暗色介面，支援 iPhone 與 iPad，隨時隨地做出更好的決策。</span>
-      <span class="en">A beautifully crafted dark interface supporting iPhone and iPad — make better decisions anywhere.</span>
-    </p>
+    <h3><span class="zh">深色模式 · iOS 15+</span><span class="en">Dark Mode · iOS 15+</span></h3>
+    <p><span class="zh">精心設計的暗色介面，支援 iPhone 與 iPad，隨時隨地做出更好的決策。</span><span class="en">A beautifully crafted dark interface supporting iPhone and iPad — make better decisions anywhere.</span></p>
   </div>
 </div>
-<!-- ── Method pills ──────────────────────────── -->
 <div class="methods-section">
-  <h2>
-    <span class="zh">業界標準算法，一次全覆蓋</span>
-    <span class="en">Industry-Standard Algorithms, All in One</span>
-  </h2>
-  <p>
-    <span class="zh">從基礎到頂尖，從統計到博弈論</span>
-    <span class="en">From fundamentals to cutting-edge, statistics to game theory</span>
-  </p>
+  <h2><span class="zh">業界標準算法，一次全覆蓋</span><span class="en">Industry-Standard Algorithms, All in One</span></h2>
+  <p><span class="zh">從基礎到頂尖，從統計到博弈論</span><span class="en">From fundamentals to cutting-edge, statistics to game theory</span></p>
   <div class="pills">
     <span class="pill">AHP</span><span class="pill">TOPSIS</span><span class="pill">VIKOR</span>
     <span class="pill">PROMETHEE</span><span class="pill">ELECTRE</span><span class="pill">MAUT</span>
@@ -428,49 +347,28 @@ footer a:hover { color: #fff; }
     <span class="pill">Geometric</span>
   </div>
 </div>
-<!-- ── Mockup ─────────────────────────────────── -->
 <div class="mockup-section">
   <div class="mockup-text">
-    <h2>
-      <span class="zh">分析中，動畫告訴你<br><span class="grad">正在思考</span></span>
-      <span class="en">Live Analysis,<br><span class="grad">Animated with Purpose</span></span>
-    </h2>
-    <p>
-      <span class="zh">每次調整評分，yoce 立即在背景重新計算所有算法，優雅的載入動畫讓等待也成為體驗的一部分。</span>
-      <span class="en">Every time you adjust a score, yoce instantly recalculates all algorithms in the background. The elegant loading animation turns waiting into part of the experience.</span>
-    </p>
-    <a href="#" class="btn-primary" style="display:inline-block">
-      <span class="zh">立即免費下載</span>
-      <span class="en">Download Free</span>
-    </a>
+    <h2><span class="zh">分析中，動畫告訴你<br><span class="grad">正在思考</span></span><span class="en">Live Analysis,<br><span class="grad">Animated with Purpose</span></span></h2>
+    <p><span class="zh">每次調整評分，yoce 立即在背景重新計算所有算法，優雅的載入動畫讓等待也成為體驗的一部分。</span><span class="en">Every time you adjust a score, yoce instantly recalculates all algorithms in the background. The elegant loading animation turns waiting into part of the experience.</span></p>
+    <a href="#" class="btn-primary" style="display:inline-block"><span class="zh">立即免費下載</span><span class="en">Download Free</span></a>
   </div>
   <div class="mockup-visual" id="mockupLogo">
     <div class="mockup-tag">ANALYSING</div>
     <div class="yoce-logo" id="mockupBars" style="--bh:16px; gap:10px;"></div>
     <div style="margin-top:8px;">
       <div style="height:1px;background:rgba(255,255,255,0.06);margin:8px 0;"></div>
-      <div style="font-size:12px;color:rgba(255,255,255,0.28);">
-        <span class="zh">正在計算 46 種算法…</span>
-        <span class="en">Calculating 46 algorithms…</span>
-      </div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.28);"><span class="zh">正在計算 46 種算法…</span><span class="en">Calculating 46 algorithms…</span></div>
     </div>
   </div>
 </div>
-<!-- ── Footer ─────────────────────────────────── -->
 <footer>
   <p>© 2026 yoce. All rights reserved.</p>
   <div style="display:flex;gap:24px;">
-    <a href="privacy.html">
-      <span class="zh">隱私權政策</span>
-      <span class="en">Privacy Policy</span>
-    </a>
-    <a href="mailto:hello@yoce.ai">
-      <span class="zh">聯絡我們</span>
-      <span class="en">Contact Us</span>
-    </a>
+    <a href="privacy.html"><span class="zh">隱私權政策</span><span class="en">Privacy Policy</span></a>
+    <a href="mailto:hello@yoce.ai"><span class="zh">聯絡我們</span><span class="en">Contact Us</span></a>
   </div>
 </footer>
-<!-- ── Script ─────────────────────────────────── -->
 <script>
 var BARS = [
   { c: '#E83C3C', w: 0.46 },
@@ -505,18 +403,14 @@ function buildLogo(el, maxW, barH, gap, animate, looping) {
     }
   });
 }
-// Nav logo (tiny, static)
 buildLogo(document.getElementById('navLogo'), 80, 4, 3, false, true);
-// Hero logo (large, animated on load)
 buildLogo(document.getElementById('heroLogo'), 480, 26, 14, true, true);
-// Mockup bars (looping animation)
 var mockupEl = document.getElementById('mockupBars');
 function animateMockup() {
   buildLogo(mockupEl, 220, 16, 10, true, false);
   setTimeout(function() { animateMockup(); }, 3500);
 }
 animateMockup();
-// Language toggle
 var langBtn = document.getElementById('langBtn');
 langBtn.addEventListener('click', function() {
   var isEn = document.body.classList.toggle('lang-en');
