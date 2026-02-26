@@ -52,6 +52,17 @@
   }
   nav a.back { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; }
   nav a.back:hover { color: #fff; }
+  .lang-switch {
+    display: flex; gap: 12px; align-items: center;
+  }
+  .lang-switch a {
+    color: rgba(255,255,255,0.4); text-decoration: none; font-size: 13px;
+    padding: 4px 10px; border-radius: 6px; border: 1px solid transparent;
+  }
+  .lang-switch a:hover { color: #fff; }
+  .lang-switch a.active {
+    color: #fff; border-color: rgba(255,255,255,0.2);
+  }
   .content {
     max-width: 680px;
     margin: 60px auto;
@@ -71,7 +82,13 @@
     <div class="nav-logo-bars" id="navLogo"></div>
     <span class="nav-logo-name">yoce</span>
   </a>
-  <a href="index.html" class="back">← 回首頁</a>
+  <div style="display:flex;align-items:center;gap:24px;">
+    <div class="lang-switch">
+      <a href="privacy.html" class="active">中文</a>
+      <a href="privacy-en.html">EN</a>
+    </div>
+    <a href="index.html" class="back">← 回首頁</a>
+  </div>
 </nav>
 
 <div class="content">
