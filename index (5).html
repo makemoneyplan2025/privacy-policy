@@ -1,0 +1,2296 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>yoce — 你的決策夥伴</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script>
+  MathJax = {
+    tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] },
+    options: { skipHtmlTags: ['script','noscript','style','textarea'] }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+/* ── Reset & Base ─────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: #07070f;
+  color: #fff;
+  font-family: -apple-system, 'SF Pro Display', 'Inter', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+/* ── Bilingual toggle ────────────────────── */
+.en { display: none; }
+body.lang-en .zh { display: none !important; }
+body.lang-en .en { display: inline; }
+/* ── Typography ──────────────────────────── */
+h1 { font-size: clamp(36px, 6vw, 72px); font-weight: 800; letter-spacing: -2px; line-height: 1.05; }
+h2 { font-size: clamp(22px, 3.5vw, 38px); font-weight: 700; letter-spacing: -1px; }
+h3 { font-size: 18px; font-weight: 600; }
+p  { font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.55); }
+/* ── Gradient text ───────────────────────── */
+.grad {
+  background: linear-gradient(135deg, #E83C3C 0%, #C8A020 25%, #00D080 50%, #00C8D8 75%, #7855C8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+/* ── Noise overlay ───────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+/* ── Nav ─────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 0 40px;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(7,7,15,0.8);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.nav-logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+.nav-logo-bars { display: flex; flex-direction: column; gap: 4px; }
+.nav-logo-bars span {
+  display: block; height: 4px; border-radius: 2px;
+  background: var(--c); width: var(--w);
+  opacity: 0.9;
+}
+.nav-logo-name { font-family: 'Outfit', -apple-system, sans-serif; font-size: 20px; font-weight: 200; letter-spacing: 5px; color: #fff; }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.lang-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.55);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 12px; font-weight: 700; letter-spacing: 1px;
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+.lang-btn:hover { border-color: rgba(255,255,255,0.4); color: #fff; }
+/* ── Hero ────────────────────────────────── */
+.hero {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 120px 24px 80px;
+  gap: 40px;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 30%, rgba(79,142,255,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 35% at 80% 70%, rgba(155,90,255,0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(0,200,200,0.07) 0%, transparent 70%);
+}
+.hero-logo-wrap { display: flex; flex-direction: column; align-items: flex-start; }
+.hero-eyebrow {
+  font-size: 12px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: rgba(255,255,255,0.3);
+  margin-bottom: 24px; text-align: center; width: 100%;
+}
+.hero-title { max-width: 820px; }
+.hero-sub {
+  max-width: 540px; margin: 0 auto;
+  font-size: 18px; line-height: 1.65; color: rgba(255,255,255,0.48);
+}
+.hero-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.btn-primary {
+  background: linear-gradient(135deg, #4f8eff, #9b6bff);
+  color: #fff; text-decoration: none;
+  padding: 16px 36px; border-radius: 14px;
+  font-size: 16px; font-weight: 700;
+  transition: opacity .15s, transform .15s, box-shadow .15s;
+  box-shadow: 0 8px 32px rgba(79,142,255,0.3);
+}
+.btn-primary:hover { opacity:.9; transform:translateY(-2px); box-shadow:0 12px 40px rgba(79,142,255,0.4); }
+.btn-ghost {
+  color: rgba(255,255,255,0.65); text-decoration: none;
+  padding: 16px 36px; border-radius: 14px;
+  font-size: 16px; font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: border-color .15s, color .15s;
+}
+.btn-ghost:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
+/* ── Bar logo (animated) ─────────────────── */
+.yoce-logo { display: flex; flex-direction: column; align-items: flex-start; }
+.bar-wrap {
+  position: relative; height: var(--bh, 20px); border-radius: 99px; overflow: hidden;
+  width: var(--bw, 200px);
+}
+.bar-wrap::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(to right, var(--c), transparent 80%); opacity: 0.12;
+}
+.bar-fill {
+  position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(to right, var(--c) 0%, color-mix(in srgb,var(--c) 50%,transparent) 62%, transparent 100%);
+  transform: scaleX(0); transform-origin: left center;
+  will-change: transform;
+}
+.bar-fill.shimmer { animation: shimmer 2.2s linear infinite; }
+.bar-fill.shimmer::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.5) 50%, transparent);
+  background-size: 40% 100%; background-repeat: no-repeat;
+  background-position: -60% center;
+  animation: sweep 2.2s linear infinite;
+}
+@keyframes sweep { from { background-position: -60% center; } to { background-position: 160% center; } }
+@keyframes shimmer { 0%, 100% { opacity: 1; } 50% { opacity: 0.82; } }
+/* ── Stats bar ───────────────────────────── */
+.stats {
+  position: relative; z-index: 1;
+  display: flex; justify-content: center; gap: 0;
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+}
+.stat { flex: 1 1 180px; padding: 40px 24px; text-align: center; border-right: 1px solid rgba(255,255,255,0.06); }
+.stat:last-child { border-right: none; }
+.stat-num { font-size: 42px; font-weight: 800; letter-spacing: -2px; }
+.stat-label { font-size: 13px; color: rgba(255,255,255,0.38); margin-top: 4px; font-weight: 500; }
+/* ── Features ────────────────────────────── */
+.features {
+  position: relative; z-index: 1;
+  max-width: 1080px; margin: 0 auto;
+  padding: 100px 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.feat-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px; padding: 36px;
+  transition: border-color .2s, background .2s;
+}
+.feat-card:hover { background: rgba(255,255,255,0.055); border-color: rgba(255,255,255,0.14); }
+.feat-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 20px; }
+.feat-card h3 { margin-bottom: 10px; font-size: 17px; }
+.feat-card p  { font-size: 14px; }
+/* ── Methods grid ────────────────────────── */
+.methods-section {
+  position: relative; z-index: 1;
+  max-width: 1080px; margin: 0 auto;
+  padding: 0 40px 100px;
+  text-align: center;
+}
+.methods-section h2 { margin-bottom: 14px; }
+.methods-section > p { margin-bottom: 40px; max-width: 500px; margin-left: auto; margin-right: auto; }
+.pills { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.pill {
+  padding: 7px 16px; border-radius: 99px;
+  border: 1px solid rgba(255,255,255,0.1);
+  font-size: 12px; font-weight: 600; letter-spacing: 0.3px;
+  color: rgba(255,255,255,0.65);
+  background: rgba(255,255,255,0.04);
+  transition: border-color .15s, color .15s, background .15s, transform .15s;
+  cursor: default;
+}
+/* Pills with tutorial get special treatment */
+.pill.has-tutorial {
+  cursor: pointer;
+  position: relative;
+}
+.pill.has-tutorial:hover {
+  border-color: rgba(255,255,255,0.35);
+  color: #fff;
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-2px);
+}
+.pill.has-tutorial::after {
+  content: '▸';
+  margin-left: 5px;
+  font-size: 10px;
+  opacity: 0.5;
+}
+/* ── iPhone mockup ───────────────────────── */
+.mockup-section {
+  position: relative; z-index: 1;
+  max-width: 1080px; margin: 0 auto;
+  padding: 0 40px 100px;
+  display: flex; align-items: center; gap: 80px; flex-wrap: wrap;
+}
+.mockup-text { flex: 1 1 320px; }
+.mockup-text h2 { margin-bottom: 18px; }
+.mockup-text p  { margin-bottom: 28px; }
+.mockup-visual {
+  flex: 0 0 280px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 40px; padding: 40px 32px;
+  display: flex; flex-direction: column; gap: 18px;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+}
+.mockup-tag { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 4px; }
+/* ── Footer ──────────────────────────────── */
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 40px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+}
+footer p { font-size: 13px; color: rgba(255,255,255,0.28); }
+footer a { color: rgba(255,255,255,0.38); text-decoration: none; font-size: 13px; }
+footer a:hover { color: #fff; }
+
+/* ══════════════════════════════════════════
+   ALGORITHM MODAL
+══════════════════════════════════════════ */
+.modal-backdrop {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s ease;
+}
+.modal-backdrop.visible {
+  opacity: 1; pointer-events: all;
+}
+
+.modal {
+  position: relative;
+  width: 100%; max-width: 700px;
+  max-height: 85vh;
+  background: #0e0e1a;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 28px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  transform: translateY(24px) scale(0.97);
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: 0 40px 120px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.04);
+}
+.modal-backdrop.visible .modal {
+  transform: translateY(0) scale(1);
+}
+
+/* Modal header */
+.modal-header {
+  flex-shrink: 0;
+  padding: 28px 32px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  display: flex; align-items: flex-start; gap: 16px;
+}
+.modal-color-strip {
+  width: 4px; height: 52px; border-radius: 99px; flex-shrink: 0; margin-top: 2px;
+}
+.modal-title-block { flex: 1; }
+.modal-name {
+  font-size: 28px; font-weight: 800; letter-spacing: -1px;
+  line-height: 1.1; margin-bottom: 4px;
+}
+.modal-full { font-size: 14px; color: rgba(255,255,255,0.38); margin-bottom: 10px; }
+.modal-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.modal-tag {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+  padding: 3px 10px; border-radius: 99px;
+  border: 1px solid rgba(255,255,255,0.09);
+  color: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.04);
+}
+.modal-close {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: transparent; color: rgba(255,255,255,0.45);
+  font-size: 18px; line-height: 1;
+  cursor: pointer; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.modal-close:hover { background: rgba(255,255,255,0.07); color: #fff; border-color: rgba(255,255,255,0.2); }
+
+/* Step progress bar */
+.modal-progress {
+  flex-shrink: 0;
+  padding: 14px 32px;
+  display: flex; gap: 6px; align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.progress-dot {
+  height: 3px; border-radius: 99px;
+  background: rgba(255,255,255,0.1);
+  flex: 1;
+  transition: background .3s;
+}
+.progress-dot.done { background: var(--modal-color); }
+.progress-dot.active { background: var(--modal-color); opacity: 0.6; }
+
+/* Modal body (scrollable steps) */
+.modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 32px;
+  scroll-behavior: smooth;
+}
+.modal-body::-webkit-scrollbar { width: 4px; }
+.modal-body::-webkit-scrollbar-track { background: transparent; }
+.modal-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 99px; }
+
+/* Step item */
+.m-step {
+  display: flex; gap: 18px;
+  margin-bottom: 32px;
+  opacity: 0.35;
+  transition: opacity .4s ease;
+}
+.m-step.active { opacity: 1; }
+.m-step.done   { opacity: 0.6; }
+
+.m-step-num {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1.5px solid var(--modal-color);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: var(--modal-color);
+  flex-shrink: 0; margin-top: 2px;
+  transition: background .3s;
+}
+.m-step.active .m-step-num {
+  background: color-mix(in srgb, var(--modal-color) 15%, transparent);
+}
+.m-step.done .m-step-num {
+  background: color-mix(in srgb, var(--modal-color) 20%, transparent);
+}
+.m-step-content { flex: 1; }
+.m-step-title {
+  font-size: 16px; font-weight: 700; letter-spacing: -0.2px;
+  margin-bottom: 8px;
+}
+.m-step-desc {
+  font-size: 14px; color: rgba(255,255,255,0.5);
+  line-height: 1.75; margin-bottom: 12px;
+}
+.math-box {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-left: 3px solid var(--modal-color);
+  border-radius: 12px;
+  padding: 14px 18px;
+  overflow-x: auto;
+  margin-bottom: 8px;
+}
+.math-box-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--modal-color); opacity: 0.65;
+  margin-bottom: 8px;
+}
+.note-box {
+  background: rgba(255,255,255,0.025);
+  border-radius: 10px; padding: 10px 14px;
+  font-size: 13px; color: rgba(255,255,255,0.38);
+  line-height: 1.65;
+}
+
+/* Modal footer nav */
+.modal-footer {
+  flex-shrink: 0;
+  padding: 16px 32px 20px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.modal-step-label {
+  font-size: 12px; color: rgba(255,255,255,0.3); font-weight: 600; letter-spacing: 0.5px;
+  min-width: 70px; text-align: center;
+}
+.modal-btn {
+  padding: 10px 24px; border-radius: 10px;
+  font-size: 14px; font-weight: 700;
+  cursor: pointer; border: none;
+  transition: opacity .15s, transform .15s;
+}
+.modal-btn:active { transform: scale(0.97); }
+.modal-btn-ghost {
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.5);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.modal-btn-ghost:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.modal-btn-primary {
+  background: var(--modal-color);
+  color: #000;
+}
+.modal-btn-primary:hover { opacity: 0.85; }
+.modal-btn-primary:disabled { opacity: 0.3; cursor: not-allowed; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-bars" id="navLogo"></div>
+    <span class="nav-logo-name">yoce</span>
+  </a>
+  <div class="nav-right">
+    <button class="lang-btn" id="langBtn">EN</button>
+  </div>
+</nav>
+<section class="hero">
+  <p class="hero-eyebrow">Multi-Criteria Decision Analysis</p>
+  <div class="yoce-logo" id="heroLogo" style="--bh:26px; gap:14px; margin-bottom:8px;"></div>
+  <h1 class="hero-title">
+    <span class="zh">做決定，<span class="grad">讓數據說話</span></span>
+    <span class="en">Make Better Decisions,<br><span class="grad">Driven by Data</span></span>
+  </h1>
+  <p class="hero-sub">
+    <span class="zh">yoce 同時運行 46 種世界頂尖的 MCDA 算法，幫你找出最有共識的選擇 — 完全在裝置上運算，零隱私顧慮。</span>
+    <span class="en">yoce runs 46 world-class MCDA algorithms simultaneously, finding the most consensus-backed choice — all computed on-device, with zero privacy concerns.</span>
+  </p>
+  <div class="hero-ctas">
+    <a href="#features" class="btn-ghost">
+      <span class="zh">了解更多</span>
+      <span class="en">Learn More</span>
+    </a>
+  </div>
+</section>
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num grad">46</div>
+    <div class="stat-label"><span class="zh">MCDA 算法</span><span class="en">MCDA Algorithms</span></div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" style="color:#00D080">100%</div>
+    <div class="stat-label"><span class="zh">本機運算</span><span class="en">On-Device</span></div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" style="color:#00C8D8">0</div>
+    <div class="stat-label"><span class="zh">廣告 / 追蹤</span><span class="en">Ads / Trackers</span></div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" style="color:#7855C8">∞</div>
+    <div class="stat-label"><span class="zh">決策次數</span><span class="en">Decisions</span></div>
+  </div>
+</div>
+<div class="features" id="features">
+  <div class="feat-card">
+    <div class="feat-icon" style="background:rgba(232,60,60,0.12);">🧮</div>
+    <h3><span class="zh">46 種算法並行</span><span class="en">46 Algorithms in Parallel</span></h3>
+    <p><span class="zh">AHP、TOPSIS、VIKOR、PROMETHEE⋯⋯一次跑完，給你最全面的視角。</span><span class="en">AHP, TOPSIS, VIKOR, PROMETHEE and more — run simultaneously for the most comprehensive perspective.</span></p>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon" style="background:rgba(0,208,128,0.12);">🔒</div>
+    <h3><span class="zh">完全離線 · 零資料上傳</span><span class="en">Fully Offline · Zero Data Upload</span></h3>
+    <p><span class="zh">所有計算在你的 iPhone 上完成，沒有雲端伺服器，沒有帳號，隱私完全在你手中。</span><span class="en">All computations run on your iPhone. No cloud servers, no accounts — your data never leaves your device.</span></p>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon" style="background:rgba(0,200,216,0.12);">⚡</div>
+    <h3><span class="zh">即時更新結果</span><span class="en">Real-Time Results</span></h3>
+    <p><span class="zh">調整任何權重或分數，46 種算法同步重新計算，結果立即呈現。</span><span class="en">Adjust any weight or score and all 46 algorithms recalculate instantly — results appear in real time.</span></p>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon" style="background:rgba(200,160,32,0.12);">📐</div>
+    <h3><span class="zh">LaTeX 數學公式</span><span class="en">LaTeX Formula Explanations</span></h3>
+    <p><span class="zh">每個算法都附上完整的數學原理說明，讓你真正理解計算過程。</span><span class="en">Every algorithm comes with full mathematical explanations rendered in LaTeX, so you truly understand the process.</span></p>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon" style="background:rgba(120,85,200,0.12);">🎯</div>
+    <h3><span class="zh">共識結果</span><span class="en">Consensus Ranking</span></h3>
+    <p><span class="zh">46 種算法投票，自動找出最多方法支持的最優方案，消除主觀偏差。</span><span class="en">46 algorithms vote together to surface the most broadly supported option, eliminating subjective bias.</span></p>
+  </div>
+  <div class="feat-card">
+    <div class="feat-icon" style="background:rgba(79,142,255,0.12);">🌙</div>
+    <h3><span class="zh">深色模式 · iOS 15+</span><span class="en">Dark Mode · iOS 15+</span></h3>
+    <p><span class="zh">精心設計的暗色介面，支援 iPhone 與 iPad，隨時隨地做出更好的決策。</span><span class="en">A beautifully crafted dark interface supporting iPhone and iPad — make better decisions anywhere.</span></p>
+  </div>
+</div>
+<div class="methods-section">
+  <h2><span class="zh">業界標準算法，一次全覆蓋</span><span class="en">Industry-Standard Algorithms, All in One</span></h2>
+  <p><span class="zh">從基礎到頂尖，從統計到博弈論 · <span style="color:rgba(255,255,255,0.3);font-size:13px;">點擊螢光標記算法查看原理說明</span></span><span class="en">From fundamentals to cutting-edge, statistics to game theory · <span style="color:rgba(255,255,255,0.3);font-size:13px;">Click highlighted algorithms for step-by-step explanations</span></span></p>
+    <div class="pills" id="pillContainer">
+    <span class="pill has-tutorial" data-algo="ahp">AHP</span>
+    <span class="pill has-tutorial" data-algo="topsis">TOPSIS</span>
+    <span class="pill has-tutorial" data-algo="vikor">VIKOR</span>
+    <span class="pill has-tutorial" data-algo="promethee">PROMETHEE</span>
+    <span class="pill has-tutorial" data-algo="electre">ELECTRE</span>
+    <span class="pill has-tutorial" data-algo="maut">MAUT</span>
+    <span class="pill has-tutorial" data-algo="gra">GRA</span>
+    <span class="pill has-tutorial" data-algo="moora">MOORA</span>
+    <span class="pill has-tutorial" data-algo="waspas">WASPAS</span>
+    <span class="pill has-tutorial" data-algo="marcos">MARCOS</span>
+    <span class="pill has-tutorial" data-algo="edas">EDAS</span>
+    <span class="pill has-tutorial" data-algo="mabac">MABAC</span>
+    <span class="pill has-tutorial" data-algo="codas">CODAS</span>
+    <span class="pill has-tutorial" data-algo="copras">COPRAS</span>
+    <span class="pill has-tutorial" data-algo="aras">ARAS</span>
+    <span class="pill has-tutorial" data-algo="cocoso">CoCoSo</span>
+    <span class="pill has-tutorial" data-algo="mairca">MAIRCA</span>
+    <span class="pill has-tutorial" data-algo="psi">PSI</span>
+    <span class="pill has-tutorial" data-algo="smaa2">SMAA-2</span>
+    <span class="pill has-tutorial" data-algo="macbeth">MACBETH</span>
+    <span class="pill has-tutorial" data-algo="uta">UTA</span>
+    <span class="pill has-tutorial" data-algo="dematel">DEMATEL</span>
+    <span class="pill has-tutorial" data-algo="anp">ANP</span>
+    <span class="pill has-tutorial" data-algo="danp">DANP</span>
+    <span class="pill has-tutorial" data-algo="choquet">Choquet</span>
+    <span class="pill has-tutorial" data-algo="sugeno">Sugeno</span>
+    <span class="pill has-tutorial" data-algo="todim">TODIM</span>
+    <span class="pill has-tutorial" data-algo="entropy_topsis">Entropy-TOPSIS</span>
+    <span class="pill has-tutorial" data-algo="critic_topsis">CRITIC-TOPSIS</span>
+    <span class="pill has-tutorial" data-algo="entropy_vikor">Entropy-VIKOR</span>
+    <span class="pill has-tutorial" data-algo="owa">OWA</span>
+    <span class="pill has-tutorial" data-algo="wpm">WPM</span>
+    <span class="pill has-tutorial" data-algo="rsr">RSR</span>
+    <span class="pill has-tutorial" data-algo="cp_linf">CP(L∞)</span>
+    <span class="pill has-tutorial" data-algo="ror">ROR</span>
+    <span class="pill has-tutorial" data-algo="pessimistic">Pessimistic</span>
+    <span class="pill has-tutorial" data-algo="optimistic">Optimistic</span>
+    <span class="pill has-tutorial" data-algo="hurwicz">Hurwicz</span>
+    <span class="pill has-tutorial" data-algo="laplace">Laplace</span>
+    <span class="pill has-tutorial" data-algo="regret">Regret</span>
+    <span class="pill has-tutorial" data-algo="borda">Borda</span>
+    <span class="pill has-tutorial" data-algo="pareto">Pareto</span>
+    <span class="pill has-tutorial" data-algo="smart">SMART</span>
+    <span class="pill has-tutorial" data-algo="geometric">Geometric</span>
+  </div>
+</div>
+<div class="mockup-section">
+  <div class="mockup-text">
+    <h2><span class="zh">分析中，動畫告訴你<br><span class="grad">正在思考</span></span><span class="en">Live Analysis,<br><span class="grad">Animated with Purpose</span></span></h2>
+    <p><span class="zh">每次調整評分，yoce 立即在背景重新計算所有算法，優雅的載入動畫讓等待也成為體驗的一部分。</span><span class="en">Every time you adjust a score, yoce instantly recalculates all algorithms in the background. The elegant loading animation turns waiting into part of the experience.</span></p>
+  </div>
+  <div class="mockup-visual" id="mockupLogo">
+    <div class="mockup-tag">ANALYSING</div>
+    <div class="yoce-logo" id="mockupBars" style="--bh:16px; gap:10px;"></div>
+    <div style="margin-top:8px;">
+      <div style="height:1px;background:rgba(255,255,255,0.06);margin:8px 0;"></div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.28);"><span class="zh">正在計算 46 種算法…</span><span class="en">Calculating 46 algorithms…</span></div>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>© 2026 yoce. All rights reserved.</p>
+  <div style="display:flex;gap:24px;">
+    <a href="privacy.html" id="footerPrivacyLink"><span class="zh">隱私權政策</span><span class="en">Privacy Policy</span></a>
+    <a href="/cdn-cgi/l/email-protection#c9a1aca5a5a689b0a6aaace7a8a0"><span class="zh">聯絡我們</span><span class="en">Contact Us</span></a>
+  </div>
+</footer>
+
+<!-- ── MODAL ──────────────────────────────── -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" id="modal" role="dialog" aria-modal="true">
+    <div class="modal-header" id="modalHeader">
+      <div class="modal-color-strip" id="modalStrip"></div>
+      <div class="modal-title-block">
+        <div class="modal-name" id="modalName"></div>
+        <div class="modal-full" id="modalFull"></div>
+        <div class="modal-tags" id="modalTags"></div>
+      </div>
+      <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-progress" id="modalProgress"></div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer">
+      <button class="modal-btn modal-btn-ghost" id="modalPrev">← 上一步</button>
+      <span class="modal-step-label" id="modalStepLabel"></span>
+      <button class="modal-btn modal-btn-primary" id="modalNext">下一步 →</button>
+    </div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── Logo builder ──────────────────────────
+var BARS = [
+  { c: '#E83C3C', w: 0.46 },
+  { c: '#C8A020', w: 0.36 },
+  { c: '#00D080', w: 0.43 },
+  { c: '#00C8D8', w: 0.32 },
+  { c: '#7855C8', w: 0.40 },
+];
+function buildLogo(el, maxW, barH, gap, animate, looping) {
+  el.innerHTML = '';
+  el.style.gap = gap + 'px';
+  BARS.forEach(function(b, i) {
+    var wrap = document.createElement('div');
+    wrap.className = 'bar-wrap';
+    wrap.style.setProperty('--c', b.c);
+    wrap.style.setProperty('--bh', barH + 'px');
+    wrap.style.setProperty('--bw', Math.round(maxW * b.w) + 'px');
+    var fill = document.createElement('div');
+    fill.className = 'bar-fill';
+    wrap.appendChild(fill);
+    el.appendChild(wrap);
+    if (animate) {
+      var delay = i * 150;
+      setTimeout(function(f) {
+        f.style.transition = 'transform 650ms cubic-bezier(0.34,1.56,0.64,1)';
+        f.style.transform = 'scaleX(1)';
+        setTimeout(function() { f.classList.add('shimmer'); }, 600);
+      }, delay, fill);
+    } else {
+      fill.style.transform = 'scaleX(1)';
+      if (looping) fill.classList.add('shimmer');
+    }
+  });
+}
+buildLogo(document.getElementById('navLogo'), 80, 4, 3, false, true);
+buildLogo(document.getElementById('heroLogo'), 480, 26, 14, true, true);
+var mockupEl = document.getElementById('mockupBars');
+function animateMockup() {
+  buildLogo(mockupEl, 220, 16, 10, true, false);
+  setTimeout(function() { animateMockup(); }, 3500);
+}
+animateMockup();
+
+// ── Lang toggle ───────────────────────────
+var langBtn = document.getElementById('langBtn');
+langBtn.addEventListener('click', function() {
+  var isEn = document.body.classList.toggle('lang-en');
+  this.textContent = isEn ? '中' : 'EN';
+  document.documentElement.lang = isEn ? 'en' : 'zh-Hant';
+  document.title = isEn ? 'yoce — Your Decision Partner' : 'yoce — 你的決策夥伴';
+  var privLink = document.getElementById('footerPrivacyLink');
+  if (privLink) privLink.href = isEn ? 'privacy-en.html' : 'privacy.html';
+});
+
+// ══════════════════════════════════════════
+// ALGORITHM DATA
+// ══════════════════════════════════════════
+var ALGO_DATA = {
+  ahp: {
+    name: 'AHP',
+    full: '層次分析法 · Analytic Hierarchy Process',
+    color: '#E83C3C',
+    tags: ['成對比較', '權重推導', '一致性檢驗'],
+    steps: [
+      {
+        title: '建立層次結構',
+        desc: '將決策問題分解為目標、準則、方案三層。準則層定義 $n$ 個評估維度 $C_1, C_2, \\ldots, C_n$，方案層包含待比較選項 $A_1, A_2, \\ldots, A_m$。',
+        formula: null,
+        note: '層次結構的清晰程度決定後續計算的合理性。'
+      },
+      {
+        title: '建立成對比較矩陣',
+        desc: '對準則兩兩比較，填入 Saaty 1–9 量表，得到 $n \\times n$ 矩陣 $A$。$a_{ij}$ 表示第 $i$ 個準則相對第 $j$ 個準則的重要程度。',
+        formula: '$$A = \\begin{pmatrix} 1 & a_{12} & \\cdots & a_{1n} \\\\ 1/a_{12} & 1 & \\cdots & a_{2n} \\\\ \\vdots & \\vdots & \\ddots & \\vdots \\\\ 1/a_{1n} & 1/a_{2n} & \\cdots & 1 \\end{pmatrix}$$',
+        note: '矩陣具有互反性：$a_{ji} = 1/a_{ij}$，且對角線恆為 1。'
+      },
+      {
+        title: '計算優先向量（權重）',
+        desc: '對矩陣 $A$ 進行歸一化：先對每列求和，再將每個元素除以列和，最後對每行取平均，得到權重向量 $\\mathbf{w}$。',
+        formula: '$$w_i = \\frac{1}{n} \\sum_{j=1}^{n} \\frac{a_{ij}}{\\sum_{k=1}^{n} a_{kj}}$$',
+        note: null
+      },
+      {
+        title: '一致性檢驗（CR）',
+        desc: '計算最大特徵值 $\\lambda_{\\max}$，再由一致性指標 CI 和隨機指標 RI 推導一致性比率 CR。CR < 0.10 則判定比較矩陣可接受。',
+        formula: '$$\\lambda_{\\max} = \\frac{1}{n}\\sum_{i=1}^{n}\\frac{(Aw)_i}{w_i}, \\quad CI = \\frac{\\lambda_{\\max}-n}{n-1}, \\quad CR = \\frac{CI}{RI}$$',
+        note: 'RI 為同階矩陣的平均隨機一致性指標（$n=3$ 時 RI ≈ 0.58，$n=5$ 時 RI ≈ 1.12）。'
+      },
+      {
+        title: '計算方案綜合得分',
+        desc: '對每個方案在各準則下的局部權重 $v_{ij}$（方案 $i$ 在準則 $j$ 的得分），以準則權重 $w_j$ 加權求和，得到最終排名分數 $S_i$。',
+        formula: '$$S_i = \\sum_{j=1}^{n} w_j \\cdot v_{ij}$$',
+        note: '分數最高者為最優方案。'
+      },
+    ]
+  },
+  topsis: {
+    name: 'TOPSIS',
+    full: '理想解相似度排序法 · Technique for Order Preference by Similarity to Ideal Solution',
+    color: '#00D080',
+    tags: ['正理想解', '負理想解', '歐氏距離'],
+    steps: [
+      {
+        title: '建立決策矩陣並正規化',
+        desc: '設 $m$ 個方案、$n$ 個準則，原始矩陣 $X$ 的元素 $x_{ij}$ 經向量歸一化轉為 $r_{ij}$，消除量綱影響。',
+        formula: '$$r_{ij} = \\frac{x_{ij}}{\\sqrt{\\sum_{i=1}^{m} x_{ij}^2}}$$',
+        note: null
+      },
+      {
+        title: '建立加權規範化矩陣',
+        desc: '將歸一化值乘上準則權重 $w_j$（$\\sum w_j = 1$），得到加權矩陣 $v_{ij}$。',
+        formula: '$$v_{ij} = w_j \\cdot r_{ij}$$',
+        note: null
+      },
+      {
+        title: '確定正、負理想解',
+        desc: '正理想解 $A^+$ 取每個準則的最佳值（效益準則取最大，成本準則取最小）；負理想解 $A^-$ 反之。',
+        formula: '$$A^+ = \\left(\\max_i v_{ij}\\text{ (benefit)},\\; \\min_i v_{ij}\\text{ (cost)}\\right)$$\n$$A^- = \\left(\\min_i v_{ij}\\text{ (benefit)},\\; \\max_i v_{ij}\\text{ (cost)}\\right)$$',
+        note: null
+      },
+      {
+        title: '計算歐氏距離',
+        desc: '計算每個方案到正理想解的距離 $d_i^+$ 和到負理想解的距離 $d_i^-$。',
+        formula: '$$d_i^+ = \\sqrt{\\sum_{j=1}^{n}(v_{ij}-v_j^+)^2}, \\qquad d_i^- = \\sqrt{\\sum_{j=1}^{n}(v_{ij}-v_j^-)^2}$$',
+        note: null
+      },
+      {
+        title: '計算相對接近度並排名',
+        desc: '相對接近度 $C_i$ 介於 0 到 1 之間，值越大表示方案越接近正理想解，即越優。',
+        formula: '$$C_i = \\frac{d_i^-}{d_i^+ + d_i^-}, \\qquad C_i \\in [0,1]$$',
+        note: '$C_i = 1$ 代表方案完全等於正理想解；$C_i = 0$ 代表完全等於負理想解。'
+      },
+    ]
+  },
+  vikor: {
+    name: 'VIKOR',
+    full: '多準則折衷排名法 · VlseKriterijumska Optimizacija I Kompromisno Resenje',
+    color: '#00C8D8',
+    tags: ['折衷解', '群體效用', '最大遺憾'],
+    steps: [
+      {
+        title: '確定最佳值與最差值',
+        desc: '對每個準則 $j$，找出所有方案中的最佳值 $f_j^*$ 和最差值 $f_j^-$（效益型取最大/最小，成本型相反）。',
+        formula: '$$f_j^* = \\max_i x_{ij} \\quad (\\text{效益型}), \\qquad f_j^- = \\min_i x_{ij}$$',
+        note: null
+      },
+      {
+        title: '計算群體效用值 S 與個人遺憾值 R',
+        desc: '$S_i$（群體效用）反映方案在所有準則上的加權總距離；$R_i$（最大遺憾）反映最差表現準則的距離。',
+        formula: '$$S_i = \\sum_{j=1}^{n} w_j \\frac{f_j^* - x_{ij}}{f_j^* - f_j^-}$$\n$$R_i = \\max_j \\left[ w_j \\frac{f_j^* - x_{ij}}{f_j^* - f_j^-} \\right]$$',
+        note: null
+      },
+      {
+        title: '計算 VIKOR 指數 Q',
+        desc: '參數 $\\nu$ 代表「多數決策者策略」的權重，通常設為 0.5（折衷）。$Q_i$ 越小，方案越優。',
+        formula: '$$Q_i = \\nu \\frac{S_i - S^*}{S^- - S^*} + (1-\\nu)\\frac{R_i - R^*}{R^- - R^*}$$\n$$S^* = \\min_i S_i,\\; S^- = \\max_i S_i,\\; R^* = \\min_i R_i,\\; R^- = \\max_i R_i$$',
+        note: '$\\nu > 0.5$ 傾向多數同意；$\\nu < 0.5$ 傾向最小化最大遺憾。'
+      },
+      {
+        title: '排名並進行可接受優勢條件檢驗',
+        desc: '方案 $A_1$（Q 值最小）優於 $A_2$，需同時滿足兩個條件：可接受優勢（Q 差異夠大）與決策穩定性。',
+        formula: '$$\\text{條件一：} Q(A_2) - Q(A_1) \\geq DQ, \\quad DQ = \\frac{1}{m-1}$$\n$$\\text{條件二：} A_1 \\text{ 在 } S \\text{ 或 } R \\text{ 排名中也是第一}$$',
+        note: '若兩個條件均不滿足，則 $A_1, A_2, \\ldots$ 共同組成折衷解集合。'
+      },
+    ]
+  },
+  promethee: {
+    name: 'PROMETHEE',
+    full: '偏好排序組織法 · Preference Ranking Organisation METHod for Enrichment Evaluations',
+    color: '#C8A020',
+    tags: ['偏好函數', '正負流量', '排序'],
+    steps: [
+      {
+        title: '定義偏好函數',
+        desc: '對每個準則，定義偏好函數 $P_j(a,b)$：當方案 $a$ 在準則 $j$ 上優於 $b$ 時，輸出 0 到 1 的偏好強度。常用 V 型函數如下：',
+        formula: '$$P_j(a,b) = \\begin{cases} 0 & \\text{若 } d \\leq 0 \\\\ d/p & \\text{若 } 0 < d \\leq p \\\\ 1 & \\text{若 } d > p \\end{cases}$$\n$$d = f_j(a) - f_j(b), \\quad p = \\text{偏好閾值}$$',
+        note: 'PROMETHEE 提供 6 種偏好函數類型，V 型（Type V）最常用。'
+      },
+      {
+        title: '計算多準則偏好指數',
+        desc: '綜合所有準則，計算方案 $a$ 對 $b$ 的整體偏好指數 $\\pi(a,b)$，$w_j$ 為準則權重。',
+        formula: '$$\\pi(a,b) = \\sum_{j=1}^{n} w_j \\cdot P_j(a,b)$$',
+        note: '$\\pi(a,b) \\neq \\pi(b,a)$，偏好具有方向性。'
+      },
+      {
+        title: '計算正向流量 $\\Phi^+$ 與負向流量 $\\Phi^-$',
+        desc: '正向流量（離去流）衡量方案 $a$ 主動優於其他方案的程度；負向流量（進入流）衡量被其他方案超越的程度。',
+        formula: '$$\\Phi^+(a) = \\frac{1}{m-1}\\sum_{x \\in A} \\pi(a,x)$$\n$$\\Phi^-(a) = \\frac{1}{m-1}\\sum_{x \\in A} \\pi(x,a)$$',
+        note: null
+      },
+      {
+        title: '計算淨流量並排名（PROMETHEE II）',
+        desc: '淨流量 $\\Phi(a)$ 為正向與負向流量之差，代表方案的綜合競爭力。淨流量越高，排名越前。',
+        formula: '$$\\Phi(a) = \\Phi^+(a) - \\Phi^-(a), \\qquad \\Phi(a) \\in [-1, 1]$$',
+        note: 'PROMETHEE I 以正負流量分別排序（允許不可比），PROMETHEE II 以淨流量給出完整排序。'
+      },
+    ]
+  },
+  electre: {
+    name: 'ELECTRE',
+    full: '淘汰與選擇翻譯實境法 · ELimination Et Choix Traduisant la REalité',
+    color: '#7855C8',
+    tags: ['超越關係', '一致性', '非一致性'],
+    steps: [
+      {
+        title: '建立加權規範化矩陣',
+        desc: '與 TOPSIS 相同，先對決策矩陣做向量歸一化，再乘以準則權重 $w_j$，得到加權值 $v_{ij}$。',
+        formula: '$$v_{ij} = w_j \\cdot \\frac{x_{ij}}{\\sqrt{\\sum_{i=1}^{m} x_{ij}^2}}$$',
+        note: null
+      },
+      {
+        title: '計算一致性指數 C(a,b)',
+        desc: '一致性集合 $C(a,b)$ 包含所有方案 $a$ 不劣於方案 $b$ 的準則。一致性指數為這些準則的權重之和。',
+        formula: '$$C(a,b) = \\frac{\\sum_{j \\in J^+(a,b)} w_j + \\frac{1}{2}\\sum_{j \\in J^=(a,b)} w_j}{\\sum_{j=1}^{n} w_j}$$\n$$J^+(a,b) = \\{j : v_{aj} \\geq v_{bj}\\}$$',
+        note: '$C(a,b) \\in [0,1]$；值越高，表示 $a$ 超越 $b$ 的準則越多。'
+      },
+      {
+        title: '計算非一致性指數 D(a,b)',
+        desc: '非一致性指數衡量方案 $a$ 在哪些準則上劣於方案 $b$ 的最大差距，以值域範圍標準化。',
+        formula: '$$D(a,b) = \\frac{\\max_{j \\in J^-(a,b)} |v_{aj} - v_{bj}|}{\\max_{j} |v_{aj} - v_{bj}|}$$\n$$J^-(a,b) = \\{j : v_{aj} < v_{bj}\\}$$',
+        note: '$D(a,b) \\in [0,1]$；值越低，表示 $a$ 劣勢不大。'
+      },
+      {
+        title: '建立超越關係矩陣',
+        desc: '設定一致性閾值 $\\bar{c}$ 和非一致性閾值 $\\bar{d}$，當 $C(a,b) \\geq \\bar{c}$ 且 $D(a,b) \\leq \\bar{d}$ 時，方案 $a$ 超越（outranks）$b$。',
+        formula: '$$a \\,S\\, b \\iff C(a,b) \\geq \\bar{c} \\text{ 且 } D(a,b) \\leq \\bar{d}$$',
+        note: '通常 $\\bar{c} = 0.7$，$\\bar{d} = 0.3$（可依問題調整）。'
+      },
+      {
+        title: '核心提取與最終排名',
+        desc: '統計每個方案被超越的次數。在 ELECTRE I 中，核心（kernel）是不被任何其他方案超越的方案集合，視為最優候選；ELECTRE III 則使用蒸餾程序給出完整排序。',
+        formula: '$$\\text{核心} = \\{a \\in A : \\nexists\\, b \\in A \\text{ 使得 } b \\,S\\, a\\}$$',
+        note: 'ELECTRE 不強制給出唯一排名，而是識別「不可接受的方案」，更適合篩選問題。'
+      },
+    ]
+  },
+  maut: {
+    name: 'MAUT',
+    full: '多屬性效用理論 · Multi-Attribute Utility Theory',
+    color: '#00D080',
+    tags: ['效用函數', '風險偏好', '期望效用'],
+    steps: [
+      {
+        title: '定義各準則的效用函數',
+        desc: '對每個準則 $j$，將原始績效值 $x_{ij}$ 透過效用函數 $u_j(x)$ 轉換為 0 到 1 的效用值。線性效用函數如下（效益型）：',
+        formula: '$$u_j(x) = \\frac{x - x_j^{\\min}}{x_j^{\\max} - x_j^{\\min}}$$',
+        note: '非線性效用函數（如指數型）可捕捉決策者的風險偏好（風險規避或風險偏好）。'
+      },
+      {
+        title: '評估各準則權重',
+        desc: '透過成對比較或直接賦值，確定每個準則的相對重要性權重 $w_j$，且 $\\sum_{j=1}^{n} w_j = 1$。',
+        formula: '$$\\sum_{j=1}^{n} w_j = 1, \\qquad w_j \\geq 0$$',
+        note: null
+      },
+      {
+        title: '計算加法型總效用值',
+        desc: '在準則間效用獨立的假設下（加法獨立性），方案 $i$ 的總效用為各準則效用的加權和。',
+        formula: '$$U(A_i) = \\sum_{j=1}^{n} w_j \\cdot u_j(x_{ij})$$',
+        note: '若準則間存在交互作用，則需使用乘法效用函數：$U = \\prod_j [k_j u_j + 1]$ 的形式。'
+      },
+      {
+        title: '排名',
+        desc: '依據總效用值 $U(A_i)$ 由大到小排序，值最高的方案即為最優選擇。',
+        formula: '$$A^* = \\arg\\max_{i} U(A_i)$$',
+        note: 'MAUT 的核心優勢在於能明確體現決策者的偏好結構與風險態度。'
+      },
+    ]
+  },
+  gra: {
+    name: 'GRA',
+    full: '灰色關聯分析 · Grey Relational Analysis',
+    color: '#C8A020',
+    tags: ['灰色系統', '參考序列', '關聯度'],
+    steps: [
+      {
+        title: '正規化決策矩陣',
+        desc: '將原始資料轉換至 [0,1] 區間。效益型準則（越大越好）和成本型準則（越小越好）使用不同公式：',
+        formula: '$$x_{ij}^* = \\frac{x_{ij} - \\min_i x_{ij}}{\\max_i x_{ij} - \\min_i x_{ij}} \\quad (\\text{效益型})$$\n$$x_{ij}^* = \\frac{\\max_i x_{ij} - x_{ij}}{\\max_i x_{ij} - \\min_i x_{ij}} \\quad (\\text{成本型})$$',
+        note: null
+      },
+      {
+        title: '建立參考序列',
+        desc: '參考序列 $x_0^*$ 為每個準則的理想值，通常設為各準則的最佳正規化值（全取 1）。',
+        formula: '$$x_0^* = (x_{01}^*, x_{02}^*, \\ldots, x_{0n}^*) = (1, 1, \\ldots, 1)$$',
+        note: null
+      },
+      {
+        title: '計算灰色關聯係數',
+        desc: '計算每個方案 $i$ 在準則 $j$ 上與參考序列的灰色關聯係數 $\\xi_{ij}$。$\\rho$ 為分辨係數，通常取 0.5。',
+        formula: '$$\\xi_{ij} = \\frac{\\Delta_{\\min} + \\rho \\cdot \\Delta_{\\max}}{\\Delta_{ij} + \\rho \\cdot \\Delta_{\\max}}$$\n$$\\Delta_{ij} = |x_{0j}^* - x_{ij}^*|, \\quad \\Delta_{\\min} = \\min_{i,j}\\Delta_{ij}, \\quad \\Delta_{\\max} = \\max_{i,j}\\Delta_{ij}$$',
+        note: '$\\rho = 0.5$ 時對各準則的分辨效果最均衡。'
+      },
+      {
+        title: '計算灰色關聯度並排名',
+        desc: '對各準則的關聯係數以權重 $w_j$ 加權平均，得到方案 $i$ 的灰色關聯度 $\\Gamma_i$，值越大排名越前。',
+        formula: '$$\\Gamma_i = \\sum_{j=1}^{n} w_j \\cdot \\xi_{ij}$$',
+        note: 'GRA 特別適用於資料不完整或樣本量小的情況，是小樣本多準則決策的首選方法之一。'
+      },
+    ]
+  },
+  moora: {
+    name: 'MOORA',
+    full: '多目標最佳化比率分析 · Multi-Objective Optimization on the basis of Ratio Analysis',
+    color: '#E83C3C',
+    tags: ['比率系統', '參考點', '效益成本'],
+    steps: [
+      {
+        title: '建立決策矩陣並向量正規化',
+        desc: '設 $m$ 個方案、$n$ 個準則，原始值 $x_{ij}$ 以每列的平方和開根號進行無量綱化，得到 $x_{ij}^*$。',
+        formula: '$$x_{ij}^* = \\frac{x_{ij}}{\\sqrt{\\sum_{i=1}^{m} x_{ij}^2}}$$',
+        note: null
+      },
+      {
+        title: '比率系統法：計算評估分數',
+        desc: '將效益型準則（$g$ 個）的正規化值加總，減去成本型準則（$n-g$ 個）的加總。可加入權重 $w_j$。',
+        formula: '$$y_i = \\sum_{j=1}^{g} w_j x_{ij}^* - \\sum_{j=g+1}^{n} w_j x_{ij}^*$$',
+        note: '$y_i$ 值越大，方案越優。'
+      },
+      {
+        title: '參考點法：計算到理想點的最大距離',
+        desc: '對每個準則，參考點 $r_j$ 為效益型取最大值、成本型取最小值。計算每個方案到參考點的最大加權偏差。',
+        formula: '$$r_j = \\begin{cases} \\max_i x_{ij}^* & (\\text{效益型}) \\\\ \\min_i x_{ij}^* & (\\text{成本型}) \\end{cases}$$\n$$d_i = \\max_j \\left[ w_j |r_j - x_{ij}^*| \\right]$$',
+        note: '參考點法中 $d_i$ 越小越優，與比率系統法結合可得更穩健的排名。'
+      },
+      {
+        title: '合併排名（MULTIMOORA）',
+        desc: 'MULTIMOORA 整合比率系統、參考點法與完全乘法形式三種結果，以主導排序理論（Dominance Theory）得出最終共識排名。',
+        formula: '$$U_i = \\prod_{j=1}^{g} x_{ij}^* \\bigg/ \\prod_{j=g+1}^{n} x_{ij}^* \\quad (\\text{完全乘法形式})$$',
+        note: '三種方法互為驗證，若結果一致則排名可信度極高。'
+      },
+    ]
+  },
+  waspas: {
+    name: 'WASPAS',
+    full: '加權聚合積和評估法 · Weighted Aggregated Sum Product ASsessment',
+    color: '#7855C8',
+    tags: ['加法模型', '乘法模型', '融合參數'],
+    steps: [
+      {
+        title: '正規化決策矩陣',
+        desc: '效益型準則除以最大值，成本型準則以最小值除以原始值，將所有值歸一化至 (0,1]。',
+        formula: '$$\\bar{x}_{ij} = \\frac{x_{ij}}{\\max_i x_{ij}} \\quad (\\text{效益型}), \\qquad \\bar{x}_{ij} = \\frac{\\min_i x_{ij}}{x_{ij}} \\quad (\\text{成本型})$$',
+        note: null
+      },
+      {
+        title: '計算加權求和模型（WSM）得分',
+        desc: '加法模型對各準則正規化值乘以權重後加總，反映方案的整體平均表現。',
+        formula: '$$Q_i^{(1)} = \\sum_{j=1}^{n} w_j \\cdot \\bar{x}_{ij}$$',
+        note: null
+      },
+      {
+        title: '計算加權乘積模型（WPM）得分',
+        desc: '乘法模型對各準則正規化值取 $w_j$ 次方後連乘，對低分準則更加敏感（懲罰效果更強）。',
+        formula: '$$Q_i^{(2)} = \\prod_{j=1}^{n} \\bar{x}_{ij}^{w_j}$$',
+        note: null
+      },
+      {
+        title: '融合兩模型計算最終得分',
+        desc: '以融合參數 $\\lambda \\in [0,1]$ 線性組合 WSM 與 WPM，得到最終評估值 $Q_i$。$\\lambda = 0.5$ 表示等權重融合。',
+        formula: '$$Q_i = \\lambda \\cdot Q_i^{(1)} + (1-\\lambda) \\cdot Q_i^{(2)}$$',
+        note: '$\\lambda = 1$ 退化為純 WSM；$\\lambda = 0$ 退化為純 WPM。調整 $\\lambda$ 可控制模型對準則間補償性的容忍程度。'
+      },
+    ]
+  },
+  marcos: {
+    name: 'MARCOS',
+    full: '測量替代方案與參考解的關係法 · Measurement of Alternatives and Ranking according to COmpromise Solution',
+    color: '#00C8D8',
+    tags: ['理想解', '反理想解', '效用函數'],
+    steps: [
+      {
+        title: '建立擴展決策矩陣',
+        desc: '在原始矩陣的首行加入反理想解 AAI（每準則最差值），末行加入理想解 AI（每準則最佳值），形成擴展矩陣。',
+        formula: '$$AI_j = \\begin{cases} \\max_i x_{ij} & (\\text{效益型}) \\\\ \\min_i x_{ij} & (\\text{成本型}) \\end{cases}, \\quad AAI_j = \\begin{cases} \\min_i x_{ij} & (\\text{效益型}) \\\\ \\max_i x_{ij} & (\\text{成本型}) \\end{cases}$$',
+        note: null
+      },
+      {
+        title: '正規化擴展矩陣',
+        desc: '效益型以 AI 為基準歸一化；成本型以方案值為分子、AI 為分母，確保理想解的正規化值恆為 1。',
+        formula: '$$n_{ij} = \\frac{x_{ij}}{AI_j} \\quad (\\text{效益型}), \\qquad n_{ij} = \\frac{AI_j}{x_{ij}} \\quad (\\text{成本型})$$',
+        note: null
+      },
+      {
+        title: '計算加權矩陣與效用度',
+        desc: '乘上準則權重後，對每個方案求加權總分 $S_i$，再計算相對於理想解（$S_{AI}$）和反理想解（$S_{AAI}$）的效用度。',
+        formula: '$$S_i = \\sum_{j=1}^{n} w_j \\cdot n_{ij}$$\n$$K_i^- = \\frac{S_i}{S_{AAI}}, \\qquad K_i^+ = \\frac{S_i}{S_{AI}}$$',
+        note: '$K_i^+$ 越接近 1，方案越接近理想解；$K_i^-$ 越大，方案越遠離反理想解。'
+      },
+      {
+        title: '計算綜合效用函數並排名',
+        desc: '以效用函數 $f(K_i)$ 整合兩個效用度，值越大方案越優。',
+        formula: '$$f(K_i^+) = \\frac{K_i^+}{K_i^+ + K_i^-}, \\quad f(K_i^-) = \\frac{K_i^-}{K_i^+ + K_i^-}$$\n$$f(K_i) = \\frac{K_i^+ + K_i^-}{1 + \\frac{1-f(K_i^+)}{f(K_i^+)} + \\frac{1-f(K_i^-)}{f(K_i^-)}}$$',
+        note: 'MARCOS 的優勢在於同時考慮與理想解和反理想解的相對位置，結果比 TOPSIS 更穩健。'
+      },
+    ]
+  },
+  edas: {
+    name: 'EDAS',
+    full: '基於平均解距離的評估法 · Evaluation based on Distance from Average Solution',
+    color: '#E83C3C',
+    tags: ['平均解', '正負偏差', '穩健排名'],
+    steps: [
+      {
+        title: '計算各準則平均值',
+        desc: '對每個準則 $j$，計算所有方案績效值的算術平均 $\\overline{x}_j$，作為比較基準（平均解）。',
+        formula: '$$\\overline{x}_j = \\frac{1}{m} \\sum_{i=1}^{m} x_{ij}$$',
+        note: null
+      },
+      {
+        title: '計算正負平均解距離',
+        desc: '正距離（PDA）衡量方案超越平均的程度；負距離（NDA）衡量方案落後於平均的程度，均為非負值。',
+        formula: '$$PDA_{ij} = \\frac{\\max(0,\\; x_{ij} - \\overline{x}_j)}{\\overline{x}_j} \\quad (\\text{效益型})$$\n$$NDA_{ij} = \\frac{\\max(0,\\; \\overline{x}_j - x_{ij})}{\\overline{x}_j} \\quad (\\text{效益型})$$',
+        note: '成本型準則的 PDA 和 NDA 計算方向相反。'
+      },
+      {
+        title: '計算加權正負評估分數',
+        desc: '以準則權重 $w_j$ 對正負距離加權求和，得到每個方案的正評估分數 $SP_i$ 和負評估分數 $SN_i$。',
+        formula: '$$SP_i = \\sum_{j=1}^{n} w_j \\cdot PDA_{ij}, \\qquad SN_i = \\sum_{j=1}^{n} w_j \\cdot NDA_{ij}$$',
+        note: null
+      },
+      {
+        title: '正規化並計算評估分數',
+        desc: '對 $SP$ 和 $SN$ 正規化後，計算方案的綜合評估值 $AS_i$，值越大排名越前。',
+        formula: '$$NSP_i = \\frac{SP_i}{\\max_i SP_i}, \\qquad NSN_i = 1 - \\frac{SN_i}{\\max_i SN_i}$$\n$$AS_i = \\frac{NSP_i + NSN_i}{2}$$',
+        note: 'EDAS 對離群值的敏感度低於 TOPSIS，在資料含有極端值時更穩健。'
+      },
+    ]
+  },
+  mabac: {
+    name: 'MABAC',
+    full: '多屬性邊界近似區域比較法 · Multi-Attributive Border Approximation area Comparison',
+    color: '#00D080',
+    tags: ['邊界近似區域', '上下近似', '距離測度'],
+    steps: [
+      {
+        title: '正規化決策矩陣',
+        desc: '效益型和成本型準則分別以線性函數歸一化至 [0,1]。',
+        formula: '$$n_{ij} = \\frac{x_{ij} - x_j^{\\min}}{x_j^{\\max} - x_j^{\\min}} \\quad (\\text{效益型}), \\qquad n_{ij} = \\frac{x_{ij} - x_j^{\\max}}{x_j^{\\min} - x_j^{\\max}} \\quad (\\text{成本型})$$',
+        note: null
+      },
+      {
+        title: '建立加權矩陣',
+        desc: '將正規化值乘以準則權重，並加上 1，得到加權元素 $v_{ij}$。',
+        formula: '$$v_{ij} = w_j \\cdot (n_{ij} + 1)$$',
+        note: '加 1 是為了避免乘積為零，確保加權值均為正數。'
+      },
+      {
+        title: '計算邊界近似區域（BAA）',
+        desc: '每個準則的 BAA 值 $g_j$ 為所有方案加權值的幾何平均，代表「平均水準」的邊界。',
+        formula: '$$g_j = \\left(\\prod_{i=1}^{m} v_{ij}\\right)^{1/m}$$',
+        note: null
+      },
+      {
+        title: '計算與 BAA 的距離並排名',
+        desc: '計算每個方案在各準則上與 BAA 的距離 $q_{ij}$，加總後得到綜合評估值 $S_i$，值越大越優。',
+        formula: '$$q_{ij} = v_{ij} - g_j$$\n$$S_i = \\sum_{j=1}^{n} q_{ij}$$',
+        note: '$q_{ij} > 0$ 表示方案在準則 $j$ 上優於平均；$q_{ij} < 0$ 表示劣於平均。'
+      },
+    ]
+  },
+  codas: {
+    name: 'CODAS',
+    full: '組合距離型評估法 · COmbinative Distance-based ASsessment',
+    color: '#C8A020',
+    tags: ['歐氏距離', '切比雪夫距離', '負理想解'],
+    steps: [
+      {
+        title: '正規化並加權',
+        desc: '以線性方式正規化決策矩陣，再乘以準則權重得到加權正規化值 $r_{ij}$。',
+        formula: '$$n_{ij} = \\frac{x_{ij}}{\\max_i x_{ij}} \\quad (\\text{效益型}), \\qquad r_{ij} = w_j \\cdot n_{ij}$$',
+        note: null
+      },
+      {
+        title: '確定負理想解',
+        desc: '負理想解 $ns_j$ 取每個準則的最小加權正規化值。',
+        formula: '$$ns_j = \\min_i r_{ij}$$',
+        note: null
+      },
+      {
+        title: '計算歐氏距離與切比雪夫距離',
+        desc: '分別計算每個方案到負理想解的歐氏距離 $E_i$（整體偏差）和切比雪夫距離 $T_i$（最大偏差）。',
+        formula: '$$E_i = \\sqrt{\\sum_{j=1}^{n}(r_{ij} - ns_j)^2}$$\n$$T_i = \\max_j |r_{ij} - ns_j|$$',
+        note: '結合兩種距離可同時捕捉整體表現和最弱準則的表現。'
+      },
+      {
+        title: '計算評估分數並排名',
+        desc: '以 $E_i$ 為主、$T_i$ 為輔（用閾值函數 $\\psi$ 判斷是否啟用），組合兩種距離得到最終分數 $H_i$，越大越優。',
+        formula: '$$H_i = E_i + \\psi(E_i - E_k) \\cdot T_i$$\n$$\\psi(x) = \\begin{cases} 1 & |x| \\leq \\tau \\\\ 0 & |x| > \\tau \\end{cases}, \\quad \\tau = 0.02$$',
+        note: '當兩方案歐氏距離相差極小（$< \\tau$）時，才引入切比雪夫距離進行區分。'
+      },
+    ]
+  },
+  copras: {
+    name: 'COPRAS',
+    full: '複雜比例評估法 · COmplex PRoportional ASsessment',
+    color: '#7855C8',
+    tags: ['效益準則', '成本準則', '相對效用'],
+    steps: [
+      {
+        title: '正規化決策矩陣',
+        desc: '將每個準則的原始值除以該準則所有方案值之和，得到比例正規化值 $\\bar{x}_{ij}$。',
+        formula: '$$\\bar{x}_{ij} = \\frac{x_{ij}}{\\sum_{i=1}^{m} x_{ij}}$$',
+        note: null
+      },
+      {
+        title: '計算加權正規化值',
+        desc: '乘以準則權重得到加權正規化矩陣元素 $d_{ij}$。',
+        formula: '$$d_{ij} = w_j \\cdot \\bar{x}_{ij}, \\qquad \\sum_{i=1}^{m} d_{ij} = w_j$$',
+        note: null
+      },
+      {
+        title: '分別加總效益與成本指標',
+        desc: '對每個方案，將效益型準則的加權值求和得 $P_i$，成本型準則加權值求和得 $R_i$。',
+        formula: '$$P_i = \\sum_{j \\in \\text{效益}} d_{ij}, \\qquad R_i = \\sum_{j \\in \\text{成本}} d_{ij}$$',
+        note: '$P_i$ 越大越好；$R_i$ 越小越好。'
+      },
+      {
+        title: '計算相對顯著性與效用度並排名',
+        desc: '以相對顯著性 $Q_i$ 整合效益與成本，再換算成效用度 $U_i$（百分比），值最高的方案最優。',
+        formula: '$$Q_i = P_i + \\frac{\\min_i R_i \\cdot \\sum_{i=1}^{m} R_i}{R_i \\cdot \\sum_{i=1}^{m} \\frac{\\min_i R_i}{R_i}}$$\n$$U_i = \\frac{Q_i}{\\max_i Q_i} \\times 100\\%$$',
+        note: 'COPRAS 結果直觀，$U_i$ 直接代表方案相對於最優方案的百分比效用。'
+      },
+    ]
+  },
+  aras: {
+    name: 'ARAS',
+    full: '加法比率評估法 · Additive Ratio ASsessment',
+    color: '#00C8D8',
+    tags: ['最優方案', '效用度', '比率評估'],
+    steps: [
+      {
+        title: '擴展決策矩陣並加入最優方案',
+        desc: '在原始矩陣頂部加入最優方案 $x_{0j}$（效益型取最大值，成本型取最小值），形成擴展矩陣。',
+        formula: '$$x_{0j} = \\begin{cases} \\max_i x_{ij} & (\\text{效益型}) \\\\ \\min_i x_{ij} & (\\text{成本型}) \\end{cases}$$',
+        note: null
+      },
+      {
+        title: '正規化擴展矩陣',
+        desc: '效益型以列和歸一化；成本型先取倒數再以列和歸一化，確保「越小越好」轉化為「越大越好」。',
+        formula: '$$\\bar{x}_{ij} = \\frac{x_{ij}}{\\sum_{i=0}^{m} x_{ij}} \\quad (\\text{效益型})$$\n$$\\bar{x}_{ij} = \\frac{1/x_{ij}}{\\sum_{i=0}^{m} 1/x_{ij}} \\quad (\\text{成本型})$$',
+        note: null
+      },
+      {
+        title: '計算加權正規化值與最優分數',
+        desc: '乘以準則權重後，對每個方案（含最優方案 $i=0$）求加權總分 $S_i$。',
+        formula: '$$\\hat{x}_{ij} = w_j \\cdot \\bar{x}_{ij}, \\qquad S_i = \\sum_{j=1}^{n} \\hat{x}_{ij}$$',
+        note: null
+      },
+      {
+        title: '計算效用度並排名',
+        desc: '每個方案的效用度 $K_i$ 為其分數與最優方案分數 $S_0$ 的比值，越接近 1 越優。',
+        formula: '$$K_i = \\frac{S_i}{S_0}, \\qquad K_i \\in (0, 1]$$',
+        note: '$K_i = 1$ 表示方案與最優方案同等優秀。ARAS 的計算流程簡單直觀，適合初學者。'
+      },
+    ]
+  },
+  cocoso: {
+    name: 'CoCoSo',
+    full: '組合折衷解法 · Combined Compromise Solution',
+    color: '#E83C3C',
+    tags: ['加法聚合', '乘法聚合', '三策略融合'],
+    steps: [
+      {
+        title: '正規化決策矩陣',
+        desc: '以線性函數將原始值歸一化至 [0,1]（效益型）或 [0,1]（成本型）。',
+        formula: '$$r_{ij} = \\frac{x_{ij} - \\min_i x_{ij}}{\\max_i x_{ij} - \\min_i x_{ij}} \\quad (\\text{效益型})$$\n$$r_{ij} = \\frac{\\max_i x_{ij} - x_{ij}}{\\max_i x_{ij} - \\min_i x_{ij}} \\quad (\\text{成本型})$$',
+        note: null
+      },
+      {
+        title: '計算加權比較序列',
+        desc: '計算每個方案的加權求和序列 $S_i$ 和加權乘積序列 $P_i$。',
+        formula: '$$S_i = \\sum_{j=1}^{n} w_j r_{ij}, \\qquad P_i = \\sum_{j=1}^{n} r_{ij}^{w_j}$$',
+        note: null
+      },
+      {
+        title: '計算三個折衷評估值',
+        desc: '以三種不同策略整合 $S_i$ 與 $P_i$，分別偏重算術平均、相對幾何均值和折衷加權。',
+        formula: '$$k_i^a = \\frac{P_i + S_i}{\\sum_{i=1}^{m}(P_i + S_i)}$$\n$$k_i^b = \\frac{S_i}{\\min_i S_i} + \\frac{P_i}{\\min_i P_i}$$\n$$k_i^c = \\frac{\\lambda S_i + (1-\\lambda) P_i}{\\lambda \\max_i S_i + (1-\\lambda) \\max_i P_i}, \\quad \\lambda = 0.5$$',
+        note: null
+      },
+      {
+        title: '計算最終綜合得分並排名',
+        desc: '對三個評估值取幾何平均，得到最終分數 $k_i$，越大越優。',
+        formula: '$$k_i = (k_i^a \\cdot k_i^b \\cdot k_i^c)^{1/3} + \\frac{k_i^a + k_i^b + k_i^c}{3}$$',
+        note: 'CoCoSo 同時利用加法和乘法聚合的優勢，結果對權重變化具有較高的穩健性。'
+      },
+    ]
+  },
+  psi: {
+    name: 'PSI',
+    full: '偏好選擇指數法 · Preference Selection Index',
+    color: '#00D080',
+    tags: ['無主觀權重', '方差', '偏好變異'],
+    steps: [
+      {
+        title: '正規化決策矩陣',
+        desc: '效益型除以列最大值；成本型以列最小值除以原始值，使所有值歸一化至 (0,1]。',
+        formula: '$$N_{ij} = \\frac{x_{ij}}{\\max_i x_{ij}} \\quad (\\text{效益型}), \\qquad N_{ij} = \\frac{\\min_i x_{ij}}{x_{ij}} \\quad (\\text{成本型})$$',
+        note: null
+      },
+      {
+        title: '計算準則均值與偏好變異值',
+        desc: '計算每個準則的正規化均值 $\\overline{N}_j$，再計算各方案偏離均值的平方和（偏好變異值 $PV_j$）。',
+        formula: '$$\\overline{N}_j = \\frac{1}{m}\\sum_{i=1}^{m} N_{ij}$$\n$$PV_j = \\sum_{i=1}^{m}(N_{ij} - \\overline{N}_j)^2$$',
+        note: 'PSI 的核心思想：某準則的方案績效差異越大（$PV_j$ 越大），該準則對區分方案越重要。'
+      },
+      {
+        title: '計算客觀權重',
+        desc: '以偏好變異值的相對大小自動推導每個準則的客觀權重，無需決策者主觀輸入。',
+        formula: '$$\\Phi_j = \\frac{PV_j}{\\sum_{j=1}^{n} PV_j}$$',
+        note: null
+      },
+      {
+        title: '計算偏好選擇指數並排名',
+        desc: '以客觀權重加權求和，得到每個方案的 PSI 值，越大越優。',
+        formula: '$$\\Psi_i = \\sum_{j=1}^{n} \\Phi_j \\cdot N_{ij}$$',
+        note: 'PSI 完全不依賴主觀權重，特別適用於決策者難以判斷準則重要性的場景。'
+      },
+    ]
+  },
+  todim: {
+    name: 'TODIM',
+    full: '互動式多準則決策法 · Tomada de Decisão Interativa Multicritério',
+    color: '#C8A020',
+    tags: ['展望理論', '損失規避', '行為決策'],
+    steps: [
+      {
+        title: '計算準則相對權重',
+        desc: '選取重要性最高的準則 $c_r$ 為參考，計算各準則相對於 $c_r$ 的相對權重 $\\tilde{w}_{jr}$。',
+        formula: '$$\\tilde{w}_{jr} = \\frac{w_j}{w_r}, \\qquad w_r = \\max_j w_j$$',
+        note: null
+      },
+      {
+        title: '計算兩兩方案的部分優越度',
+        desc: '對每對方案 $(i, k)$ 在每個準則 $j$ 上，根據績效差異的方向，分別用增益函數或損失函數計算部分優越度 $\\phi_j(i,k)$。$\\theta$ 為損失規避係數，通常取 1 至 2.5。',
+        formula: '$$\\phi_j(i,k) = \\begin{cases} \\sqrt{\\tilde{w}_{jr}(x_{ij}-x_{kj})/\\sum_j \\tilde{w}_{jr}} & x_{ij} > x_{kj} \\\\ 0 & x_{ij} = x_{kj} \\\\ -\\frac{1}{\\theta}\\sqrt{\\tilde{w}_{jr}(x_{kj}-x_{ij})/\\sum_j \\tilde{w}_{jr}} & x_{ij} < x_{kj} \\end{cases}$$',
+        note: '$\\theta$ 越大，模型對損失越不敏感（損失規避程度越低）。'
+      },
+      {
+        title: '計算總體優越度',
+        desc: '對所有準則的部分優越度加總，得到方案 $i$ 相對於方案 $k$ 的總體優越度 $\\delta(i,k)$。',
+        formula: '$$\\delta(i,k) = \\sum_{j=1}^{n} \\phi_j(i,k)$$',
+        note: null
+      },
+      {
+        title: '計算全局值並排名',
+        desc: '對每個方案，累加其對所有其他方案的優越度，正規化後得到全局值 $\\xi_i$，越大越優。',
+        formula: '$$\\xi_i = \\frac{\\sum_{k=1}^{m}\\delta(i,k) - \\min_i\\sum_{k=1}^{m}\\delta(i,k)}{\\max_i\\sum_{k=1}^{m}\\delta(i,k) - \\min_i\\sum_{k=1}^{m}\\delta(i,k)}$$',
+        note: 'TODIM 基於展望理論（Prospect Theory），是少數考慮人類心理偏誤（損失規避）的 MCDA 方法。'
+      },
+    ]
+  },
+  borda: {
+    name: 'Borda',
+    full: 'Borda 計票法 · Borda Count Method',
+    color: '#7855C8',
+    tags: ['排序投票', '社會選擇', '共識整合'],
+    steps: [
+      {
+        title: '收集各算法或評估者的排名',
+        desc: '設有 $m$ 個方案、$K$ 個評估來源（可以是不同算法的排名結果或不同評估者的偏好）。每個來源給出方案的完整排序 $r_k(A_i)$（1 為最優）。',
+        formula: '$$r_k(A_i) \\in \\{1, 2, \\ldots, m\\}, \\quad \\forall k, \\sum_i r_k(A_i) = \\frac{m(m+1)}{2}$$',
+        note: null
+      },
+      {
+        title: '計算 Borda 分數',
+        desc: '方案 $A_i$ 在評估來源 $k$ 中的 Borda 分數 $b_k(A_i)$ 為排名後面的方案數量（排名第 1 得 $m-1$ 分，排名最後得 0 分）。',
+        formula: '$$b_k(A_i) = m - r_k(A_i)$$',
+        note: null
+      },
+      {
+        title: '計算加權總 Borda 分數',
+        desc: '若各評估來源有不同可信度，可加入來源權重 $\\omega_k$，計算每個方案的加權總分 $B_i$。',
+        formula: '$$B_i = \\sum_{k=1}^{K} \\omega_k \\cdot b_k(A_i), \\qquad \\sum_{k=1}^{K} \\omega_k = 1$$',
+        note: '若所有來源等權重，則 $\\omega_k = 1/K$。'
+      },
+      {
+        title: '依 Borda 分數排名',
+        desc: '$B_i$ 越大，方案越受多數評估來源支持，排名越前。Borda 法可作為整合多種 MCDA 算法結果的共識方法。',
+        formula: '$$A^* = \\arg\\max_{i} B_i$$',
+        note: 'yoce 在計算共識排名時使用 Borda 計票法整合 46 種算法的個別排名結果。'
+      },
+    ]
+  },
+  dematel: {
+    name: 'DEMATEL',
+    full: '決策實驗室分析法 · DEcision MAking Trial and Evaluation Laboratory',
+    color: '#00C8D8',
+    tags: ['因果關係', '影響矩陣', '準則依賴'],
+    steps: [
+      {
+        title: '建立直接影響矩陣',
+        desc: '由領域專家對每對準則 $(i, j)$ 評估直接影響程度，填入 $n \\times n$ 矩陣 $A$，$a_{ij}$ 表示準則 $i$ 對準則 $j$ 的影響（0=無影響，4=極強影響），對角線為 0。',
+        formula: '$$A = \\begin{pmatrix} 0 & a_{12} & \\cdots & a_{1n} \\\\ a_{21} & 0 & \\cdots & a_{2n} \\\\ \\vdots & \\vdots & \\ddots & \\vdots \\\\ a_{n1} & a_{n2} & \\cdots & 0 \\end{pmatrix}$$',
+        note: null
+      },
+      {
+        title: '正規化直接影響矩陣',
+        desc: '將矩陣 $A$ 除以各列之和的最大值，得到正規化矩陣 $D$，確保矩陣收斂。',
+        formula: '$$D = \\frac{A}{\\max_i \\sum_{j=1}^{n} a_{ij}}$$',
+        note: null
+      },
+      {
+        title: '計算全面影響矩陣 T',
+        desc: '考慮直接與間接影響的全部傳遞效果，以矩陣代數計算全面影響矩陣 $T$（$I$ 為單位矩陣）。',
+        formula: '$$T = D(I - D)^{-1} = D + D^2 + D^3 + \\cdots$$',
+        note: '當 $D$ 的所有特徵值均小於 1 時，上式收斂。'
+      },
+      {
+        title: '計算影響度、被影響度與因果分類',
+        desc: '以 $T$ 的列和 $r_i$（影響度）和欄和 $c_i$（被影響度）為基礎，計算因果度與中心度，繪製因果圖分類準則。',
+        formula: '$$r_i = \\sum_{j=1}^{n} t_{ij}, \\qquad c_i = \\sum_{j=1}^{n} t_{ji}$$\n$$\\text{中心度} = r_i + c_i, \\qquad \\text{因果度} = r_i - c_i$$',
+        note: '因果度 $> 0$：準則屬於「原因群」（影響他人）；因果度 $< 0$：屬於「結果群」（受他人影響）。'
+      },
+    ]
+  },
+  anp: {
+    name: 'ANP',
+    full: '網絡分析法 · Analytic Network Process',
+    color: '#E83C3C',
+    tags: ['網絡結構', '超矩陣', '相互依賴'],
+    steps: [
+      {
+        title: '建立網絡結構',
+        desc: '與 AHP 的層次結構不同，ANP 允許準則群組（叢集）之間存在相互影響與依賴關係。首先識別所有叢集 $C_1, C_2, \\ldots$ 及其元素，並繪製影響箭頭圖。',
+        formula: null,
+        note: '若準則間只有單向依賴，ANP 退化為 AHP；ANP 是 AHP 的一般化形式。'
+      },
+      {
+        title: '進行成對比較建立局部優先向量',
+        desc: '對每個影響關係進行成對比較（與 AHP 相同的 1–9 量表），得到每個叢集對另一叢集的局部優先向量 $w_{ij}$。',
+        formula: '$$W_{ij} = \\begin{pmatrix} w_{i_1 j_1} & \\cdots \\\\ \\vdots & \\ddots \\end{pmatrix} \\quad \\text{（叢集 } j \\text{ 對叢集 } i \\text{ 的影響矩陣）}$$',
+        note: null
+      },
+      {
+        title: '建立未加權超矩陣',
+        desc: '將所有局部優先向量組合為超矩陣 $W$，未被影響的叢集對應的子矩陣填 0。',
+        formula: '$$W = \\begin{pmatrix} W_{11} & W_{12} & \\cdots \\\\ W_{21} & W_{22} & \\cdots \\\\ \\vdots & \\vdots & \\ddots \\end{pmatrix}$$',
+        note: null
+      },
+      {
+        title: '加權與計算極限超矩陣',
+        desc: '對超矩陣以叢集間重要性權重加權（列和歸一化為 1），得到加權超矩陣 $\\bar{W}$，再取其足夠高次冪至收斂，得到極限超矩陣，其各列即為最終全域優先權重。',
+        formula: '$$W^* = \\lim_{k \\to \\infty} \\bar{W}^{2k+1}$$',
+        note: '極限超矩陣各列相同時收斂，代表系統達到穩定狀態。ANP 可與 DEMATEL 結合（即 DANP）以客觀確定叢集間權重。'
+      },
+    ]
+  },
+  choquet: {
+    name: 'Choquet',
+    full: 'Choquet 積分法 · Choquet Integral',
+    color: '#00D080',
+    tags: ['模糊測度', '準則交互', '非加法聚合'],
+    steps: [
+      {
+        title: '定義模糊測度（能力函數）',
+        desc: '對準則集 $N = \\{1,\\ldots,n\\}$ 的每個子集 $T \\subseteq N$，賦予模糊測度 $\\mu(T) \\in [0,1]$，滿足單調性：若 $T \\subseteq S$ 則 $\\mu(T) \\leq \\mu(S)$，且 $\\mu(\\emptyset)=0$，$\\mu(N)=1$。',
+        formula: '$$\\mu: 2^N \\to [0,1], \\quad T \\subseteq S \\Rightarrow \\mu(T) \\leq \\mu(S)$$',
+        note: '模糊測度捕捉準則間的協同（$\\mu(\\{i,j\\}) > \\mu(\\{i\\})+\\mu(\\{j\\})$）或冗餘效應。'
+      },
+      {
+        title: '對方案績效值排序',
+        desc: '對方案 $A_i$ 的各準則績效值由小到大重新排列，得到排序後的值 $x_{(1)} \\leq x_{(2)} \\leq \\cdots \\leq x_{(n)}$，對應準則索引 $\\sigma(1), \\sigma(2), \\ldots, \\sigma(n)$。',
+        formula: '$$x_{(1)} \\leq x_{(2)} \\leq \\cdots \\leq x_{(n)}$$',
+        note: null
+      },
+      {
+        title: '計算 Choquet 積分',
+        desc: '以排序後的值和對應模糊測度的差值相乘加總，得到 Choquet 積分值。$A_{(k)}$ 為排名第 $k$ 至第 $n$ 的準則集合。',
+        formula: '$$C_\\mu(x) = \\sum_{k=1}^{n} x_{(k)} \\left[\\mu(A_{(k)}) - \\mu(A_{(k+1)})\\right]$$\n$$A_{(k)} = \\{\\sigma(k), \\sigma(k+1), \\ldots, \\sigma(n)\\}, \\quad A_{(n+1)} = \\emptyset$$',
+        note: '當 $\\mu$ 為加法測度（$\\mu(T) = \\sum_{j \\in T} w_j$）時，Choquet 積分退化為加權算術平均。'
+      },
+      {
+        title: '依積分值排名',
+        desc: '$C_\\mu(x)$ 越大，方案越優。Choquet 積分能同時處理準則間的補償、協同與冗餘關係。',
+        formula: '$$A^* = \\arg\\max_i C_\\mu(x^{(i)})$$',
+        note: '模糊測度共有 $2^n - 2$ 個自由參數，準則數多時可用 $k$-加法測度或 Shapley 指數簡化識別。'
+      },
+    ]
+  },
+  owa: {
+    name: 'OWA',
+    full: '有序加權平均算子 · Ordered Weighted Averaging Operator',
+    color: '#7855C8',
+    tags: ['有序權重', '樂觀悲觀', '模糊聚合'],
+    steps: [
+      {
+        title: '確定 OWA 權重向量',
+        desc: '設 $n$ 個準則，OWA 權重向量 $W = (w_1, w_2, \\ldots, w_n)$ 滿足歸一化條件。權重對應的是排名位置（第 1 大、第 2 大⋯），而非固定準則。',
+        formula: '$$w_k \\geq 0, \\qquad \\sum_{k=1}^{n} w_k = 1$$',
+        note: '權重的分佈決定決策風格：前段集中 → 樂觀（最大化）；後段集中 → 悲觀（最小化）；均勻分佈 → 算術平均。'
+      },
+      {
+        title: '對績效值排序',
+        desc: '對方案 $A_i$ 的各準則正規化績效值由大到小排列，得到有序序列 $b_1 \\geq b_2 \\geq \\cdots \\geq b_n$。',
+        formula: '$$b_k = \\text{第 } k \\text{ 大的準則績效值}$$',
+        note: null
+      },
+      {
+        title: '計算 OWA 值',
+        desc: '將有序績效值與對應位置的 OWA 權重相乘加總，得到方案的聚合評估值。',
+        formula: '$$OWA_i = \\sum_{k=1}^{n} w_k \\cdot b_k$$',
+        note: null
+      },
+      {
+        title: '計算 Orness 指標並排名',
+        desc: 'Orness 指標量化決策風格的樂觀程度（0=悲觀，1=樂觀，0.5=中性）。依 $OWA_i$ 由大到小排名。',
+        formula: '$$\\text{orness}(W) = \\frac{1}{n-1}\\sum_{k=1}^{n}(n-k)w_k \\in [0,1]$$',
+        note: 'OWA 廣泛應用於模糊決策與語言評估，Yager（1988）提出，是 MCDA 中最具影響力的聚合算子之一。'
+      },
+    ]
+  },
+  entropy_topsis: {
+    name: 'Entropy-TOPSIS',
+    full: '熵權 TOPSIS 法 · Entropy Weight Method + TOPSIS',
+    color: '#C8A020',
+    tags: ['客觀權重', '資訊熵', 'TOPSIS 整合'],
+    steps: [
+      {
+        title: '正規化決策矩陣',
+        desc: '將原始決策矩陣的每個元素除以該準則的列總和，得到比例矩陣 $p_{ij}$，用於計算資訊熵。',
+        formula: '$$p_{ij} = \\frac{x_{ij}}{\\sum_{i=1}^{m} x_{ij}}$$',
+        note: null
+      },
+      {
+        title: '計算各準則的資訊熵',
+        desc: '資訊熵 $e_j$ 衡量準則 $j$ 的資訊不確定性：方案績效越均勻，熵越高，該準則區分能力越弱。$k = 1/\\ln m$ 為歸一化常數。',
+        formula: '$$e_j = -k \\sum_{i=1}^{m} p_{ij} \\ln p_{ij}, \\qquad k = \\frac{1}{\\ln m}$$',
+        note: '當 $p_{ij} = 0$ 時，定義 $p_{ij} \\ln p_{ij} = 0$。'
+      },
+      {
+        title: '計算客觀權重',
+        desc: '熵值越高（差異越小），該準則的信息量越少，因此權重應越低。以離差度 $d_j = 1 - e_j$ 反向推導客觀權重。',
+        formula: '$$d_j = 1 - e_j, \\qquad w_j = \\frac{d_j}{\\sum_{j=1}^{n} d_j}$$',
+        note: '熵權法完全由資料驅動，無主觀成分，可與主觀權重加權融合。'
+      },
+      {
+        title: '代入 TOPSIS 計算最終排名',
+        desc: '以熵權法得到的客觀權重 $w_j$ 取代 TOPSIS 中的主觀權重，後續步驟（加權正規化、理想解、距離、相對接近度）與標準 TOPSIS 完全相同。',
+        formula: '$$C_i = \\frac{d_i^-}{d_i^+ + d_i^-}, \\qquad d_i^\\pm = \\sqrt{\\sum_{j=1}^{n}(v_{ij} - v_j^\\pm)^2}$$',
+        note: 'Entropy-TOPSIS 結合客觀性（熵權）與合理的距離測度（TOPSIS），是實務中最常被引用的組合方法之一。'
+      },
+    ]
+  },
+  smart: {
+    name: 'SMART',
+    full: '簡單多屬性評估技術 · Simple Multi-Attribute Rating Technique',
+    color: '#00C8D8',
+    tags: ['直接賦值', '線性效用', '快速決策'],
+    steps: [
+      {
+        title: '列舉準則並直接賦予重要性分數',
+        desc: '決策者對每個準則直接分配重要性分數（通常 10–100 分），無需成對比較。重要性最低的準則定為 10 分，其他準則依比例賦分。',
+        formula: '$$s_j \\in [10, 100], \\qquad \\text{（重要性最低的準則} = 10\\text{）}$$',
+        note: 'SMART 刻意簡化 AHP 的成對比較程序，以快速可行為設計目標，適合時間有限的場景。'
+      },
+      {
+        title: '正規化準則權重',
+        desc: '將各準則分數除以總分，得到歸一化權重 $w_j$。',
+        formula: '$$w_j = \\frac{s_j}{\\sum_{j=1}^{n} s_j}$$',
+        note: null
+      },
+      {
+        title: '對各準則打分並轉換為效用值',
+        desc: '對每個方案在每個準則上評分（0–100），最差績效為 0，最佳績效為 100（線性效用）。',
+        formula: '$$u_{ij} = \\frac{x_{ij} - x_j^{\\min}}{x_j^{\\max} - x_j^{\\min}} \\times 100$$',
+        note: null
+      },
+      {
+        title: '計算加權效用總分並排名',
+        desc: '每個方案的總效用為各準則效用的加權和，分數最高者為最優方案。',
+        formula: '$$U(A_i) = \\sum_{j=1}^{n} w_j \\cdot u_{ij}$$',
+        note: 'SMART 由 Edwards（1977）提出，後延伸出 SMARTER（以 Swing 法賦權）版本，是最易上手的 MCDA 方法。'
+      },
+    ]
+  },
+  mairca: {
+    name: 'MAIRCA',
+    full: '多屬性理想真實比較分析法 · Multi-Attributive Ideal-Real Comparative Analysis',
+    color: '#E83C3C',
+    tags: ['理想偏好', '真實偏好', '差距矩陣'],
+    steps: [
+      {
+        title: '計算方案先驗選擇概率',
+        desc: '假設決策者對每個方案無偏好（等機率），各方案的先驗選擇概率 $P_{A_i}$ 為均等分配。',
+        formula: '$$P_{A_i} = \\frac{1}{m}, \\qquad \\sum_{i=1}^{m} P_{A_i} = 1$$',
+        note: null
+      },
+      {
+        title: '建立理論偏好矩陣 $T_p$',
+        desc: '理論偏好矩陣反映「如果決策者完全理性且無偏好」時的期望評估值，等於先驗概率乘以準則權重。',
+        formula: '$$t_{p_{ij}} = P_{A_i} \\cdot w_j$$',
+        note: null
+      },
+      {
+        title: '建立真實偏好矩陣 $T_r$',
+        desc: '先對決策矩陣正規化（效益型除以最大值，成本型以最小值除以原始值），再乘以理論偏好值得到真實偏好矩陣。',
+        formula: '$$n_{ij} = \\frac{x_{ij}}{\\max_i x_{ij}} \\; (\\text{效益型}), \\qquad t_{r_{ij}} = t_{p_{ij}} \\cdot n_{ij}$$',
+        note: null
+      },
+      {
+        title: '計算差距矩陣並排名',
+        desc: '計算每個方案在各準則上的理論與真實偏好差距 $G_{ij}$，加總後得到總差距 $Q_i$，差距越小方案越優。',
+        formula: '$$G_{ij} = t_{p_{ij}} - t_{r_{ij}}, \\qquad Q_i = \\sum_{j=1}^{n} G_{ij}$$',
+        note: '$Q_i = 0$ 表示方案為理想選擇；$Q_i$ 越大表示越偏離理想狀態。'
+      },
+    ]
+  },
+  smaa2: {
+    name: 'SMAA-2',
+    full: '隨機多準則可接受性分析 · Stochastic Multicriteria Acceptability Analysis 2',
+    color: '#00D080',
+    tags: ['隨機模擬', '可接受性指標', '不確定性'],
+    steps: [
+      {
+        title: '定義不確定性分佈',
+        desc: '對決策矩陣中不確定的績效值 $x_{ij}$ 和準則權重 $w_j$，定義其機率分佈（如均勻分佈或常態分佈），反映真實的不確定性。',
+        formula: '$$x_{ij} \\sim f_{ij}(x), \\qquad w_j \\sim g_j(w), \\qquad \\sum_j w_j = 1$$',
+        note: '若績效值精確已知，則使用 Dirac delta 分佈；若權重完全未知，則在權重單純形上均勻採樣。'
+      },
+      {
+        title: '蒙地卡羅模擬採樣',
+        desc: '從各分佈中大量隨機採樣（通常 $N = 10{,}000$ 至 $100{,}000$ 次），每次採樣產生一組完整的績效矩陣和權重向量，並以 TOPSIS 或加權求和計算各方案排名。',
+        formula: '$$\\text{對每次模擬 } s = 1, \\ldots, N:\\; \\text{採樣 } (x^{(s)}, w^{(s)}) \\to \\text{排名 } r_i^{(s)}$$',
+        note: null
+      },
+      {
+        title: '計算等級可接受性指標',
+        desc: '統計方案 $A_i$ 在所有模擬中排名第 $r$ 的比例，得到等級可接受性指標 $b_i^r$。',
+        formula: '$$b_i^r = \\frac{1}{N} \\sum_{s=1}^{N} \\mathbf{1}\\left[\\text{rank}(A_i, s) = r\\right]$$',
+        note: '$b_i^1$ 為方案排名第一的概率，是最重要的決策參考指標。'
+      },
+      {
+        title: '計算中心權重向量與整體可接受性',
+        desc: '對每個方案計算「使其排名第一的權重空間中心」（中心權重 $w_i^c$）和整體可接受性指標 $a_i$（排名第一的概率），作為最終推薦依據。',
+        formula: '$$a_i = b_i^1 = P(\\text{rank}(A_i) = 1)$$',
+        note: 'SMAA-2 是處理不完整偏好資訊和資料不確定性的最嚴謹方法，廣泛用於醫療、能源、環境決策。'
+      },
+    ]
+  },
+  macbeth: {
+    name: 'MACBETH',
+    full: '基於語義判斷的量化評估法 · Measuring Attractiveness by a Categorical Based Evaluation TecHnique',
+    color: '#C8A020',
+    tags: ['語義判斷', '區間量表', '一致性檢驗'],
+    steps: [
+      {
+        title: '定義評估尺度與參考水準',
+        desc: '對每個準則，定義「好」水準（$100$ 分）和「中立」水準（$0$ 分）作為錨定參考點，建立基數效用量表。',
+        formula: '$$u(\\text{好}) = 100, \\qquad u(\\text{中立}) = 0$$',
+        note: null
+      },
+      {
+        title: '進行語義成對比較',
+        desc: '決策者對每對選項 $(a, b)$（$a$ 優於 $b$）以語義類別判斷吸引力差異：無差異（0）、非常弱（1）、弱（2）、中等（3）、強（4）、非常強（5）、極強（6）。',
+        formula: '$$c(a, b) \\in \\{0, 1, 2, 3, 4, 5, 6\\}, \\quad a \\succ b$$',
+        note: null
+      },
+      {
+        title: '建立並求解線性規劃問題',
+        desc: 'MACBETH 將語義判斷轉化為線性不等式，透過線性規劃求解滿足所有判斷的效用值 $u(a)$，並檢驗判斷一致性。',
+        formula: '$$u(a) - u(b) \\geq \\alpha_{c(a,b)}, \\quad u(a) - u(b) < \\alpha_{c(a,b)+1}$$\n$$\\text{其中 } 0 = \\alpha_0 < \\alpha_1 < \\cdots < \\alpha_6$$',
+        note: '若線性規劃無可行解，則判斷存在不一致，系統會提示決策者修正。'
+      },
+      {
+        title: '計算準則權重並彙整最終排名',
+        desc: '以相同方式對準則進行語義比較，推導準則效用（即權重），最後以加法效用模型彙整各方案的最終得分。',
+        formula: '$$U(A_i) = \\sum_{j=1}^{n} w_j \\cdot u_j(x_{ij})$$',
+        note: 'MACBETH 是少數完全以語言判斷（無需數值比較）建構基數效用量表的方法，由 Bana e Costa & Vansnick 開發。'
+      },
+    ]
+  },
+  uta: {
+    name: 'UTA',
+    full: '效用加法評估法 · UTilités Additives',
+    color: '#7855C8',
+    tags: ['迴歸效用', '分段線性', '偏好學習'],
+    steps: [
+      {
+        title: '收集決策者的參考排名',
+        desc: '決策者提供一組參考方案的偏好排序（全序或部分序），UTA 以此作為學習目標，反推準則效用函數。',
+        formula: '$$A_r: a_1 \\succ a_2 \\succ \\cdots \\succ a_p \\quad (\\text{參考排名})$$',
+        note: '與 AHP 的正向推導不同，UTA 是反向學習（從偏好結果推導效用函數）。'
+      },
+      {
+        title: '定義分段線性效用函數',
+        desc: '對每個準則 $j$，在其值域 $[x_j^{\\min}, x_j^{\\max}]$ 上設定 $\\gamma_j$ 個等距斷點，以分段線性函數逼近真實效用。',
+        formula: '$$u_j(x) = u_j(x_j^{t}) + \\frac{x - x_j^{t}}{x_j^{t+1} - x_j^{t}} \\left[u_j(x_j^{t+1}) - u_j(x_j^{t})\\right]$$',
+        note: null
+      },
+      {
+        title: '建立線性規劃問題',
+        desc: '以準則效用值為變數，根據參考排名的先後關係建立約束（偏好方案的總效用 $\\geq$ 次優方案的總效用 + $\\delta$），引入誤差項 $\\sigma^+, \\sigma^-$ 允許輕微不一致。',
+        formula: '$$U(a_k) \\geq U(a_{k+1}) + \\delta - \\sigma_k^+ + \\sigma_k^- \\quad \\forall k$$\n$$\\min \\sum_k (\\sigma_k^+ + \\sigma_k^-)$$',
+        note: null
+      },
+      {
+        title: '求解並應用效用函數排名所有方案',
+        desc: '求解線性規劃後得到最佳效用函數形狀（斷點效用值），應用於所有待評方案計算總效用 $U(A_i)$，由大到小排名。',
+        formula: '$$U(A_i) = \\sum_{j=1}^{n} u_j(x_{ij}), \\qquad \\sum_{j=1}^{n} u_j(x_j^{\\max}) = 1$$',
+        note: 'UTA 系列（UTA+、UTASTAR）是偏好學習（Preference Learning）領域的奠基方法，可從少量樣本重建決策者的完整偏好模型。'
+      },
+    ]
+  },
+  danp: {
+    name: 'DANP',
+    full: 'DEMATEL 基礎網絡分析法 · DEMATEL-based ANP',
+    color: '#00C8D8',
+    tags: ['DEMATEL', 'ANP 整合', '客觀超矩陣'],
+    steps: [
+      {
+        title: '執行 DEMATEL 獲得全面影響矩陣',
+        desc: '先完整執行 DEMATEL 流程（直接影響矩陣 → 正規化 → 全面影響矩陣 $T$），得到各準則間的影響強度。',
+        formula: '$$T = D(I-D)^{-1}, \\qquad t_{ij} = \\text{準則 } i \\text{ 對 } j \\text{ 的全面影響強度}$$',
+        note: null
+      },
+      {
+        title: '以影響矩陣建構 ANP 超矩陣',
+        desc: '將全面影響矩陣 $T$ 按列正規化，得到正規化影響矩陣 $T^\\alpha$，直接作為 ANP 的未加權超矩陣，取代傳統 ANP 中繁瑣的成對比較。',
+        formula: '$$T^\\alpha_{ij} = \\frac{t_{ij}}{\\sum_{j=1}^{n} t_{ij}}$$',
+        note: 'DANP 的創新：DEMATEL 的客觀影響強度直接轉化為超矩陣，消除了 ANP 中大量主觀成對比較的負擔。'
+      },
+      {
+        title: '建立加權超矩陣',
+        desc: '將 $T^\\alpha$ 轉置後乘以叢集間影響矩陣（同樣從 DEMATEL 推導），得到行列均滿足歸一化的加權超矩陣 $W^\\alpha$。',
+        formula: '$$W^\\alpha = (T^\\alpha_D)^T \\times W$$\n$$\\text{其中 } T^\\alpha_D \\text{ 為叢集級正規化影響矩陣}$$',
+        note: null
+      },
+      {
+        title: '計算極限超矩陣並推導最終權重',
+        desc: '對加權超矩陣取足夠高次冪至收斂，得到穩定的極限超矩陣，各列即為每個準則的全域影響權重。',
+        formula: '$$W^* = \\lim_{k \\to \\infty} (W^\\alpha)^{2k+1}$$',
+        note: 'DANP 由 Tzeng 等人（2011）提出，在台灣學術界廣泛應用於策略管理、供應鏈和工程決策。'
+      },
+    ]
+  },
+  entropy_vikor: {
+    name: 'Entropy-VIKOR',
+    full: '熵權 VIKOR 法 · Entropy Weight Method + VIKOR',
+    color: '#E83C3C',
+    tags: ['客觀權重', '折衷解', '熵資訊'],
+    steps: [
+      {
+        title: '計算熵權（與 Entropy-TOPSIS 相同）',
+        desc: '以資訊熵法從決策矩陣自動推導客觀準則權重，完全排除主觀判斷的影響。',
+        formula: '$$p_{ij} = \\frac{x_{ij}}{\\sum_i x_{ij}}, \\quad e_j = -k\\sum_i p_{ij}\\ln p_{ij}, \\quad w_j = \\frac{1-e_j}{\\sum_j(1-e_j)}$$',
+        note: null
+      },
+      {
+        title: '確定最佳值與最差值',
+        desc: '以熵權重推導後，對每個準則找出最佳值 $f_j^*$（效益取最大，成本取最小）和最差值 $f_j^-$，用於計算與理想解的差距。',
+        formula: '$$f_j^* = \\max_i x_{ij} \\;(\\text{效益型}), \\qquad f_j^- = \\min_i x_{ij}$$',
+        note: null
+      },
+      {
+        title: '以熵權代入計算 S 與 R',
+        desc: '將熵權 $w_j$ 代入 VIKOR 的群體效用值 $S_i$ 和個人遺憾值 $R_i$ 的計算公式，後續流程與標準 VIKOR 完全相同。',
+        formula: '$$S_i = \\sum_{j=1}^{n} w_j \\frac{f_j^* - x_{ij}}{f_j^* - f_j^-}, \\qquad R_i = \\max_j\\left[w_j \\frac{f_j^* - x_{ij}}{f_j^* - f_j^-}\\right]$$',
+        note: null
+      },
+      {
+        title: '計算 VIKOR 指數 Q 並驗證折衷解',
+        desc: '計算 $Q_i$ 並進行可接受優勢與穩定性條件檢驗，若不滿足則給出折衷解集合。',
+        formula: '$$Q_i = \\nu\\frac{S_i-S^*}{S^--S^*} + (1-\\nu)\\frac{R_i-R^*}{R^--R^*}$$',
+        note: 'Entropy-VIKOR 特別適用於「難以確定準則重要性但需要折衷解」的情境，如環境評估與風險決策。'
+      },
+    ]
+  },
+  hurwicz: {
+    name: 'Hurwicz',
+    full: 'Hurwicz 樂觀悲觀準則 · Hurwicz Criterion',
+    color: '#00D080',
+    tags: ['不確定性', '樂觀係數', '悲觀係數'],
+    steps: [
+      {
+        title: '確定決策環境',
+        desc: '在不確定性決策（Uncertainty）情境中，決策者不知道各自然狀態的概率。決策矩陣 $x_{ij}$ 中 $i$ 為方案、$j$ 為可能的自然狀態（情境）。',
+        formula: '$$X = \\begin{pmatrix} x_{11} & \\cdots & x_{1n} \\\\ \\vdots & \\ddots & \\vdots \\\\ x_{m1} & \\cdots & x_{mn} \\end{pmatrix}$$',
+        note: '自然狀態的概率完全未知（若已知則應使用期望值法）。'
+      },
+      {
+        title: '找出各方案的最大值與最小值',
+        desc: '對每個方案 $A_i$，找出在所有自然狀態下的最佳結果 $M_i$（最樂觀）和最差結果 $m_i$（最悲觀）。',
+        formula: '$$M_i = \\max_j x_{ij}, \\qquad m_i = \\min_j x_{ij}$$',
+        note: null
+      },
+      {
+        title: '設定樂觀係數 α',
+        desc: '決策者依主觀態度設定樂觀係數 $\\alpha \\in [0,1]$：$\\alpha = 1$ 為完全樂觀（最大化準則）；$\\alpha = 0$ 為完全悲觀（最小最大化準則）。',
+        formula: '$$\\alpha \\in [0, 1]$$\n$$\\alpha = 1 \\Rightarrow \\text{Maximax（完全樂觀）}$$\n$$\\alpha = 0 \\Rightarrow \\text{Maximin（完全悲觀）}$$',
+        note: null
+      },
+      {
+        title: '計算 Hurwicz 值並排名',
+        desc: '以 $\\alpha$ 加權最樂觀與最悲觀結果，得到每個方案的 Hurwicz 值 $H_i$，最大者為最優方案。',
+        formula: '$$H_i = \\alpha \\cdot M_i + (1-\\alpha) \\cdot m_i$$',
+        note: 'Hurwicz 準則是 Maximax 和 Maximin 的折衷，$\\alpha$ 的選擇體現決策者的風險個性。'
+      },
+    ]
+  },
+  laplace: {
+    name: 'Laplace',
+    full: 'Laplace 等可能準則 · Laplace Criterion (Principle of Insufficient Reason)',
+    color: '#C8A020',
+    tags: ['等機率假設', '期望值', '不確定性'],
+    steps: [
+      {
+        title: '應用不充分理由原則',
+        desc: '在自然狀態概率完全未知時，Laplace 假設所有 $n$ 個自然狀態的概率相等（$p_j = 1/n$），將不確定性問題轉化為風險性問題。',
+        formula: '$$p_j = \\frac{1}{n}, \\quad j = 1, 2, \\ldots, n$$',
+        note: '此假設稱為「不充分理由原則」（Principle of Insufficient Reason），由 Laplace 提出。'
+      },
+      {
+        title: '計算各方案的期望值',
+        desc: '對每個方案 $A_i$，計算在等機率假設下各自然狀態結果的算術平均，即為該方案的 Laplace 期望值。',
+        formula: '$$E_i = \\frac{1}{n} \\sum_{j=1}^{n} x_{ij}$$',
+        note: null
+      },
+      {
+        title: '選擇最大期望值的方案',
+        desc: '依 $E_i$ 由大到小排名，期望值最高的方案即為 Laplace 準則下的最優選擇。',
+        formula: '$$A^* = \\arg\\max_i E_i$$',
+        note: 'Laplace 準則計算最為簡單，但其等機率假設在現實中常常不合理，應搭配其他不確定性準則驗證。'
+      },
+    ]
+  },
+  regret: {
+    name: 'Regret',
+    full: 'Savage 最小後悔準則 · Savage Minimax Regret Criterion',
+    color: '#7855C8',
+    tags: ['後悔矩陣', '最小化遺憾', '機會成本'],
+    steps: [
+      {
+        title: '建立後悔矩陣',
+        desc: '對每個自然狀態 $j$，計算每個方案 $A_i$ 與在該狀態下最優方案之間的差距（後悔值 / 機會成本）$r_{ij}$。',
+        formula: '$$r_{ij} = \\max_i x_{ij} - x_{ij}$$',
+        note: '$r_{ij} = 0$ 表示在狀態 $j$ 下，方案 $A_i$ 是最優選擇，無後悔。'
+      },
+      {
+        title: '找出每個方案的最大後悔值',
+        desc: '對每個方案 $A_i$，找出其在所有自然狀態中可能面臨的最大後悔值 $R_i$（最壞情況下的機會損失）。',
+        formula: '$$R_i = \\max_j r_{ij}$$',
+        note: null
+      },
+      {
+        title: '選擇最大後悔值最小的方案',
+        desc: '最小後悔準則選取 $R_i$ 最小的方案，即在最壞情況下後悔程度最低的選擇。',
+        formula: '$$A^* = \\arg\\min_i R_i = \\arg\\min_i \\max_j (\\max_k x_{kj} - x_{ij})$$',
+        note: 'Savage 後悔準則避免了 Maximin 的過度悲觀，因為它考慮的是「相對損失」而非「絕對損失」。常與 Hurwicz、Laplace 並列作為不確定性決策的三大準則。'
+      },
+    ]
+  },
+  rsr: {
+    name: 'RSR',
+    full: '秩和比法 · Rank Sum Ratio Method',
+    color: '#00C8D8',
+    tags: ['無量綱化', '秩次', '統計分佈'],
+    steps: [
+      {
+        title: '計算各準則的秩次',
+        desc: '對每個準則 $j$，將 $m$ 個方案的績效值由小到大排列，賦予秩次 $R_{ij}$（效益型：值最大者秩次為 $m$；成本型：值最小者秩次為 $m$）。',
+        formula: '$$R_{ij} \\in \\{1, 2, \\ldots, m\\}$$\n$$\\text{效益型：值最大} \\to R_{ij}=m; \\text{ 成本型：值最小} \\to R_{ij}=m$$',
+        note: '若有相同值，取平均秩次（tied ranks）。'
+      },
+      {
+        title: '計算秩和比',
+        desc: '對每個方案，將各準則秩次乘以準則權重後加總，再除以最大可能秩次 $m$，得到秩和比 $RSR_i \\in (0,1]$。',
+        formula: '$$RSR_i = \\frac{1}{m} \\sum_{j=1}^{n} w_j R_{ij}$$',
+        note: null
+      },
+      {
+        title: '擬合正態分佈並計算概率單位',
+        desc: '將 $RSR_i$ 由小到大排列，計算累積頻率 $F_i$，再查正態分佈表（或以逆正態函數）轉換為 Probit（概率單位）值 $\\hat{Y}_i$，進行線性回歸擬合。',
+        formula: '$$F_i = \\frac{\\text{排名次序}}{m+1}, \\qquad \\hat{Y}_i = \\Phi^{-1}(F_i) + 5$$',
+        note: null
+      },
+      {
+        title: '依擬合 RSR 值排名並分級',
+        desc: '以回歸方程從 Probit 值反推擬合 $\\widehat{RSR}_i$，依其大小排名並可依百分位數分為優、良、中、差等等級。',
+        formula: '$$\\widehat{RSR}_i = a + b \\cdot \\hat{Y}_i$$',
+        note: 'RSR 法由田鳳調（1988）提出，廣泛應用於衛生統計與醫療品質評估，是中國本土化 MCDA 方法的代表。'
+      },
+    ]
+  },
+  sugeno: {
+    name: 'Sugeno',
+    full: 'Sugeno 模糊積分 · Sugeno Fuzzy Integral',
+    color: '#C8A020',
+    tags: ['模糊測度', '非線性聚合', '最大最小運算'],
+    steps: [
+      {
+        title: '定義模糊測度',
+        desc: '與 Choquet 積分相同，對準則集 $N$ 的每個子集 $T$ 賦予模糊測度 $\\mu(T) \\in [0,1]$，滿足單調性與邊界條件。',
+        formula: '$$\\mu(\\emptyset) = 0, \\quad \\mu(N) = 1, \\quad T \\subseteq S \\Rightarrow \\mu(T) \\leq \\mu(S)$$',
+        note: null
+      },
+      {
+        title: '對準則績效值排序',
+        desc: '對方案 $A_i$ 的各準則績效值由大到小重新排列，得到 $h_{(1)} \\geq h_{(2)} \\geq \\cdots \\geq h_{(n)}$，對應準則子集 $A_{(k)} = \\{\\sigma(1), \\ldots, \\sigma(k)\\}$。',
+        formula: '$$h_{(1)} \\geq h_{(2)} \\geq \\cdots \\geq h_{(n)}$$',
+        note: null
+      },
+      {
+        title: '計算 Sugeno 積分',
+        desc: 'Sugeno 積分以最大-最小（max-min）運算取代 Choquet 積分的加法運算，對離群值更具魯棒性。',
+        formula: '$$S_\\mu(h) = \\max_{k=1}^{n} \\min\\left(h_{(k)},\\; \\mu(A_{(k)})\\right)$$',
+        note: 'Sugeno 積分完全使用 max 和 min 運算，不受數值尺度影響，適合語言型（模糊語意）評估資料。'
+      },
+      {
+        title: '依積分值排名',
+        desc: '$S_\\mu(h)$ 越大，方案越優。與 Choquet 積分相比，Sugeno 積分對極端值不敏感，是更「保守」的聚合算子。',
+        formula: '$$A^* = \\arg\\max_i S_\\mu(h^{(i)})$$',
+        note: 'Choquet 積分（加法型）適合補償性決策；Sugeno 積分（最大最小型）適合非補償性決策，兩者常互為對照。'
+      },
+    ]
+  },
+  critic_topsis: {
+    name: 'CRITIC-TOPSIS',
+    full: 'CRITIC 權重 TOPSIS 法 · CRiteria Importance Through Intercriteria Correlation + TOPSIS',
+    color: '#00D080',
+    tags: ['準則相關性', '客觀權重', '對比強度'],
+    steps: [
+      {
+        title: '正規化決策矩陣',
+        desc: '以線性函數將決策矩陣正規化至 [0,1]，確保各準則可比較。',
+        formula: '$$r_{ij} = \\frac{x_{ij} - \\min_i x_{ij}}{\\max_i x_{ij} - \\min_i x_{ij}} \\quad (\\text{效益型})$$',
+        note: null
+      },
+      {
+        title: '計算各準則的標準差（對比強度）',
+        desc: '標準差 $\\sigma_j$ 衡量準則 $j$ 在方案間的分散程度：差異越大，該準則的區分能力越強，應給予較高權重。',
+        formula: '$$\\sigma_j = \\sqrt{\\frac{1}{m}\\sum_{i=1}^{m}(r_{ij} - \\bar{r}_j)^2}$$',
+        note: null
+      },
+      {
+        title: '計算準則間相關係數並推導 CRITIC 信息量',
+        desc: '計算任意兩準則間的 Pearson 相關係數 $\\rho_{jk}$。CRITIC 信息量 $C_j$ 結合對比強度與準則衝突性（與其他準則的差異程度）。',
+        formula: '$$C_j = \\sigma_j \\sum_{k=1}^{n}(1 - \\rho_{jk})$$',
+        note: '若準則 $j$ 與多個準則高度正相關（冗餘），則 $(1-\\rho_{jk})$ 小，$C_j$ 降低，反映信息重疊。'
+      },
+      {
+        title: '計算客觀權重並代入 TOPSIS',
+        desc: '將 $C_j$ 正規化得到客觀權重 $w_j$，代入標準 TOPSIS 流程計算相對接近度 $C_i$ 並排名。',
+        formula: '$$w_j = \\frac{C_j}{\\sum_{j=1}^{n} C_j}, \\qquad C_i = \\frac{d_i^-}{d_i^+ + d_i^-}$$',
+        note: 'CRITIC（Diakoulaki, 1995）與熵權法的差異：熵權只考慮方案間的差異度，CRITIC 額外考慮準則間的相關性，避免重複計算相關準則。'
+      },
+    ]
+  },
+  wpm: {
+    name: 'WPM',
+    full: '加權乘積模型 · Weighted Product Model',
+    color: '#7855C8',
+    tags: ['乘法聚合', '無量綱', '非補償'],
+    steps: [
+      {
+        title: '確認正規化條件',
+        desc: 'WPM 直接使用原始績效值進行乘積運算，所有值必須為正數。若有成本型準則，先取倒數轉換為效益型；若有零值，需加一個極小值 $\\epsilon$。',
+        formula: '$$x_{ij} > 0 \\quad \\forall i, j$$\n$$\\text{成本型：} x_{ij}^{\\prime} = \\frac{1}{x_{ij}}$$',
+        note: null
+      },
+      {
+        title: '計算各方案的加權乘積得分',
+        desc: '對每個方案，將各準則績效值取 $w_j$ 次方後連乘，得到 WPM 得分 $P(A_i)$。',
+        formula: '$$P(A_i) = \\prod_{j=1}^{n} x_{ij}^{w_j}$$',
+        note: '取對數後等價於加權求和：$\\ln P(A_i) = \\sum_j w_j \\ln x_{ij}$，可以此驗算。'
+      },
+      {
+        title: '（可選）以比率形式進行兩兩比較',
+        desc: '對任意兩方案 $A_i$ 和 $A_k$，計算 WPM 比率 $R(A_i / A_k)$；若比率 $> 1$，則 $A_i$ 優於 $A_k$。',
+        formula: '$$R\\left(\\frac{A_i}{A_k}\\right) = \\prod_{j=1}^{n} \\left(\\frac{x_{ij}}{x_{kj}}\\right)^{w_j}$$',
+        note: null
+      },
+      {
+        title: '排名',
+        desc: '依 $P(A_i)$ 由大到小排名，分數最高者為最優方案。',
+        formula: '$$A^* = \\arg\\max_i P(A_i) = \\arg\\max_i \\prod_{j=1}^{n} x_{ij}^{w_j}$$',
+        note: 'WPM 是非補償性模型：某準則極低分無法被其他準則高分完全補償（相乘效果），比加法 WSM 更嚴格。'
+      },
+    ]
+  },
+  cp_linf: {
+    name: 'CP(L∞)',
+    full: '折衷規劃（切比雪夫距離） · Compromise Programming with L∞ Metric',
+    color: '#E83C3C',
+    tags: ['切比雪夫距離', '最大偏差最小化', '折衷解'],
+    steps: [
+      {
+        title: '正規化並確定理想解',
+        desc: '將決策矩陣正規化至 [0,1]，確定理想解 $f_j^*$（每個準則的最佳值）。',
+        formula: '$$f_j^* = \\max_i x_{ij}^{norm} \\;(\\text{效益型}), \\qquad x_{ij}^{norm} \\in [0,1]$$',
+        note: null
+      },
+      {
+        title: '計算各方案與理想解的加權差距',
+        desc: '對每個方案 $A_i$ 在每個準則 $j$ 上，計算與理想解的加權偏差 $d_{ij}$。',
+        formula: '$$d_{ij} = w_j \\cdot |f_j^* - x_{ij}^{norm}|$$',
+        note: null
+      },
+      {
+        title: '計算 L∞（切比雪夫）距離',
+        desc: '取所有準則加權偏差中的最大值作為 $L_\\infty$ 距離，即「最差準則」的偏差決定整體距離。',
+        formula: '$$L_\\infty(A_i) = \\max_j \\left[ w_j \\cdot |f_j^* - x_{ij}^{norm}| \\right]$$',
+        note: null
+      },
+      {
+        title: '選擇最小 L∞ 距離的方案',
+        desc: '$L_\\infty$ 距離最小的方案，代表其「最弱準則」表現最好——即最均衡的方案。',
+        formula: '$$A^* = \\arg\\min_i L_\\infty(A_i)$$',
+        note: '$L_\\infty$ 與 $L_1$（Manhattan）、$L_2$（Euclidean）並列為折衷規劃三大距離度量。$L_\\infty$ 傾向選出無明顯弱點的方案，而非總分最高的方案。'
+      },
+    ]
+  },
+  ror: {
+    name: 'ROR',
+    full: '排名可接受性區域法 · Robust Ordinal Regression',
+    color: '#00C8D8',
+    tags: ['序數回歸', '偏好魯棒性', '可能/必要偏好'],
+    steps: [
+      {
+        title: '收集偏好資訊（序數比較）',
+        desc: '決策者提供部分方案的偏好資訊，例如「方案 $a$ 至少和方案 $b$ 一樣好」，或某準則的邊際效用單調性要求，無需提供精確的數值權重。',
+        formula: '$$a \\succsim b \\Rightarrow U(a) \\geq U(b)$$',
+        note: null
+      },
+      {
+        title: '定義相容效用函數空間 $\\mathcal{U}$',
+        desc: '所有與決策者偏好資訊相容的效用函數（分段線性，類 UTA）形成一個可行空間 $\\mathcal{U}$。ROR 在此空間中分析所有相容函數。',
+        formula: '$$\\mathcal{U} = \\{U : U(a) \\geq U(b), \\; \\forall (a \\succsim b) \\in \\text{輸入偏好}\\}$$',
+        note: null
+      },
+      {
+        title: '計算必要偏好與可能偏好',
+        desc: '「必要偏好」：在所有相容函數下 $a$ 均優於 $b$。「可能偏好」：至少存在一個相容函數使 $a$ 優於 $b$。兩者界定了偏好的確定性範圍。',
+        formula: '$$a \\succsim^N b \\iff U(a) \\geq U(b) \\; \\forall U \\in \\mathcal{U}$$\n$$a \\succsim^P b \\iff \\exists U \\in \\mathcal{U}: U(a) \\geq U(b)$$',
+        note: null
+      },
+      {
+        title: '建立必要/可能偏好圖並分析',
+        desc: '以必要偏好關係建構偏好圖，識別核心穩健排名。可能偏好則顯示在添加少量資訊後可能改變的排名關係，引導決策者提供更多偏好資訊。',
+        formula: '$$\\text{穩健性指標：} RI(a,b) = \\frac{\\text{使 } U(a) \\geq U(b) \\text{ 的相容函數比例}}{|\\mathcal{U}|}$$',
+        note: 'ROR（Greco, Mousseau & Słowiński, 2008）是 UTA 的推廣，不需要精確的效用函數即可給出穩健排名，特別適合資訊不完整的決策情境。'
+      },
+    ]
+  },
+  pessimistic: {
+    name: 'Pessimistic',
+    full: 'Maximin 悲觀準則 · Maximin (Wald) Criterion',
+    color: '#C8A020',
+    tags: ['不確定性', '最壞情況', '風險規避'],
+    steps: [
+      {
+        title: '確定決策環境',
+        desc: '在自然狀態概率完全未知的不確定性決策情境中，決策矩陣 $x_{ij}$ 代表方案 $i$ 在自然狀態 $j$ 下的收益。',
+        formula: '$$X = (x_{ij})_{m \\times n}, \\quad i = 1,\\ldots,m,\\; j = 1,\\ldots,n$$',
+        note: null
+      },
+      {
+        title: '找出每個方案的最小收益',
+        desc: '悲觀準則假設自然界總是對決策者最不利，因此只關注每個方案在所有狀態中的最壞結果 $m_i$。',
+        formula: '$$m_i = \\min_j x_{ij}$$',
+        note: null
+      },
+      {
+        title: '選擇最小值中的最大值（Maximin）',
+        desc: '在最壞情況的集合中，選取損失最小（收益最大）的方案，以保證最低限度的結果。',
+        formula: '$$A^* = \\arg\\max_i m_i = \\arg\\max_i \\min_j x_{ij}$$',
+        note: 'Wald（1950）提出的 Maximin 準則是最保守的決策策略，適合風險規避型決策者或利害關係極高的場景（如核安全、醫療決策）。'
+      },
+    ]
+  },
+  optimistic: {
+    name: 'Optimistic',
+    full: 'Maximax 樂觀準則 · Maximax Criterion',
+    color: '#00D080',
+    tags: ['不確定性', '最佳情況', '風險偏好'],
+    steps: [
+      {
+        title: '確定決策環境',
+        desc: '與悲觀準則（Maximin）相同的不確定性決策情境，差異在於決策者的主觀態度：假設最有利的自然狀態將會發生。',
+        formula: '$$X = (x_{ij})_{m \\times n}$$',
+        note: null
+      },
+      {
+        title: '找出每個方案的最大收益',
+        desc: '樂觀準則只關注每個方案在所有自然狀態中的最佳結果 $M_i$，忽略最壞情況。',
+        formula: '$$M_i = \\max_j x_{ij}$$',
+        note: null
+      },
+      {
+        title: '選擇最大值中的最大值（Maximax）',
+        desc: '在最佳情況的集合中，選取收益最高的方案，追求最大可能的回報。',
+        formula: '$$A^* = \\arg\\max_i M_i = \\arg\\max_i \\max_j x_{ij}$$',
+        note: 'Maximax 是最激進的決策策略，完全忽視風險，適合風險偏好型決策者（如創業投資）。與 Maximin（悲觀）、Hurwicz（折衷）、Laplace（等機率）、Regret（最小後悔）共同構成不確定性決策的五大經典準則。'
+      },
+    ]
+  },
+  pareto: {
+    name: 'Pareto',
+    full: 'Pareto 最優篩選 · Pareto Optimality / Dominance Analysis',
+    color: '#7855C8',
+    tags: ['支配關係', '非劣解', '多目標最優'],
+    steps: [
+      {
+        title: '定義 Pareto 支配關係',
+        desc: '方案 $A_i$ 支配方案 $A_k$（記作 $A_i \\succ A_k$），當且僅當 $A_i$ 在所有準則上不劣於 $A_k$，且至少在一個準則上嚴格優於 $A_k$。',
+        formula: '$$A_i \\succ A_k \\iff \\forall j: x_{ij} \\geq x_{kj} \\;\\text{且}\\; \\exists j: x_{ij} > x_{kj}$$',
+        note: '對成本型準則，方向相反（值越小越好）。'
+      },
+      {
+        title: '建立支配矩陣',
+        desc: '對所有方案兩兩比較，建立 $m \\times m$ 的支配矩陣 $D$，$D_{ik} = 1$ 表示方案 $A_i$ 支配 $A_k$，否則為 0。',
+        formula: '$$D_{ik} = \\begin{cases} 1 & \\text{若 } A_i \\succ A_k \\\\ 0 & \\text{否則} \\end{cases}$$',
+        note: null
+      },
+      {
+        title: '識別 Pareto 前沿',
+        desc: 'Pareto 最優解集（Pareto 前沿）為所有未被任何方案支配的方案集合，代表多目標意義下的「非劣解」。',
+        formula: '$$\\mathcal{P}^* = \\{A_i \\in A : \\nexists\\, A_k \\in A, A_k \\succ A_i\\}$$',
+        note: null
+      },
+      {
+        title: '分析與後續處理',
+        desc: 'Pareto 分析只能識別非劣解集合，不能給出唯一最優解。計算各方案被支配的次數，可作為方案品質的參考排名指標。',
+        formula: '$$\\text{支配次數（越少越優）：} n_i^{dom} = \\sum_{k=1}^{m} D_{ki}$$',
+        note: 'Pareto 最優是多目標最優化的基礎概念，在 MCDA 中常作為篩選工具，先排除被支配方案，再以其他算法從 $\\mathcal{P}^*$ 中選出最終方案。'
+      },
+    ]
+  },
+  geometric: {
+    name: 'Geometric',
+    full: '加權幾何平均法 · Weighted Geometric Mean',
+    color: '#00C8D8',
+    tags: ['幾何平均', '乘法聚合', '比例量表'],
+    steps: [
+      {
+        title: '正規化決策矩陣',
+        desc: '效益型準則除以列最大值；成本型準則取倒數後除以最大倒數值，確保所有值在 (0,1] 範圍內且方向一致。',
+        formula: '$$\\hat{x}_{ij} = \\frac{x_{ij}}{\\max_i x_{ij}} \\;(\\text{效益型}), \\qquad \\hat{x}_{ij} = \\frac{\\min_i x_{ij}}{x_{ij}} \\;(\\text{成本型})$$',
+        note: null
+      },
+      {
+        title: '計算加權幾何平均',
+        desc: '對每個方案，將各準則正規化值取 $w_j$ 次方後連乘，得到加權幾何平均分數 $G_i$。',
+        formula: '$$G_i = \\prod_{j=1}^{n} \\hat{x}_{ij}^{w_j}$$',
+        note: '等價形式：$\\ln G_i = \\sum_j w_j \\ln \\hat{x}_{ij}$（對數尺度下的加權算術平均）。'
+      },
+      {
+        title: '與算術加權平均比較',
+        desc: '對相同資料，加權幾何平均恆不大於加權算術平均（AM-GM 不等式），對低分準則的懲罰更重。',
+        formula: '$$G_i = \\prod_j \\hat{x}_{ij}^{w_j} \\leq \\sum_j w_j \\hat{x}_{ij} = WS_i$$',
+        note: '等號成立條件：所有準則值完全相等（$\\hat{x}_{i1} = \\hat{x}_{i2} = \\cdots$）。'
+      },
+      {
+        title: '排名',
+        desc: '依 $G_i$ 由大到小排名，分數最高者為最優方案。',
+        formula: '$$A^* = \\arg\\max_i G_i$$',
+        note: '加權幾何平均適用於比例量表資料（如百分比、倍數關係），在財務績效評估和供應商選擇中廣泛應用；與 WPM 在正規化後等價。'
+      },
+    ]
+  },
+  optimism_pessimism: {
+    name: 'Hurwicz α',
+    full: 'SMAA 樂觀悲觀加權 · Alpha-level Optimism-Pessimism Weighting',
+    color: '#E83C3C',
+    tags: ['樂觀加權', '悲觀加權', '穩健分析'],
+    steps: [
+      {
+        title: '計算各方案的最佳與最差排名',
+        desc: '在所有相容的權重組合下，記錄每個方案可能達到的最佳排名 $r_i^{best}$ 和最差排名 $r_i^{worst}$，反映排名的不確定性範圍。',
+        formula: '$$r_i^{best} = \\min_{w \\in W} rank(A_i, w)$$\n$$r_i^{worst} = \\max_{w \\in W} rank(A_i, w)$$',
+        note: null
+      },
+      {
+        title: '設定樂觀係數 α',
+        desc: '決策者依風險態度設定 $\\alpha \\in [0,1]$：$\\alpha = 1$ 為完全樂觀（只看最佳排名）；$\\alpha = 0$ 為完全悲觀（只看最差排名）。',
+        formula: '$$\\alpha \\in [0, 1]$$',
+        note: null
+      },
+      {
+        title: '計算加權排名分數',
+        desc: '以 $\\alpha$ 加權最佳與最差排名，得到每個方案的綜合排名分數 $S_i$（排名越小越優）。',
+        formula: '$$S_i = \\alpha \\cdot r_i^{best} + (1-\\alpha) \\cdot r_i^{worst}$$',
+        note: null
+      },
+      {
+        title: '排名',
+        desc: '依 $S_i$ 由小到大排名（分數越小排名越前），最小者為最優方案。',
+        formula: '$$A^* = \\arg\\min_i S_i$$',
+        note: '此方法將 Hurwicz 準則的思想應用於排名的不確定性分析，適合在權重資訊不完整時給出穩健的推薦排序。'
+      },
+    ]
+  },
+};
+
+// ══════════════════════════════════════════
+// MODAL LOGIC
+// ══════════════════════════════════════════
+var backdrop   = document.getElementById('modalBackdrop');
+var modalEl    = document.getElementById('modal');
+var modalStrip = document.getElementById('modalStrip');
+var modalName  = document.getElementById('modalName');
+var modalFull  = document.getElementById('modalFull');
+var modalTags  = document.getElementById('modalTags');
+var modalProg  = document.getElementById('modalProgress');
+var modalBody  = document.getElementById('modalBody');
+var modalPrev  = document.getElementById('modalPrev');
+var modalNext  = document.getElementById('modalNext');
+var modalLabel = document.getElementById('modalStepLabel');
+var modalClose = document.getElementById('modalClose');
+
+var currentAlgo  = null;
+var currentStep  = 0;
+var stepEls      = [];
+
+function openModal(algoKey) {
+  var algo = ALGO_DATA[algoKey];
+  if (!algo) return;
+  currentAlgo = algo;
+  currentStep = 0;
+
+  // Set CSS variable for color
+  modalEl.style.setProperty('--modal-color', algo.color);
+
+  // Header
+  modalStrip.style.background = algo.color;
+  modalName.textContent = algo.name;
+  modalFull.textContent = algo.full;
+  modalTags.innerHTML = algo.tags.map(function(t) {
+    return '<span class="modal-tag">'+t+'</span>';
+  }).join('');
+
+  // Progress dots
+  modalProg.innerHTML = '';
+  algo.steps.forEach(function(_, i) {
+    var dot = document.createElement('div');
+    dot.className = 'progress-dot';
+    dot.id = 'dot-'+i;
+    modalProg.appendChild(dot);
+  });
+
+  // Build all steps
+  modalBody.innerHTML = '';
+  stepEls = [];
+  algo.steps.forEach(function(step, i) {
+    var s = document.createElement('div');
+    s.className = 'm-step';
+    s.id = 'step-'+i;
+
+    var numEl = document.createElement('div');
+    numEl.className = 'm-step-num';
+    numEl.textContent = i + 1;
+
+    var content = document.createElement('div');
+    content.className = 'm-step-content';
+
+    var title = document.createElement('div');
+    title.className = 'm-step-title';
+    title.textContent = step.title;
+
+    var desc = document.createElement('div');
+    desc.className = 'm-step-desc';
+    desc.innerHTML = step.desc;
+
+    content.appendChild(title);
+    content.appendChild(desc);
+
+    if (step.formula) {
+      var box = document.createElement('div');
+      box.className = 'math-box';
+      var lbl = document.createElement('div');
+      lbl.className = 'math-box-label';
+      lbl.textContent = '數學式';
+      box.appendChild(lbl);
+      // formula content
+      var fml = document.createElement('div');
+      fml.innerHTML = step.formula;
+      box.appendChild(fml);
+      content.appendChild(box);
+    }
+
+    if (step.note) {
+      var note = document.createElement('div');
+      note.className = 'note-box';
+      note.innerHTML = '💡 ' + step.note;
+      content.appendChild(note);
+    }
+
+    s.appendChild(numEl);
+    s.appendChild(content);
+    modalBody.appendChild(s);
+    stepEls.push(s);
+  });
+
+  renderStep(0);
+
+  // Show
+  backdrop.classList.add('visible');
+  document.body.style.overflow = 'hidden';
+
+  // Typeset MathJax
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise([modalBody]);
+  }
+}
+
+function renderStep(idx) {
+  var total = currentAlgo.steps.length;
+  currentStep = idx;
+
+  // Update step visibility
+  stepEls.forEach(function(el, i) {
+    el.classList.remove('active', 'done');
+    if (i < idx)      el.classList.add('done');
+    else if (i === idx) el.classList.add('active');
+  });
+
+  // Scroll active step into view
+  if (stepEls[idx]) {
+    stepEls[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // Progress dots
+  var dots = modalProg.querySelectorAll('.progress-dot');
+  dots.forEach(function(dot, i) {
+    dot.classList.remove('done','active');
+    if (i < idx)      dot.classList.add('done');
+    else if (i === idx) dot.classList.add('active');
+  });
+
+  // Label
+  modalLabel.textContent = 'Step ' + (idx+1) + ' / ' + total;
+
+  // Buttons
+  modalPrev.disabled = idx === 0;
+  modalPrev.style.opacity = idx === 0 ? '0.3' : '1';
+
+  if (idx === total - 1) {
+    modalNext.textContent = '完成 ✓';
+    modalNext.style.background = '#00D080';
+  } else {
+    modalNext.textContent = '下一步 →';
+    modalNext.style.background = currentAlgo.color;
+  }
+}
+
+function closeModal() {
+  backdrop.classList.remove('visible');
+  document.body.style.overflow = '';
+}
+
+modalClose.addEventListener('click', closeModal);
+backdrop.addEventListener('click', function(e) {
+  if (e.target === backdrop) closeModal();
+});
+
+modalPrev.addEventListener('click', function() {
+  if (currentStep > 0) renderStep(currentStep - 1);
+});
+
+modalNext.addEventListener('click', function() {
+  if (currentStep < currentAlgo.steps.length - 1) {
+    renderStep(currentStep + 1);
+  } else {
+    closeModal();
+  }
+});
+
+document.addEventListener('keydown', function(e) {
+  if (!backdrop.classList.contains('visible')) return;
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+    if (currentStep < currentAlgo.steps.length - 1) renderStep(currentStep + 1);
+  }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    if (currentStep > 0) renderStep(currentStep - 1);
+  }
+});
+
+// Attach pill click handlers
+document.querySelectorAll('.pill.has-tutorial').forEach(function(pill) {
+  pill.addEventListener('click', function() {
+    openModal(this.getAttribute('data-algo'));
+  });
+});
+</script>
+</body>
+</html>
