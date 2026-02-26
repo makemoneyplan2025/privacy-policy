@@ -50,6 +50,10 @@
     from { background-position: -60% center; }
     to   { background-position: 160% center; }
   }
+  @keyframes shimmer {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.82; }
+  }
   nav a.back { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; }
   nav a.back:hover { color: #fff; }
   .lang-switch {
@@ -76,7 +80,6 @@
 </style>
 </head>
 <body>
-
 <nav>
   <a href="index.html" class="nav-logo">
     <div class="nav-logo-bars" id="navLogo"></div>
@@ -90,39 +93,29 @@
     <a href="index.html" class="back">← Back to Home</a>
   </div>
 </nav>
-
 <div class="content">
   <h1>Privacy Policy</h1>
   <p class="date">Last updated: February 2026</p>
-
   <p>yoce (hereinafter "the App") takes your privacy seriously. This policy explains how we handle your data.</p>
-
   <h2>1. Data Collection</h2>
   <p>The App does not collect any personally identifiable information.</p>
   <p>All decision data you enter in the App (alternative names, criteria, scores) is stored only in the local storage (UserDefaults) on your personal device. It is never uploaded to any server or cloud service.</p>
-
   <h2>2. Third-Party Services</h2>
   <p>The "Results" page of the App loads the MathJax math rendering library from the jsDelivr CDN (cdn.jsdelivr.net) when expanding mathematical formulas.</p>
   <p>During this process, your device IP address may be recorded in jsDelivr's server access logs. This is standard behavior for any CDN. For jsDelivr's privacy policy, please visit: <a href="https://www.jsdelivr.com/privacy-policy-jsdelivr-net" target="_blank">jsdelivr.com</a></p>
   <p>If you prefer not to connect to external services, you may use the App in an offline environment. All decision analysis features work normally; only mathematical formula symbols will not render.</p>
-
   <h2>3. Advertising &amp; Analytics</h2>
   <p>The App contains no advertising and does not use any third-party analytics, tracking, or crash reporting services.</p>
-
   <h2>4. Children's Privacy</h2>
   <p>The App is not directed at children under 13 and does not knowingly collect personal information from children.</p>
-
   <h2>5. Open Source Attribution</h2>
   <p>The App uses the following open-source package:</p>
   <p>• MathJax (© The MathJax Consortium)<br>License: Apache License 2.0<br>Purpose: Mathematical formula rendering<br><a href="https://www.mathjax.org" target="_blank">mathjax.org</a></p>
-
   <h2>6. Changes to This Policy</h2>
   <p>If there are any significant changes to this policy, we will notify you in the App's update release notes.</p>
-
   <h2>7. Contact Us</h2>
   <p>If you have any privacy-related questions, please contact the developer through the App Store.</p>
 </div>
-
 <script>
 var BARS=[{c:'#E83C3C',w:0.46},{c:'#C8A020',w:0.36},{c:'#00D080',w:0.43},{c:'#00C8D8',w:0.32},{c:'#7855C8',w:0.40}];
 function buildLogo(el,maxW){
@@ -140,3 +133,4 @@ buildLogo(document.getElementById('navLogo'),80);
 </script>
 </body>
 </html>
+
