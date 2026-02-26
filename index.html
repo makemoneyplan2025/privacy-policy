@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200&display=swap" rel="stylesheet">
 <style>
 /* ── Reset & Base ─────────────────────────── */
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; 
 html { scroll-behavior: smooth; }
 body {
   background: #07070f;
@@ -529,7 +529,7 @@ function buildLogo(el, maxW, barH, gap, animate, looping) {
 }
 
 // Nav logo (tiny, static)
-buildLogo(document.getElementById('navLogo'), 80, 4, 3, false, false);
+buildLogo(document.getElementById('navLogo'), 80, 4, 3, false, true);
 
 // Hero logo (large, animated on load)
 buildLogo(document.getElementById('heroLogo'), 480, 26, 14, true, true);
