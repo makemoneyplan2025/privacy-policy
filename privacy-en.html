@@ -8,70 +8,25 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@200&display=swap">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    background: #0a0a0f;
-    color: #fff;
-    min-height: 100vh;
-  }
-  nav {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 0 48px; height: 64px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
+  body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #0a0a0f; color: #fff; min-height: 100vh; }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 0 48px; height: 64px; border-bottom: 1px solid rgba(255,255,255,0.06); }
   .nav-logo { display:flex; align-items:center; gap:14px; text-decoration:none; }
   .nav-logo-bars { display:flex; flex-direction:column; gap:3px; }
-  .nav-logo-name {
-    font-family: 'Outfit', -apple-system, sans-serif;
-    font-size: 20px; font-weight: 200; letter-spacing: 5px; color: #fff;
-  }
-  .bar-wrap {
-    position:relative; height:4px; border-radius:99px; overflow:hidden;
-    width: var(--bw, 40px);
-  }
-  .bar-wrap::before {
-    content:''; position:absolute; inset:0; border-radius:inherit;
-    background: linear-gradient(to right, var(--c), transparent 80%); opacity:0.12;
-  }
-  .bar-fill {
-    position:absolute; inset:0; border-radius:inherit;
-    background: linear-gradient(to right, var(--c) 0%, color-mix(in srgb,var(--c) 50%,transparent) 62%, transparent 100%);
-    transform-origin: left center; will-change: transform;
-  }
+  .nav-logo-name { font-family: 'Outfit', -apple-system, sans-serif; font-size: 20px; font-weight: 200; letter-spacing: 5px; color: #fff; }
+  .bar-wrap { position:relative; height:4px; border-radius:99px; overflow:hidden; width: var(--bw, 40px); }
+  .bar-wrap::before { content:''; position:absolute; inset:0; border-radius:inherit; background: linear-gradient(to right, var(--c), transparent 80%); opacity:0.12; }
+  .bar-fill { position:absolute; inset:0; border-radius:inherit; background: linear-gradient(to right, var(--c) 0%, color-mix(in srgb,var(--c) 50%,transparent) 62%, transparent 100%); transform-origin: left center; will-change: transform; }
   .bar-fill.shimmer { animation: shimmer 2.2s linear infinite; }
-  .bar-fill.shimmer::after {
-    content:''; position:absolute; inset:0; border-radius:inherit;
-    background: linear-gradient(to right, transparent, rgba(255,255,255,0.5) 50%, transparent);
-    background-size: 40% 100%; background-repeat: no-repeat;
-    background-position: -60% center;
-    animation: sweep 2.2s linear infinite;
-  }
-  @keyframes sweep {
-    from { background-position: -60% center; }
-    to   { background-position: 160% center; }
-  }
-  @keyframes shimmer {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0.82; }
-  }
+  .bar-fill.shimmer::after { content:''; position:absolute; inset:0; border-radius:inherit; background: linear-gradient(to right, transparent, rgba(255,255,255,0.5) 50%, transparent); background-size: 40% 100%; background-repeat: no-repeat; background-position: -60% center; animation: sweep 2.2s linear infinite; }
+  @keyframes sweep { from { background-position: -60% center; } to { background-position: 160% center; } }
+  @keyframes shimmer { 0%, 100% { opacity: 1; } 50% { opacity: 0.82; } }
   nav a.back { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; }
   nav a.back:hover { color: #fff; }
-  .lang-switch {
-    display: flex; gap: 12px; align-items: center;
-  }
-  .lang-switch a {
-    color: rgba(255,255,255,0.4); text-decoration: none; font-size: 13px;
-    padding: 4px 10px; border-radius: 6px; border: 1px solid transparent;
-  }
+  .lang-switch { display: flex; gap: 12px; align-items: center; }
+  .lang-switch a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 13px; padding: 4px 10px; border-radius: 6px; border: 1px solid transparent; }
   .lang-switch a:hover { color: #fff; }
-  .lang-switch a.active {
-    color: #fff; border-color: rgba(255,255,255,0.2);
-  }
-  .content {
-    max-width: 680px;
-    margin: 60px auto;
-    padding: 0 24px 80px;
-  }
+  .lang-switch a.active { color: #fff; border-color: rgba(255,255,255,0.2); }
+  .content { max-width: 680px; margin: 60px auto; padding: 0 24px 80px; }
   h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
   .date { color: rgba(255,255,255,0.4); font-size: 14px; margin-bottom: 48px; }
   h2 { font-size: 17px; font-weight: 700; margin: 36px 0 12px; color: #6c9aff; }
@@ -133,4 +88,3 @@ buildLogo(document.getElementById('navLogo'),80);
 </script>
 </body>
 </html>
-
