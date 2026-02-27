@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>yoce — 你的決策夥伴</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script>
   MathJax = {
     tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] },
@@ -21,7 +19,7 @@ html { scroll-behavior: smooth; }
 body {
   background: #07070f;
   color: #fff;
-  font-family: -apple-system, 'SF Pro Display', 'Inter', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -66,7 +64,7 @@ nav {
   background: var(--c); width: var(--w);
   opacity: 0.9;
 }
-.nav-logo-name { font-family: 'Outfit', -apple-system, sans-serif; font-size: 20px; font-weight: 200; letter-spacing: 5px; color: #fff; }
+.nav-logo-name { font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif; font-size: 20px; font-weight: 300; letter-spacing: 5px; color: #fff; }
 .nav-right { display: flex; align-items: center; gap: 12px; }
 .lang-btn {
   background: transparent;
@@ -390,7 +388,7 @@ footer a:hover { color: #fff; }
   margin-bottom: 8px;
 }
 .math-box-label {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
   color: var(--modal-color); opacity: 0.65;
   margin-bottom: 8px;
@@ -452,8 +450,8 @@ footer a:hover { color: #fff; }
     <span class="en">Make Better Decisions,<br><span class="grad">Driven by Data</span></span>
   </h1>
   <p class="hero-sub">
-    <span class="zh">yoce 同時運行 46 種世界頂尖的 MCDA 算法，幫你找出最有共識的選擇 — 完全在裝置上運算，零隱私顧慮。</span>
-    <span class="en">yoce runs 46 world-class MCDA algorithms simultaneously, finding the most consensus-backed choice — all computed on-device, with zero privacy concerns.</span>
+    <span class="zh">yoce App 同時運行 46 種世界頂尖的 MCDA 算法，幫你找出最有共識的選擇 — 完全在裝置上運算。</span>
+    <span class="en">The yoce app runs 46 world-class MCDA algorithms simultaneously, finding the most consensus-backed choice — all computed on-device.</span>
   </p>
   <div class="hero-ctas">
     <a href="#features" class="btn-ghost">
@@ -489,7 +487,7 @@ footer a:hover { color: #fff; }
   <div class="feat-card">
     <div class="feat-icon" style="background:rgba(0,208,128,0.12);">🔒</div>
     <h3><span class="zh">完全離線 · 零資料上傳</span><span class="en">Fully Offline · Zero Data Upload</span></h3>
-    <p><span class="zh">所有計算在你的 iPhone 上完成，沒有雲端伺服器，沒有帳號，隱私完全在你手中。</span><span class="en">All computations run on your iPhone. No cloud servers, no accounts — your data never leaves your device.</span></p>
+    <p><span class="zh">在 yoce App 內，所有計算在你的 iPhone 上完成，沒有雲端伺服器，沒有帳號，資料不離開裝置。</span><span class="en">Inside the yoce app, all computations run on your iPhone. No cloud servers, no accounts — your data stays on device.</span></p>
   </div>
   <div class="feat-card">
     <div class="feat-icon" style="background:rgba(0,200,216,0.12);">⚡</div>
@@ -514,7 +512,10 @@ footer a:hover { color: #fff; }
 </div>
 <div class="methods-section">
   <h2><span class="zh">業界標準算法，一次全覆蓋</span><span class="en">Industry-Standard Algorithms, All in One</span></h2>
-  <p><span class="zh">從基礎到頂尖，從統計到博弈論 · <span style="color:rgba(255,255,255,0.3);font-size:13px;">點擊螢光標記算法查看原理說明</span></span><span class="en">From fundamentals to cutting-edge, statistics to game theory · <span style="color:rgba(255,255,255,0.3);font-size:13px;">Click highlighted algorithms for step-by-step explanations</span></span></p>
+  <p>
+    <span class="zh">從基礎到頂尖，從統計到博弈論 · <span style="color:rgba(255,255,255,0.3);font-size:13px;">點擊螢光標記算法查看原理說明（此網站教學公式由 MathJax 顯示；App 內為本機公式資源）</span></span>
+    <span class="en">From fundamentals to cutting-edge, statistics to game theory · <span style="color:rgba(255,255,255,0.3);font-size:13px;">Click highlighted algorithms for step-by-step explanations (this website renders tutorial formulas with MathJax; the app uses bundled local formula resources)</span></span>
+  </p>
     <div class="pills" id="pillContainer">
     <span class="pill has-tutorial" data-algo="ahp">AHP</span>
     <span class="pill has-tutorial" data-algo="topsis">TOPSIS</span>
@@ -580,7 +581,8 @@ footer a:hover { color: #fff; }
   <p>© 2026 yoce. All rights reserved.</p>
   <div style="display:flex;gap:24px;">
     <a href="privacy.html" id="footerPrivacyLink"><span class="zh">隱私權政策</span><span class="en">Privacy Policy</span></a>
-    <a href="/cdn-cgi/l/email-protection#c9a1aca5a5a689b0a6aaace7a8a0"><span class="zh">聯絡我們</span><span class="en">Contact Us</span></a>
+    <a href="privacy.html#website-notice" id="footerWebsiteNoticeLink"><span class="zh">網站資源說明</span><span class="en">Website Notice</span></a>
+    <a href="mailto:hello@yoce.ai"><span class="zh">聯絡我們</span><span class="en">Contact Us</span></a>
   </div>
 </footer>
 
@@ -606,7 +608,7 @@ footer a:hover { color: #fff; }
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ── Logo builder ──────────────────────────
 var BARS = [
   { c: '#E83C3C', w: 0.46 },
@@ -659,6 +661,8 @@ langBtn.addEventListener('click', function() {
   document.title = isEn ? 'yoce — Your Decision Partner' : 'yoce — 你的決策夥伴';
   var privLink = document.getElementById('footerPrivacyLink');
   if (privLink) privLink.href = isEn ? 'privacy-en.html' : 'privacy.html';
+  var websiteNoticeLink = document.getElementById('footerWebsiteNoticeLink');
+  if (websiteNoticeLink) websiteNoticeLink.href = isEn ? 'privacy-en.html#website-notice' : 'privacy.html#website-notice';
 });
 
 // ══════════════════════════════════════════
