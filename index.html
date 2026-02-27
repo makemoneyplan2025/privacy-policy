@@ -11,7 +11,7 @@
     options: { skipHtmlTags: ['script','noscript','style','textarea'] }
   };
 </script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js" async></script>
 <style>
 /* ── Reset & Base ─────────────────────────── */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -581,6 +581,7 @@ footer a:hover { color: #fff; }
   <p>© 2026 yoce. All rights reserved.</p>
   <div style="display:flex;gap:24px;">
     <a href="privacy.html" id="footerPrivacyLink"><span class="zh">隱私權政策</span><span class="en">Privacy Policy</span></a>
+    <a href="terms.html" id="footerTermsLink"><span class="zh">使用條款</span><span class="en">Terms of Use</span></a>
     <a href="privacy.html#website-notice" id="footerWebsiteNoticeLink"><span class="zh">網站資源說明</span><span class="en">Website Notice</span></a>
     <a href="mailto:hello@yoce.ai"><span class="zh">聯絡我們</span><span class="en">Contact Us</span></a>
   </div>
@@ -661,6 +662,8 @@ langBtn.addEventListener('click', function() {
   document.title = isEn ? 'yoce — Your Decision Partner' : 'yoce — 你的決策夥伴';
   var privLink = document.getElementById('footerPrivacyLink');
   if (privLink) privLink.href = isEn ? 'privacy-en.html' : 'privacy.html';
+  var termsLink = document.getElementById('footerTermsLink');
+  if (termsLink) termsLink.href = isEn ? 'terms-en.html' : 'terms.html';
   var websiteNoticeLink = document.getElementById('footerWebsiteNoticeLink');
   if (websiteNoticeLink) websiteNoticeLink.href = isEn ? 'privacy-en.html#website-notice' : 'privacy.html#website-notice';
 });

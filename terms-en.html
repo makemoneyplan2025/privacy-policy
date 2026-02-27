@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>yoce Terms of Use</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #0a0a0f; color: #fff; min-height: 100vh; }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 0 48px; height: 64px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .nav-logo { display:flex; align-items:center; gap:14px; text-decoration:none; }
+  .nav-logo-bars { display:flex; flex-direction:column; gap:3px; }
+  .nav-logo-name { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: 20px; font-weight: 300; letter-spacing: 5px; color: #fff; }
+  .bar-wrap { position:relative; height:4px; border-radius:99px; overflow:hidden; width: var(--bw, 40px); }
+  .bar-wrap::before { content:''; position:absolute; inset:0; border-radius:inherit; background: linear-gradient(to right, var(--c), transparent 80%); opacity:0.12; }
+  .bar-fill { position:absolute; inset:0; border-radius:inherit; background: linear-gradient(to right, var(--c) 0%, color-mix(in srgb,var(--c) 50%,transparent) 62%, transparent 100%); transform-origin: left center; will-change: transform; }
+  .bar-fill.shimmer { animation: shimmer 2.2s linear infinite; }
+  .bar-fill.shimmer::after { content:''; position:absolute; inset:0; border-radius:inherit; background: linear-gradient(to right, transparent, rgba(255,255,255,0.5) 50%, transparent); background-size: 40% 100%; background-repeat: no-repeat; background-position: -60% center; animation: sweep 2.2s linear infinite; }
+  @keyframes sweep { from { background-position: -60% center; } to { background-position: 160% center; } }
+  @keyframes shimmer { 0%, 100% { opacity: 1; } 50% { opacity: 0.82; } }
+  nav a.back { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; }
+  nav a.back:hover { color: #fff; }
+  .lang-switch { display: flex; gap: 12px; align-items: center; }
+  .lang-switch a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 13px; padding: 4px 10px; border-radius: 6px; border: 1px solid transparent; }
+  .lang-switch a:hover { color: #fff; }
+  .lang-switch a.active { color: #fff; border-color: rgba(255,255,255,0.2); }
+  .content { max-width: 760px; margin: 60px auto; padding: 0 24px 80px; }
+  h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  .date { color: rgba(255,255,255,0.4); font-size: 14px; margin-bottom: 48px; }
+  h2 { font-size: 17px; font-weight: 700; margin: 36px 0 12px; color: #6c9aff; }
+  p { font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.8; margin-bottom: 12px; }
+  a { color: #6c9aff; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-bars" id="navLogo"></div>
+    <span class="nav-logo-name">yoce</span>
+  </a>
+  <div style="display:flex;align-items:center;gap:24px;">
+    <div class="lang-switch">
+      <a href="terms.html">中文</a>
+      <a href="terms-en.html" class="active">EN</a>
+    </div>
+    <a href="index.html" class="back">← Back to Home</a>
+  </div>
+</nav>
+<div class="content">
+  <h1>Terms of Use and Copyright Notice</h1>
+  <p class="date">Last updated: February 27, 2026</p>
+
+  <h2>1. Scope</h2>
+  <p>These terms apply to the yoce iOS app and official website content. By using the service, you acknowledge and accept these terms.</p>
+
+  <h2>2. Service Nature and Disclaimer</h2>
+  <p>This service provides multi-criteria decision tools and educational content for general informational and decision-support purposes only. It is not medical, legal, financial, investment, or other professional advice.</p>
+
+  <h2>3. Intellectual Property</h2>
+  <p>Unless otherwise noted, the service name, icon, UI, copy, and software content are owned by the developer or used under valid authorization.</p>
+  <p>You may not reproduce, distribute, publicly transmit, adapt, or otherwise infringe these materials without authorization.</p>
+
+  <h2>4. Prohibited Conduct</h2>
+  <p>You may not use this service for unlawful, infringing, fraudulent, misleading, harassing, or otherwise harmful conduct.</p>
+  <p>You are responsible for ensuring that any data you input does not infringe third-party copyrights, trademarks, or other rights.</p>
+
+  <h2>5. Open-Source Licenses</h2>
+  <p>This service uses open-source components (including MathJax and Speech Rule Engine). License information is provided in the privacy policy and in-app legal notices.</p>
+
+  <h2 id="copyright-report">6. Copyright or Trademark Claims</h2>
+  <p>If you believe content in this service infringes your copyright or trademark, email <a href="mailto:hello@yoce.ai">hello@yoce.ai</a> with:</p>
+  <p>(1) your name and contact details; (2) identification of the right you claim; (3) location of the allegedly infringing material; (4) a statement that you are the rights holder or authorized agent.</p>
+  <p>After receiving sufficient information, we will review and take necessary action within a reasonable time.</p>
+
+  <h2>7. Limitation of Liability</h2>
+  <p>The service is provided on an "as is" basis. To the extent permitted by law, the developer is not liable for indirect, incidental, or consequential damages arising from use of the service.</p>
+  <p>Nothing in these terms limits non-waivable consumer rights under mandatory law.</p>
+
+  <h2>8. Children's Use</h2>
+  <p>This service is not directed to children under 13 and does not knowingly collect their personal information.</p>
+
+  <h2>9. Updates</h2>
+  <p>These terms may be updated due to legal or service changes. Material updates will be announced on this page.</p>
+
+  <h2>10. Contact Information</h2>
+  <p>Data controller: yoce developer team</p>
+  <p>Contact email: <a href="mailto:hello@yoce.ai">hello@yoce.ai</a></p>
+  <p>For privacy details, see the <a href="privacy-en.html">Privacy Policy</a>.</p>
+
+  <h2>11. Trademark Notice</h2>
+  <p>Apple, App Store, and iOS are trademarks or registered trademarks of Apple Inc. in the United States and other countries or regions. They are referenced only for compatibility description and do not imply affiliation, endorsement, or sponsorship.</p>
+</div>
+<script>
+var BARS=[{c:'#E83C3C',w:0.46},{c:'#C8A020',w:0.36},{c:'#00D080',w:0.43},{c:'#00C8D8',w:0.32},{c:'#7855C8',w:0.40}];
+function buildLogo(el,maxW){
+  el.innerHTML=''; el.style.display='flex'; el.style.flexDirection='column'; el.style.gap='3px';
+  BARS.forEach(function(b){
+    var wrap=document.createElement('div'); wrap.className='bar-wrap';
+    wrap.style.setProperty('--c',b.c);
+    wrap.style.setProperty('--bw',Math.round(maxW*b.w)+'px');
+    var fill=document.createElement('div'); fill.className='bar-fill shimmer';
+    fill.style.transform='scaleX(1)';
+    wrap.appendChild(fill); el.appendChild(wrap);
+  });
+}
+buildLogo(document.getElementById('navLogo'),80);
+</script>
+</body>
+</html>

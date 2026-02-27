@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>yoce 使用條款</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #0a0a0f; color: #fff; min-height: 100vh; }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 0 48px; height: 64px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .nav-logo { display:flex; align-items:center; gap:14px; text-decoration:none; }
+  .nav-logo-bars { display:flex; flex-direction:column; gap:3px; }
+  .nav-logo-name { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: 20px; font-weight: 300; letter-spacing: 5px; color: #fff; }
+  .bar-wrap { position:relative; height:4px; border-radius:99px; overflow:hidden; width: var(--bw, 40px); }
+  .bar-wrap::before { content:''; position:absolute; inset:0; border-radius:inherit; background: linear-gradient(to right, var(--c), transparent 80%); opacity:0.12; }
+  .bar-fill { position:absolute; inset:0; border-radius:inherit; background: linear-gradient(to right, var(--c) 0%, color-mix(in srgb,var(--c) 50%,transparent) 62%, transparent 100%); transform-origin: left center; will-change: transform; }
+  .bar-fill.shimmer { animation: shimmer 2.2s linear infinite; }
+  .bar-fill.shimmer::after { content:''; position:absolute; inset:0; border-radius:inherit; background: linear-gradient(to right, transparent, rgba(255,255,255,0.5) 50%, transparent); background-size: 40% 100%; background-repeat: no-repeat; background-position: -60% center; animation: sweep 2.2s linear infinite; }
+  @keyframes sweep { from { background-position: -60% center; } to { background-position: 160% center; } }
+  @keyframes shimmer { 0%, 100% { opacity: 1; } 50% { opacity: 0.82; } }
+  nav a.back { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; }
+  nav a.back:hover { color: #fff; }
+  .lang-switch { display: flex; gap: 12px; align-items: center; }
+  .lang-switch a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 13px; padding: 4px 10px; border-radius: 6px; border: 1px solid transparent; }
+  .lang-switch a:hover { color: #fff; }
+  .lang-switch a.active { color: #fff; border-color: rgba(255,255,255,0.2); }
+  .content { max-width: 760px; margin: 60px auto; padding: 0 24px 80px; }
+  h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  .date { color: rgba(255,255,255,0.4); font-size: 14px; margin-bottom: 48px; }
+  h2 { font-size: 17px; font-weight: 700; margin: 36px 0 12px; color: #6c9aff; }
+  p { font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.8; margin-bottom: 12px; }
+  a { color: #6c9aff; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-bars" id="navLogo"></div>
+    <span class="nav-logo-name">yoce</span>
+  </a>
+  <div style="display:flex;align-items:center;gap:24px;">
+    <div class="lang-switch">
+      <a href="terms.html" class="active">中文</a>
+      <a href="terms-en.html">EN</a>
+    </div>
+    <a href="index.html" class="back">← 回首頁</a>
+  </div>
+</nav>
+<div class="content">
+  <h1>使用條款與著作權聲明</h1>
+  <p class="date">最後更新：2026 年 2 月 27 日</p>
+
+  <h2>1. 適用範圍</h2>
+  <p>本條款適用於 yoce iOS App 與官方網站內容。您使用本服務即表示已閱讀並同意本條款。</p>
+
+  <h2>2. 服務性質與免責</h2>
+  <p>本服務提供多準則決策模型與相關教學資訊，僅供一般資訊與決策輔助，不構成醫療、法律、財務、投資或其他專業建議。</p>
+
+  <h2>3. 智慧財產權</h2>
+  <p>除另有註明外，本服務之名稱、圖示、介面、文案與程式內容均為開發者所有或已取得合法授權。</p>
+  <p>您不得未經授權重製、散布、公開傳輸、改作或以其他方式侵害本服務或第三方權利。</p>
+
+  <h2>4. 禁止使用行為</h2>
+  <p>您不得利用本服務從事違法、侵權、詐欺、誤導、騷擾或其他侵害他人權利之行為。</p>
+  <p>您須自行確保所輸入資料不侵害他人著作權、商標權或其他智慧財產權。</p>
+
+  <h2>5. 開放原始碼授權</h2>
+  <p>本服務使用部分開放原始碼套件（包含 MathJax 與 Speech Rule Engine）。相關授權聲明請見隱私政策與 App 內法律頁。</p>
+
+  <h2 id="copyright-report">6. 著作權或商標爭議通報</h2>
+  <p>若您認為本服務內容侵害您的著作權或商標權，請來信 <a href="mailto:hello@yoce.ai">hello@yoce.ai</a> 並提供：</p>
+  <p>（1）權利人姓名與聯絡方式；（2）權利標的說明；（3）疑似侵權內容與位置；（4）您為權利人或其授權代理人之聲明。</p>
+  <p>我們在收到足夠資訊後，將於合理期間內進行審查並採取必要處置。</p>
+
+  <h2>7. 責任限制</h2>
+  <p>本服務按現況提供。在法律允許範圍內，開發者不對因使用本服務所生之間接、附帶或衍生損害負責。</p>
+  <p>本條款不影響您依強制法規享有且不得拋棄之消費者權利。</p>
+
+  <h2>8. 兒童使用</h2>
+  <p>本服務不以 13 歲以下兒童為目標對象，亦不刻意蒐集其個人資料。</p>
+
+  <h2>9. 條款更新</h2>
+  <p>本條款可能隨法規或服務調整而更新。重大更新將於本頁公告。</p>
+
+  <h2>10. 聯絡資訊</h2>
+  <p>資料控制者：yoce 開發者團隊</p>
+  <p>聯絡信箱：<a href="mailto:hello@yoce.ai">hello@yoce.ai</a></p>
+  <p>相關隱私資訊請見 <a href="privacy.html">隱私權政策</a>。</p>
+
+  <h2>11. 商標聲明</h2>
+  <p>Apple、App Store、iOS 為 Apple Inc. 在美國及其他國家或地區之商標或註冊商標。本服務僅為相容平台描述而引用，與 Apple Inc. 無附屬、認可或贊助關係。</p>
+</div>
+<script>
+var BARS=[{c:'#E83C3C',w:0.46},{c:'#C8A020',w:0.36},{c:'#00D080',w:0.43},{c:'#00C8D8',w:0.32},{c:'#7855C8',w:0.40}];
+function buildLogo(el,maxW){
+  el.innerHTML=''; el.style.display='flex'; el.style.flexDirection='column'; el.style.gap='3px';
+  BARS.forEach(function(b){
+    var wrap=document.createElement('div'); wrap.className='bar-wrap';
+    wrap.style.setProperty('--c',b.c);
+    wrap.style.setProperty('--bw',Math.round(maxW*b.w)+'px');
+    var fill=document.createElement('div'); fill.className='bar-fill shimmer';
+    fill.style.transform='scaleX(1)';
+    wrap.appendChild(fill); el.appendChild(wrap);
+  });
+}
+buildLogo(document.getElementById('navLogo'),80);
+</script>
+</body>
+</html>
